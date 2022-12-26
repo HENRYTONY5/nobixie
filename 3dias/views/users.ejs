@@ -1,0 +1,62 @@
+<%- include("template/header") %>
+<%- include("template/navbar") %>
+<%- include("template/aside" , {userName: ""}) %>
+
+            <section class="content-header">
+            <%- include("template/breadcrumb", {module: 'Agentes.'}) %>
+        <a href="/create" class="btn btn-primary mt-4 mb-2"> <i class="fa-solid fa-user-plus"></i> </a>
+
+        <table id="example1" class="table table-bordered table-striped text-center mt-4">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th scope="col">#ID</th>
+                    <th scope="col">NOMBRE</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Contraseña</th>
+                    <th scope="col">Rol.</th>
+                    <th scope="col">Estatus</th>
+                    <th scope="col">Acciones.</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <% results.forEach((user)=>{ %>
+
+
+                        <th>
+                            <%= user.id %>
+                        </th>
+                        <td>
+                            <%= user.user %>
+                        </td>
+                        <td>
+                            <%= user.email %>
+                        </td>
+                        <th>
+                            <%= user.password %>
+                        </th>
+                        <td>
+                            <%= user.rol %>
+                        </td>
+                        <td>
+                            <%= user.status %>
+                        </td>
+
+
+                        <td>
+                            <a href="/edit/<%= user.id %>" class="btn btn-info"> <i
+                                    class="fa-solid fa-user-pen"></i></a>
+                            <!-- <a href="/delete/<%= user.id %>" class="btn btn-danger">Borrar</a> -->
+                            <a onclick="confirmation(<%= user.id %>);" class="btn btn-danger"><i
+                                    class="fa-regular fa-trash-can"></i></a>
+                        </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+<%- include("template/footer") %>

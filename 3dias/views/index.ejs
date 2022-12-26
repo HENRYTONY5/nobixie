@@ -1,0 +1,23 @@
+<%- include("template/header") %>
+<%- include("template/navbar") %>
+<%- include("template/aside") %>
+
+            <section class="content-header">
+            <%- include("template/breadcrumb", {module: 'Agentes.'}) %>
+        <a href="/create" class="btn btn-primary mt-4 mb-2"> <i class="fa-solid fa-user-plus"></i> </a>
+
+        <div class="card">
+            <div class="card-header">
+            Welcome <=% userName %>
+                Featured
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Special title treatment</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+<%- include("template/footer") %>
