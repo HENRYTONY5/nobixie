@@ -17,7 +17,7 @@ app.use(express.urlencoded({extended:false}))
 app.use('/', require('./routes/router'))
 
 app.use(express.static(path.join(__dirname, '/public')))
-
-app.listen(5000, ()=>{
-    console.log('Server running in port: 5000')
+const PORT = process.env.PORT || 8000
+app.listen(PORT, ()=>{
+    console.log('Server running in port:',PORT)
 });
