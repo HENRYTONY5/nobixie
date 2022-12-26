@@ -1,0 +1,51 @@
+<%- include("template/header") %>
+<%- include("template/navbar") %>
+<%- include("template/aside") %>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <%- include('template/breadcrumb', {module: 'Users'}) %>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-md-12">            
+            <div class="container">
+              <a href="/createUser" class="btn btn-primary mt-4 mb-2"> <i class="fa-regular fa-square-plus"></i></a>
+              <table id="example1" class="table table-bordered table-striped text-center mt-4">
+                <thead>
+                  <tr class="bg-primary text-white">
+                    <th scope="col">#ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Rol</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% results.forEach ((user) => { %>
+        
+                    <tr>
+                      <th><%= user.id %></th>
+                      <th><%= user.name %></th>
+                      <th><%= user.email %></th>
+                      <th><%= user.rol %></th>
+                      <td>
+                        <a href="/editUser/<%= user.id %>" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
+                        <a onclick="confirmation(<%= user.id %>);" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
+                      </td>
+                    </tr>                              
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+  <%- include("template/footer") %>
