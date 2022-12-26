@@ -17,22 +17,34 @@
                       <input hidden id="id" name="id" value="<%= user.id %>">
                       <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="<%= user.name %>" tabindex="1" autofocus>              
+                        <input type="text" class="form-control" id="name" name="name" value="<%= user.user %>" tabindex="1" autofocus>              
                       </div>
                       <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" tabindex="2">
                       </div>
                       <div class="mb-3">
-                        <select id="rol" name="rol" class="form-select" tabindex="3">
-                          <option <%= user.rol=='Admin' ? 'selected' : '' %> value="Admin">Admin</option>
-                          <option <%= user.rol=='Subscriber' ? 'selected' : '' %> value="Subscriber">Subscriber</option>
-                        </select>
+                        <label for="name" class="form-label">Password</label>
+                        <input type="text" class="form-control" id="pass" name="pass" value="<%= user.pass %>" tabindex="1" autofocus>              
+                      </div>
+                      <div class="mb-3"> <label for="name" class="form-label">Rol:    </label><br>
+                        <select id="rol" name= "rol" class="form-select">
+                          <option <%= user.rol=='Admin' ? 'selected' : '' %> value ="Admin"> Admin</option>
+                          <option <%= user.rol=='AgenteL' ? 'selected' : '' %> value="AgenteL"> Agente Lider</option>
+                          <option <%= user.rol=='AgenteLec' ? 'selected' : '' %> value="AgenteLec"> Agente Lector</option>
+                          <option <%= user.rol=='AgenteE' ? 'selected' : '' %> value="AgenteE"> Agente Escritor</option>
+                          <option <%= user.rol=='AgenteEsp' ? 'selected' : '' %> value="AgenteEsp"> Agente Especialista</option>
+                      </select>
+                      </div>
+                      
+                      <div class="mb-3">
+                        <label for="name" class="form-label">Estatus</label>
+                        <input type="text" class="form-control" id="status" name="status" value="<%= user.status %>" tabindex="1" autofocus>              
                       </div>
                       <button type="submit" class="btn btn-primary" tabindex="4">Submit</button>
                       <a href="/users" class="btn btn-secondary">Cancel</a>
                     </form>
-               
+              
               </div>
           
           <% } %>

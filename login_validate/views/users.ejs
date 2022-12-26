@@ -19,6 +19,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Rol</th>
+                    <th scope="col">Estatus</th>
                     <th scope="col">Actions</th>
                   </tr>
                 </thead>
@@ -27,9 +28,11 @@
         
                     <tr>
                       <th><%= user.id %></th>
-                      <th><%= user.name %></th>
+                      <th><%= user.user %></th>
                       <th><%= user.email %></th>
                       <th><%= user.rol %></th>
+                      <th><%= user.status %></th>
+
                       <td>
                         <a href="/editUser/<%= user.id %>" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
                         <a onclick="confirmation(<%= user.id %>);" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
