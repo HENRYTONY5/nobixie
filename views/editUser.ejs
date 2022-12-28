@@ -1,6 +1,6 @@
 <%- include("template/header") %>
 <%- include("template/navbar") %>
-<%- include("template/aside") %>
+<%- include("template/aside") %> 
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -12,8 +12,10 @@
           <div class="col-md-12">
             <% if (user) { %>
           
-              <div class="container">                
-                  <form action="/updateUser" method="POST">
+              <div class="container">   
+                <div class="row">
+                  <div class="col-md-6">
+                    <form action="/updateUser" method="POST">
                       <input hidden id="id" name="id" value="<%= user.id %>">
                       <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
@@ -44,7 +46,29 @@
                       <button type="submit" class="btn btn-primary" tabindex="4">Submit</button>
                       <a href="/users" class="btn btn-secondary">Cancel</a>
                     </form>
-              
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-sm-9">
+                        <div class="form-group">
+                          <% if(user.image) { %>
+                            <img src="../uploads/<%= user.image %>" alt="<%= user.image %>" width="70px" height="70px">
+                          <% } %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <form action="/upload/<%= user.id %>" method="POST" enctype="multipart/form-data">
+                          <input type="file" name="image" class="btn btn-secondary" required>
+                          <button type="submit" class="btn btn-primary">
+                            Upload
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>   
+                </div>  
               </div>
           
           <% } %>
