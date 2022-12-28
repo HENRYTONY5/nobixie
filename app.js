@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
 app.use(multer({
     storage,
     dest: path.join(__dirname, 'public/uploads'),
-    limits: {fileSize: 2 * 1024 * 1024},  // 2 MB
+    limits: {fileSize: 2 * 1024 * 1024},  //MAX 2 MB
     fileFilter: (req, file, cb) => {
         const filetypes = /jpeg|jpg|png|gif/
         const mimetype = filetypes.test(file.mimetype)
