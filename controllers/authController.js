@@ -10,10 +10,11 @@ exports.register = async (req, res) => {
         const name = req.body.name
         const email = req.body.email
         const pass = req.body.pass
+        const rol = req.body.rol
         
         let passHash = await bcryptjs.hash(pass, 10)
         //console.log(name + " - " + email + " - " + passHash)
-        conexion.query('INSERT INTO users SET ?', {user: name, email: email, pass: passHash}, (error, results) => {
+        conexion.query('INSERT INTO users SET ?', {user: name, email: email, pass: passHash, rol:rol}, (error, results) => {
             if(error) {
                 //console.error(error)
                 res.render('register', {
@@ -30,6 +31,7 @@ exports.register = async (req, res) => {
                         <li>Username: ${name} </li>
                         <li>User Email: ${email} </li>
                         <li>Password: ${pass} </li>
+                        <li>Rol: ${rol} </li>
                     </ul>
                 `;
                 //set email configuration, sender and server
