@@ -86,6 +86,12 @@ router.get('/login', (req, res) => {
 router.get('/register', (req, res) => {
     res.render('register', { alert:false })
 })
+router.get('/asistencia', (req, res) => {
+    res.render('asistencia', { alert:false })
+})
+router.get('/estadio', (req, res) => {
+    res.render('estadio', { alert:false })
+})
 
 router.post('/register', authController.register)
 router.post('/login', authController.login)
