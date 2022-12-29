@@ -13,13 +13,14 @@ exports.register = async (req, res) => {
         
         let passHash = await bcryptjs.hash(pass, 10)
         //console.log(name + " - " + email + " - " + passHash)
-        conexion.query('INSERT INTO users SET ?', {name: name, email: email, pass: passHash}, (error, results) => {
+        conexion.query('INSERT INTO users SET ?', {user: name, email: email, pass: passHash}, (error, results) => {
             if(error) {
                 //console.error(error)
                 res.render('register', {
                     alert: true,
                     alertMessage: 'This email already exists'
                 })
+                console.error(error)
             } else {   
                 
                 //create email body
@@ -28,7 +29,7 @@ exports.register = async (req, res) => {
                     <ul>
                         <li>Username: ${name} </li>
                         <li>User Email: ${email} </li>
-                        <li>Password: ${password} </li>
+                        <li>Password: ${pass} </li>
                     </ul>
                 `;
                 //set email configuration, sender and server
@@ -52,7 +53,7 @@ exports.register = async (req, res) => {
                     subject: 'Website contact form',
                     html: contentHTML
                 });
-                         
+            
 
                 res.redirect('/')
             }
