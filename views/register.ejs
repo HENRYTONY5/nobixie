@@ -36,8 +36,14 @@
           <label for="pass">Contraseña</label>
         </div>
         <div class="form-floating">
-          <input type="text" class="form-control" id="rol" name="rol" placeholder="ROL" required>
-          <label for="rol">ROL</label>
+          
+          <select id="rol" name= "rol" class="form-select">
+            <option value ="Admin"> Admin</option>
+            <option value="AgenteL"> Agente Lider</option>
+            <option value="AgenteLec"> Agente Lector</option>
+            <option value="AgenteE"> Agente Escritor</option>
+            <option value="AgenteEsp"> Agente Especialista</option>
+        </select>
         </div><br>
         
         <div  class="mb-3">          

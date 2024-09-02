@@ -6,7 +6,7 @@ const bcryptjs = require('bcryptjs')
 exports.saveUser = async(req, res) => {
     const email = req.body.email
     const name = req.body.name
-    const status = req.body.status
+   // const status = req.body.status
     const rol = req.body.rol
     const pass = req.body.pass
     
@@ -14,7 +14,7 @@ exports.saveUser = async(req, res) => {
     let passHash = await bcryptjs.hash(pass, 10)
 
     // console.log(email + " - " + name + " - " + rol)
-    conexion.query('INSERT INTO users SET ?', {email:email, user:name, rol:rol, status:status,pass:passHash }, (error, results) => {
+    conexion.query('INSERT INTO users SET ?', {email:email, user:name, rol:rol,pass:passHash }, (error, results) => {
         
         if(error) {
             //console.error(error)
@@ -68,9 +68,9 @@ exports.updateUser = (req, res) => {
     const email = req.body.email
     const pass = req.body.pass
     const rol = req.body.rol
-    const status = req.body.status
+    //const status = req.body.status
 
-    conexion.query('UPDATE users SET ? WHERE id = ?', [{ user:name, email:email, rol:rol, status:status, pass:pass}, id ], (error, results) => {
+    conexion.query('UPDATE users SET ? WHERE id = ?', [{ user:name, email:email, rol:rol, pass:pass}, id ], (error, results) => {
         if(error) {
             console.error(error)
         } else {

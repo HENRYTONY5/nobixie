@@ -22,7 +22,7 @@ router.get('/users', authController.isAuthenticated, (req, res) => {
         } else {
             // res.send(results);
             if (row.rol=="Admin") { 
-                res.render('users', { results: results, titleWeb: "List users" })
+                res.render('users', { results: results, titleWeb: "Lista de usuarios" })
             } else {
                 res.render('index', { userName: row.name, image: row.image, titleWeb: "Control Dashboard"})
             }
@@ -33,7 +33,7 @@ router.get('/users', authController.isAuthenticated, (req, res) => {
 //path to create a record
 router.get('/createUser', authController.isAuthenticated, (req, res) => {
     if (row.rol=="Admin") {        
-        res.render('createUser', { titleWeb: "Create user"})
+        res.render('createUser', { titleWeb: "Crear Usuario"})
     } else {
         res.render('index', { userName: row.name, image: row.image, titleWeb: "Control Dashboard"})
     }
