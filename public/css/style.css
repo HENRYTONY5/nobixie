@@ -22,11 +22,36 @@
   border-radius: 50px;
   box-shadow: 1 0 10px rgba(0, 0, 0, 0.1);
 }
+.chart-container {
+  width: 400px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 10px;
+}
+
+/* Eje Y */
+.y-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: 10px;
+}
 
 .bar-chart {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  align-items: flex-end;
+    height: 150px;
+    position: relative;
 }
 
 .bar {
@@ -34,15 +59,16 @@
   background-color: #3498db;
   color: white;
   text-align: center;
-  padding-top: 10px;
+  padding-top: 30px;
   position: relative;
   cursor: pointer;
+  transition: transform 0.3s ease;
 }
-chart-card {
+.chart-card {
   width: 300px;
   padding: 20px;
-  background-color: rgb(196, 94, 94);
-  border-radius: 50px;
+  background-color: rgb(241, 222, 222);
+  border-radius: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   position: relative;
 }
@@ -76,8 +102,10 @@ chart-card {
   background-color: #e74c3c;
   color: white;
 }
-
-
+  
+.bar:hover {
+  transform: scale(1.1);
+}
   .bar:hover::after {
     content: attr(data-vote) " votos";
     position: absolute;
@@ -89,4 +117,9 @@ chart-card {
     padding: 5px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.x-axis {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
 }
