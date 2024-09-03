@@ -9,3 +9,70 @@
 .modal-content {
   background: #5089c2;
 }
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 800px;
+}
+.chart-card {
+  width: 300px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.bar-chart {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.bar {
+  width: 30%;
+  background-color: #3498db;
+  color: white;
+  text-align: center;
+  padding-top: 10px;
+  position: relative;
+  cursor: pointer;
+}
+
+.bar:hover::after {
+  content: attr(data-vote) " votos";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -50px;
+  background-color: white;
+  color: black;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.btn {
+  display: block;
+  width: 100px;
+  margin: 10px auto;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.details {
+  background-color: #3498db;
+  color: white;
+}
+
+.delete {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.9;
