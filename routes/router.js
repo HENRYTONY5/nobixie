@@ -38,7 +38,13 @@ router.get('/createUser', authController.isAuthenticated, (req, res) => {
         res.render('index', { userName: row.name, image: row.image, titleWeb: "Control Dashboard"})
     }
 })
-
+router.get('/createEstadio', authController.isAuthenticated, (req, res) => {
+    if (row.rol=="Admin") {        
+        res.render('createUser', { titleWeb: "Crear Estadisticas"})
+    } else {
+        res.render('index', { userName: row.name, image: row.image, titleWeb: "Control de Datos"})
+    }
+})
 //path to edit a selected record
 router.get('/editUser/:id', authController.isAuthenticated, (req, res) => {
     const id = req.params.id;
@@ -88,6 +94,9 @@ router.get('/register', (req, res) => {
 })
 router.get('/asistencia', (req, res) => {
     res.render('asistencia', { alert:false })
+})
+router.get('/results', (req, res) => {
+    res.render('results', { alert:false })
 })
 router.get('/estadio', (req, res) => {
     res.render('estadio', { alert:false })
