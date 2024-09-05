@@ -101,7 +101,12 @@ router.get('/results', (req, res) => {
 router.get('/estadio', (req, res) => {
     res.render('estadio', { alert:false })
 })
-
+router.get('/contacto', (req, res) => {
+    res.render('contacto', { alert:false })
+})
+router.get('/events', (req, res) => {
+    res.render('events', { alert:false })
+})
 router.post('/register', authController.register)
 router.post('/login', authController.login)
 

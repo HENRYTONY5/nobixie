@@ -1,0 +1,65 @@
+<%- include("template/header") %>
+<%- include("template/navbar") %>
+<%- include("template/aside") %> 
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <%- include('template/breadcrumb', {module: 'Curriculum'}) %>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-md-12">            
+           
+            <div class="card">
+                <div class="card-header">
+                  Hola mi nombre es Enrique Javier, soy ingeniero egresado de la Escuela superior de ingeniería electrica y mecanica de la carrera de control y automatización.
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title"><h3>Experiencia</h3><br>
+                    04/07/2024-01/09/2024 <br>
+                    • Helper de Ingeniería • ProCI Programación y control industrial.         
+                  <br>En la actualidad me desempeño como helper de ingeniería, he
+                  desarrollado tres proyectos en el último mes. Realice suministro e
+                  instalación de 2 proyectos eléctricos como responsable de proyecto, en
+                  Guanajuato y Toluca. Ayude en la cotización de un robot para empaquetar
+                  jamones, además de la cámara marca Keyence, sin embargo me
+                  desenvolví mejor con la atención a los clientes, desarrolle catálogos de
+                  conceptos de hasta 200 partidas, elaborando matrices de pecios unitarios,
+                  explosión de materiales, costo de maquinaria por hora.
+                  
+                         </h5>
+                         <br><br>
+                         19/01/2024-01/07/2024 <br>
+                          • Servicio social • Becario • JVG PROCESS AUTOMATION        
+                        <br>Dentro de esta empresa mi rol es realizar diagramas de tuberías para proceso de agua potable, en 3D y 2D, también desarrollamos los diagramas eléctricos así como las conexiones de los tableros que encargan con todos los elementos con certificación americana UL que operan con alta y mediana tensión.
+                        
+                               </h5><br>
+                               <br>
+                               04/09/2023-19/11/2024 <br>
+                               • Becario de automatización • Aiccon automatización      
+                              <br>Dentro de esta empresa se me brindaron cursos de formación para dominar diferentes temas acerca de mi carrera como lo son robótica para paletizar sacos de harina, automatización integración de bandas trasportadoras, de variadores de frecuencia (Powerflex e invertek) de sensores fotoeléctricos sobre estas bandas transportadoras, el uso de una cámara Cognex para orientar botellas de plástico, Así como aplicaciones de la neumática para mover un pistón, con respecto a la posición del sensor magnético del vástago o elaborar un diagrama neumático para inyectar un fluido. Me capacitaron en mucho software de ingeniería. 
+                                     </h5><br><br>
+                    <a href="" class="btn btn-primary" id="downloadBtn">Descargar CV</a>
+                                <br>
+                                <script>
+                                  document.getElementById("downloadBtn").addEventListener("click", function() {
+                                      const link = document.createElement("a");
+                                      link.href = "img/curriculum_ingEnrique.pdf";  // Reemplaza con la URL de tu PDF
+                                      link.download = "curriculum_ingEnrique.pdf";  // Nombre del archivo que se descargará
+                                      link.click();
+                                  });
+                              </script>
+                </div>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+  <%- include("template/footer") %>
