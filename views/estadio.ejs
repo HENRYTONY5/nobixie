@@ -96,20 +96,312 @@
                                           
                                                     <img src="/img/imagen0.png">
                                                     <br>
-                                                    new Chart(ctx, {
-                                                      data: {
-                                                          datasets: [
-                                                              {
-                                                                fill: {
-                                                                  target: 'origin',
-                                                                  above: 'rgb(255, 0, 0)',   // Area will be red above the origin
-                                                                  below: 'rgb(0, 0, 255)'    // And blue below the origin
-                                                                }
-                                                              }
-                                                          ]
-                                                      }
-                                                  });
+                                                  <section><div>
+                                                    <canvas id="myChart0"></canvas>
+                                                  </div></section>
+                                            
+                                                    <div>
+                                                      <canvas id="myChart"></canvas>
+                                                    </div>
+                                                    <div>
+                                                      <canvas id="myChart2"></canvas>
+                                                    </div>
+                                                    <div>
+                                                      <canvas id="myChart3"></canvas>
+                                                    </div>
+                                                    <div>
+                                                      <canvas id="myChart4"></canvas>
+                                                    </div>
+                                                    <div>
+                                                      <canvas id="myChart5"></canvas>
+                                                    </div>
+                                                    <div>
+                                                      <canvas id="myChart6"></canvas>
+                                                    </div>
+
+                                                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                                                    
+                                                    <script>
+                                                      const ct = document.getElementById('myChart0');
+                                                    
+                                                      new Chart(ct, {
+                                                        type: 'doughnut',
+                                                        data: {
+                                                          labels: ['Hombres', 'Mujeres'],
+                                                          datasets: [{
+                                                            label: 'Genero',
+                                                            data: [52, 48],
+                                                            borderWidth: 1
+                                                          }]
+                                                        },
+                                                        options: {
+                                                          scales: {
+                                                            y: {
+                                                              beginAtZero: true
+                                                            }
+                                                          }
+                                                        }
+                                                      });
+                                                      const mixedChart0 = new Chart(ct, {
+    data: {
+        datasets: [{
+            type: 'bar',
+            label: 'Bar Dataset',
+            data: [10, 20, 30, 40]
+        }, {
+            type: 'line',
+            label: 'Line Dataset',
+            data: [50, 50, 50, 50],
+        }],
+        labels: ['Edades', 'Fe', 'March', 'April']
+    },
+    options: options
+});
+
+
+                                                    </script>  
+                                                    
+
+                                                    <script>
+                                                      const ctx = document.getElementById('myChart');
+                                                    
+                                                      new Chart(ctx, {
+                                                        type: 'bar',
+                                                        label: 'ranngos',
+                                                        data: {
+                                                          labels: ['20-24', '25-29', '30-34', '34-38', '39-43', '45-49','50-54','55-60'],
+                                                          datasets: [{
+                                                            label: 'Rango de Edades',
+                                                            data: [22, 19, 3, 5, 2, 20, 10,10],
+                                                            borderWidth: 1
+                                                          }]
+                                                        },
+                                                        options: {
+                                                          scales: {
+                                                            y: {
+                                                              beginAtZero: true
+                                                            }
+                                                          }
+                                                        }
+                                                      });
+                                                      const mixedChart = new Chart(ctx, {
+    data: {
+        datasets: [{
+            type: 'bar',
+            label: 'Bar Dataset',
+            data: [10, 20, 30, 40]
+        }, {
+            type: 'line',
+            label: 'Line Dataset',
+            data: [50, 50, 50, 50],
+        }],
+        labels: ['Edades', 'Fe', 'March', 'April']
+    },
+    options: options
+});
+
+
+                                                    </script>  
+                                                    
+                                                    <script>
+                                                      const ctxx = document.getElementById('myChart2');
+                                                    
+                                                      new Chart(ctxx, {
+                                                        type: 'radar',
+                                                        data: {
+                                                          labels: ['Casado', 'Soltero', 'Divorciado', 'unión libre', 'Viudo'],
+                                                          datasets: [{
+                                                            label: 'Estado Civil',
+                                                            data: [52, 19, 30, 5, 2],
+                                                            borderWidth: 1
+                                                          }]
+                                                        },
+                                                        options: {
+                                                          scales: {
+                                                            y: {
+                                                              beginAtZero: true
+                                                            }
+                                                          }
+                                                        }
+                                                      });
+                                                      const mixxedChart = new Chart(ctxx, {
+    data: {
+        datasets: [{
+            type: 'bar',
+            label: 'Bar Dataset',
+            data: [10, 20, 30, 40]
+        }, {
+            type: 'line',
+            label: 'Line Dataset',
+            data: [50, 50, 50, 50],
+        }],
+        labels: ['Edades', 'Fe', 'March', 'April']
+    },
+    options: options
+});
+
+
+                                                    </script>  
+                                                    
+                                                    <script>
+                                                      const ctx3 = document.getElementById('myChart3');
+                                                    
+                                                      new Chart(ctx3, {
+                                                        type: 'bar',
+                                                        data: {
+                                                          labels: ['Incompleto', 'Primaria', 'Secundaria', 'Preparatoria', 'Técnico', 'Licenciatura', 'Maestría', 'Doctorado'],
+                                                          datasets: [{
+                                                            label: 'Escolaridad',
+                                                            data: [22, 19, 3, 5, 2, 20, 10,10],
+                                                            borderWidth: 1
+                                                          }]
+                                                        },
+                                                        options: {
+                                                          scales: {
+                                                            y: {
+                                                              beginAtZero: true
+                                                            }
+                                                          }
+                                                        }
+                                                      });
+                                                      const mixedChart3 = new Chart(ctx3, {
+    data: {
+        datasets: [{
+            type: 'bar',
+            label: 'Bar Dataset',
+            data: [10, 20, 30, 40]
+        }, {
+            type: 'line',
+            label: 'Line Dataset',
+            data: [50, 50, 50, 50],
+        }],
+        labels: ['Edades', 'Fe', 'March', 'April']
+    },
+    options: options
+});
+
+
+                                                    </script>  
+                                                    
+                                                    <script>
+                                                      const ct4 = document.getElementById('myChart4');
+                                                    
+                                                      new Chart(ct4, {
+                                                        type: 'polarArea',
+                                                        data: {
+                                                          labels: ['Operativo', 'Administrativo'],
+                                                          datasets: [{
+                                                            label: 'Tipo de puesto',
+                                                            data: [52, 48],
+                                                            borderWidth: 1
+                                                          }]
+                                                        },
+                                                        options: {
+                                                          scales: {
+                                                            y: {
+                                                              beginAtZero: true
+                                                            }
+                                                          }
+                                                        }
+                                                      });
+                                                      const mixedChart4 = new Chart(ct4, {
+    data: {
+        datasets: [{
+            type: 'bar',
+            label: 'Bar Dataset',
+            data: [10, 20, 30, 40]
+        }, {
+            type: 'line',
+            label: 'Line Dataset',
+            data: [50, 50, 50, 50],
+        }],
+        labels: ['Edades', 'Fe', 'March', 'April']
+    },
+    options: options
+});
+
+
+                                                    </script>  
+                                                    
+                                                    <script>
+                                                      const ctx5 = document.getElementById('myChart5');
+                                                    
+                                                      new Chart(ctx5, {
+                                                        type: 'bar',
+                                                        data: {
+                                                          labels: ['Incompleto', 'Primaria', 'Secundaria', 'Preparatoria', 'Técnico', 'Licenciatura', 'Maestría', 'Doctorado'],
+                                                          datasets: [{
+                                                            label: 'Categoria de puesto',
+                                                            data: [22, 19, 3, 5, 2, 20, 10,10],
+                                                            borderWidth: 1
+                                                          }]
+                                                        },
+                                                        options: {
+                                                          scales: {
+                                                            y: {
+                                                              beginAtZero: true
+                                                            }
+                                                          }
+                                                        }
+                                                      });
+                                                      const mixedChart5 = new Chart(ctx5, {
+    data: {
+        datasets: [{
+            type: 'bar',
+            label: 'Bar Dataset',
+            data: [10, 20, 30, 40]
+        }, {
+            type: 'line',
+            label: 'Line Dataset',
+            data: [50, 50, 50, 50],
+        }],
+        labels: ['Edades', 'Fe', 'March', 'April']
+    },
+    options: options
+});
+
+
+                                                    </script> 
                                                    
+                                                   <script>
+                                                    const ctxx6 = document.getElementById('myChart6');
+                                                  
+                                                    new Chart(ctxx6, {
+                                                      type: 'line',
+                                                      data: {
+                                                        labels: ['menos de 6 meses ', 'mas de 6 meses hasta 1 año', 'mas de un año', 'mas de dos años', 'mas de 5 años'],
+                                                        datasets: [{
+                                                          label: 'Antiguedad',
+                                                          data: [52, 19, 30, 5, 2],
+                                                          borderWidth: 1
+                                                        }]
+                                                      },
+                                                      options: {
+                                                        scales: {
+                                                          y: {
+                                                            beginAtZero: true
+                                                          }
+                                                        }
+                                                      }
+                                                    });
+                                                    const mixxedChart6 = new Chart(ctxx6, {
+  data: {
+      datasets: [{
+          type: 'bar',
+          label: 'Bar Dataset',
+          data: [10, 20, 30, 40]
+      }, {
+          type: 'line',
+          label: 'Line Dataset',
+          data: [50, 50, 50, 50],
+      }],
+      labels: ['Edades', 'Fe', 'March', 'April']
+  },
+  options: options
+});
+
+
+                                                  </script> 
                                         </div>
                                         
                                     </div>
