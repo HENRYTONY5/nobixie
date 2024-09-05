@@ -1,0 +1,305 @@
+<%- include("template/header") %>
+    <%- include("template/navbar") %>
+        <%- include("template/aside") %>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                
+                <%- include('template/breadcrumb', {module: 'Evaluación de Eventos traumaticos' }) %>
+                    <!-- Content Header (Page header) -->
+                    <section class="content-header">
+                        <div class="container-fluid">
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Guia de referencia 2 
+                                           
+
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                              <div class="container2">
+                                                <h1>Para responder las preguntas siguientes considere las condiciones de su centro de trabajo, así como la cantidad y ritmo de trabajo. </h1>
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Pregunta</th>
+                                                            <th>Siempre  &nbsp; &nbsp;</th>
+                                                            <th>Casi siempre &nbsp; &nbsp;</th>
+                                                            <th>Algunas veces &nbsp; &nbsp;</th>
+                                                            <th>Casi nunca  &nbsp; &nbsp;</th>
+                                                            <th>Nunca</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td data-label="Pregunta">1. Mi trabajo me exige hacer mucho esfuerzo físico</td>
+                                                            <td><input type="radio" name="q1" value="siempre"></td>
+                                                            <td><input type="radio" name="q1" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q1" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q1" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q1" value="nunca"></td>
+                                                        </tr>
+                                                        <tr class="highlight">
+                                                            <td data-label="Pregunta">2. Me preocupa sufrir un accidente en mi trabajo</td>
+                                                            <td><input type="radio" name="q2" value="siempre"></td>
+                                                            <td><input type="radio" name="q2" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q2" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q2" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q2" value="nunca" checked></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td data-label="Pregunta">3. Considero que las actividades que realizo son peligrosas</td>
+                                                            <td><input type="radio" name="q3" value="siempre"></td>
+                                                            <td><input type="radio" name="q3" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q3" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q3" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q3" value="nunca"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td data-label="Pregunta">4. Por la cantidad de trabajo que tengo debo quedarme tiempo adicional a mi turno</td>
+                                                            <td><input type="radio" name="q4" value="siempre"></td>
+                                                            <td><input type="radio" name="q4" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q4" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q4" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q4" value="nunca"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td data-label="Pregunta">5. Por la cantidad de trabajo que tengo debo trabajar sin parar</td>
+                                                            <td><input type="radio" name="q5" value="siempre"></td>
+                                                            <td><input type="radio" name="q5" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q5" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q5" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q5" value="nunca"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td data-label="Pregunta">6. Considero que es necesario mantener mi ritmo de trabajo acelerado</td>
+                                                            <td><input type="radio" name="q6" value="siempre"></td>
+                                                            <td><input type="radio" name="q6" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q6" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q6" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q6" value="nunca"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td data-label="Pregunta">7. Mi trabajo exige que esté muy concentrado</td>
+                                                            <td><input type="radio" name="q7" value="siempre"></td>
+                                                            <td><input type="radio" name="q7" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q7" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q7" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q7" value="nunca"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td data-label="Pregunta">8. Mi trabajo exige que memorice mucha información</td>
+                                                            <td><input type="radio" name="q8" value="siempre"></td>
+                                                            <td><input type="radio" name="q8" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q8" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q8" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q8" value="nunca"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td data-label="Pregunta">9. Mi trabajo exige que atienda varios asuntos al mismo tiempo</td>
+                                                            <td><input type="radio" name="q9" value="siempre"> &nbsp; &nbsp;</td>
+                                                            <td><input type="radio" name="q9" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q9" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q9" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q9" value="nunca"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div> <br>
+                                            <div class="container2">
+                                                <h1>Las preguntas siguientes están relacionadas con las actividades que realiza en su trabajo y las responsabilidades que se tiene. </h1>
+                                                
+                                                <div class="section-header">Actividades y Responsabilidades</div>
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Pregunta &nbsp; &nbsp;</th>
+                                                            <th>Siempre  &nbsp; &nbsp;</th>
+                                                            <th>Casi siempre &nbsp; &nbsp;</th>
+                                                            <th>Algunas veces &nbsp; &nbsp;</th>
+                                                            <th>Casi nunca &nbsp; &nbsp;</th>
+                                                            <th>Nunca</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td data-label="Pregunta">10. En mi trabajo soy responsable de cosas de mucho valor</td>
+                                                            <td><input type="radio" name="q10" value="siempre"></td>
+                                                            <td><input type="radio" name="q10" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q10" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q10" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q10" value="nunca"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td data-label="Pregunta">11. Respondo ante mi jefe por los resultados de toda mi área de trabajo    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;   </td>
+                                                            <td><input type="radio" name="q11" value="siempre"></td>
+                                                            <td><input type="radio" name="q11" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q11" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q11" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q11" value="nunca"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td data-label="Pregunta">12. En mi trabajo me dan órdenes contradictorias</td>
+                                                            <td><input type="radio" name="q12" value="siempre"></td>
+                                                            <td><input type="radio" name="q12" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q12" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q12" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q12" value="nunca"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td data-label="Pregunta">13. Considero que en mi trabajo me piden hacer cosas innecesarias</td>
+                                                            <td><input type="radio" name="q13" value="siempre"></td>
+                                                            <td><input type="radio" name="q13" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q13" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q13" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q13" value="nunca"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table> 
+                                                <br>
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Pregunta</th>
+                                                            <th>Siempre &nbsp; &nbsp;</th>
+                                                            <th>Casi siempre &nbsp; &nbsp;  </th>
+                                                            <th>Algunas veces &nbsp; &nbsp;</th>
+                                                            <th>Casi nunca &nbsp; &nbsp;</th>
+                                                            <th>Nunca</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <div class="container2">
+                                                                <h1>Las preguntas siguientes están relacionadas con el tiempo destinado a su trabajo y sus responsabilidades familiares. </h1>
+                                                                <div class="section-header">Tiempo y Responsabilidades Familiares</div>
+                                                            <td data-label="Pregunta">14. Trabajo horas extras más de tres veces a la semana &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
+                                                            <td><input type="radio" name="q14" value="siempre"></td>
+                                                            <td><input type="radio" name="q14" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q14" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q14" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q14" value="nunca"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td data-label="Pregunta">15. Mi trabajo me exige laborar días de descanso, festivos o fines de semana</td>
+                                                            <td><input type="radio" name="q15" value="siempre"></td>
+                                                            <td><input type="radio" name="q15" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q15" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q15" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q15" value="nunca"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td data-label="Pregunta">16. Considero que el tiempo en el trabajo es mucho y perjudica mis<br> actividades familiares o personales</td>
+                                                            <td><input type="radio" name="q16" value="siempre"></td>
+                                                            <td><input type="radio" name="q16" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q16" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q16" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q16" value="nunca"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td data-label="Pregunta">17. Pienso en las actividades familiares o personales cuando estoy en mi trabajo</td>
+                                                            <td><input type="radio" name="q17" value="siempre"></td>
+                                                            <td><input type="radio" name="q17" value="casi_siempre"></td>
+                                                            <td><input type="radio" name="q17" value="algunas_veces"></td>
+                                                            <td><input type="radio" name="q17" value="casi_nunca"></td>
+                                                            <td><input type="radio" name="q17" value="nunca"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table> 
+                                            </div>
+    
+                                            
+                                        </div>
+                                        
+                                            </p> <br>
+                                            <section class="content-header">
+                                                <div class="container-fluid">
+                                                  <div class="row mb-2">
+                                                    <div class="col-md-12">            
+                                                      <div class="container">
+                                                        <a href="/createEstadio" class="btn btn-primary mt-4 mb-2"> <i class="fa-solid fa-gears"></i></a>
+                                                        <table id="example1" class="table table-bordered table-striped text-center mt-4">
+
+                                                          <thead> 
+                                                            <tr class="bg-primary text-white">
+                                                              <th scope="col">no es Genero</th>
+                                                              <th scope="col">no esFrecuencia</th>
+                                                              <th scope="col">Porcentaje</th>
+                                                              <th scope="col">Editar/Eliminar</th>
+                                                              
+                                                            </tr>
+                                                          </thead>
+                                                          <tbody>
+                                                            
+                                                  
+                                                              <tr>
+                                                                <th>Masculino</th>
+                                                                <th>73</th>
+                                                                <th>73%</th>
+                                                                
+                                                                <td>
+                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
+                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
+
+                                                                </td>
+                                                              </tr>       
+                                                              <tr>
+                                                                <th>Femenino</th>
+                                                                <th>22</th>
+                                                                <th>22%</th>
+                                                                
+                                                                <td>
+                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
+                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
+
+                                                                </td>
+                                                              </tr>                         
+                                                              <tr>
+                                                                <th>Sin especificar</th>
+                                                                <th>2</th>
+                                                                <th>5%</th>
+                                                                
+                                                                <td>
+                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
+                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
+
+                                                                </td>
+                                                              </tr>  
+                                                              <tr>
+                                                                <th>Total</th>
+                                                                <th>100</th>
+                                                                <th>100%</th>
+                                                                
+                                                                <td>
+                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
+                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
+
+                                                                </td>
+                                                              </tr>  
+                                                          </tbody>
+                                                        </table>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div><!-- /.container-fluid -->
+                                              </section>
+                                          
+                                                    
+                                                    <br>
+                                        </div>
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div><!-- /.container-fluid -->
+                    </section>
+
+                    <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
+
+            <%- include("template/footer") %>

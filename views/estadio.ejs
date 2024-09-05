@@ -94,8 +94,22 @@
                                                 </div><!-- /.container-fluid -->
                                               </section>
                                           
-                                                    <img src="/img/imagen4.png">
+                                                    <img src="/img/imagen0.png">
                                                     <br>
+                                                    new Chart(ctx, {
+                                                      data: {
+                                                          datasets: [
+                                                              {
+                                                                fill: {
+                                                                  target: 'origin',
+                                                                  above: 'rgb(255, 0, 0)',   // Area will be red above the origin
+                                                                  below: 'rgb(0, 0, 255)'    // And blue below the origin
+                                                                }
+                                                              }
+                                                          ]
+                                                      }
+                                                  });
+                                                   
                                         </div>
                                         
                                     </div>

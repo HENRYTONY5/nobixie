@@ -107,6 +107,18 @@ router.get('/contacto', (req, res) => {
 router.get('/events', (req, res) => {
     res.render('events', { alert:false })
 })
+router.get('/res_events', (req, res) => {
+    res.render('res_events', { alert:false })
+})
+router.get('/data', (req, res) => {
+    res.render('resdata', { alert:false })
+})
+router.get('/guia2', (req, res) => {
+    res.render('res_guia2', { alert:false })
+})
+router.get('/guia3', (req, res) => {
+    res.render('res_guia3', { alert:false })
+})
 router.post('/register', authController.register)
 router.post('/login', authController.login)
 

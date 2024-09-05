@@ -5,6 +5,8 @@ const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
 const { json } = require('express')
 const multer = require('multer')
+const { Chart } = import('chart.js');
+
 
 app.set('view engine', 'ejs')
 
