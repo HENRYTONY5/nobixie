@@ -15,7 +15,7 @@
               <div class="container">   
                 <div class="row">
                   <div class="col-md-6">
-                    <form action="/updateUser" method="POST">
+                    <form action="/insertData" method="POST">
                       <input hidden id="id" name="id" value="<%= user.id %>">
                       <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
@@ -41,7 +41,7 @@
                       
                       
                       <button type="submit" class="btn btn-primary" tabindex="4">Actualizar</button>
-                      <a href="/users" class="btn btn-secondary">Cancelar</a>
+                      <a href="/insertData" class="btn btn-secondary">Cancelar</a>
                     </form>
                   </div>
                   <div class="col-md-6">

@@ -38,9 +38,18 @@ router.get('/createUser', authController.isAuthenticated, (req, res) => {
         res.render('index', { userName: row.name, image: row.image, titleWeb: "Control Dashboard"})
     }
 })
-router.get('/createEstadio', authController.isAuthenticated, (req, res) => {
+//crear Usuario
+router.get('/createData', authController.isAuthenticated, (req, res) => {
     if (row.rol=="Admin") {        
-        res.render('createUser', { titleWeb: "Crear Estadisticas"})
+        res.render('createData', { titleWeb: "Crear Estadisticas"})
+    } else {
+        res.render('index', { userName: row.name, image: row.image, titleWeb: "Control de Datos"})
+    }
+})
+//insertar Info del usuario
+router.get('/createData', authController.isAuthenticated, (req, res) => {
+    if (row.rol=="Admin") {        
+        res.render('createData', { titleWeb: "Crear Datos de Usuario"})
     } else {
         res.render('index', { userName: row.name, image: row.image, titleWeb: "Control de Datos"})
     }
@@ -119,6 +128,16 @@ router.get('/guia2', (req, res) => {
 router.get('/guia3', (req, res) => {
     res.render('res_guia3', { alert:false })
 })
+router.get('/datos-graficas', authController.obtenerDatosParaGraficas);
+
+router.post('/submit', (req, res) => {
+    console.log('Ruta /submit llamada');
+    authController.registrarEncuesta(req, res);
+});
+router.get('/api/datos-graficos', (req, res) => {
+    authController.obtenerDatosGraficos(req, res);
+});
+
 router.post('/register', authController.register)
 router.post('/login', authController.login)
 

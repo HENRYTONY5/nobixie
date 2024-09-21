@@ -1,0 +1,60 @@
+<%- include("template/header") %>
+<%- include("template/navbar") %>
+<%- include("template/aside") %>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <%- include('template/breadcrumb', {module: 'Create user'}) %>
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-md-12">
+           
+            <div class="container">              
+                <form action="/saveUser" method="POST">
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Nombre</label>
+                      <input type="text" class="form-control" id="name" name="name" tabindex="1" autofocus>              
+                    </div>
+                    <div class="mb-3">
+                      <label for="email" class="form-label">Email @</label>
+                      <input type="email" class="form-control" id="email" name="email" tabindex="2">
+                    </div>
+                    <div class="mb-6">
+                      <label for="name" class="form-label">Password</label>
+                      <input type="text" class="form-control" id="pass" name="pass" tabindex="3" autofocus>              
+                      <br>
+                      <label for="name" class="form-label">Password</label>
+                      <input type="text" class="form-control" id="pass" name="pass" tabindex="3" autofocus> 
+                      
+                    </div>
+                    <div class="mb-3"> <label for="name" class="form-label">Rol:    </label><br>
+                      <select id="rol" name= "rol" class="form-select">
+                        <option value ="Admin"> Admin</option>
+                        <option value="AgenteL"> Lider</option>
+                        <option value="AgenteLec"> Lector</option>
+                        <option value="AgenteE"> Escritor</option>
+                        <option value="AgenteEsp">Especialista</option>
+                    </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Estatus</label>
+                      <input type="text" class="form-control" id="status" name="status" tabindex="4" autofocus>              
+                    </div>
+                    <button type="submit" class="btn btn-primary" tabindex="4">Guardar</button>
+                    <a href="/users" class="btn btn-secondary">Cancelar</a>
+                  </form>            
+            </div>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+  <%- include("template/footer") %>

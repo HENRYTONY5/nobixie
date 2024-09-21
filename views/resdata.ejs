@@ -1,6 +1,33 @@
 <%- include("template/header") %>
+    <%- include("template/navbar") %>
         <%- include("template/aside") %>
-
+        <style>
+          .form-container {
+              max-width: 800px;
+              margin: 50px auto;
+              padding: 20px;
+              background-color: #f9f9f9;
+              border-radius: 10px;
+              box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+          }
+          .form-title {
+              margin-bottom: 30px;
+              font-size: 1.5rem;
+              font-weight: bold;
+              color: #333;
+          }
+          .form-group {
+              margin-bottom: 15px;
+          }
+          .btn-primary {
+              background-color: #007bff;
+              border-color: #007bff;
+          }
+          .btn-primary:hover {
+              background-color: #0056b3;
+              border-color: #004085;
+          }
+      </style>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 
@@ -19,82 +46,101 @@
                                         </div>
                                         <div class="card-body">
                                             <p class="card-text">
-                                                Creación del softweare para la Guia de referencia II y III 
-                                                <br>Agregar a la evaluación de eventos traumáticos  severos 
+                                                Datos Generales del Colaborador
+                                                <br>Agregar la información personal del colaborador.
                                             </p> <br>
                                             <section class="content-header">
-                                                <div class="container-fluid">
-                                                  <div class="row mb-2">
-                                                    <div class="col-md-12">            
-                                                      <div class="container">
-                                                        <a href="/createEstadio" class="btn btn-primary mt-4 mb-2"> <i class="fa-regular fa-square-plus"></i></a>
-                                                        <table id="example1" class="table table-bordered table-striped text-center mt-4">
-                                                          <thead>
-                                                            <tr class="bg-primary text-white">
-                                                              <th scope="col">Genero</th>
-                                                              <th scope="col">Frecuencia</th>
-                                                              <th scope="col">Porcentaje</th>
-                                                              <th scope="col">Editar/Eliminar</th>
-                                                              
-                                                            </tr>
-                                                          </thead>
-                                                          <tbody>
-                                                            
-                                                  
-                                                              <tr>
-                                                                <th>Masculino</th>
-                                                                <th>73</th>
-                                                                <th>73%</th>
-                                                                
-                                                                <td>
-                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
-                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
-
-                                                                </td>
-                                                              </tr>       
-                                                              <tr>
-                                                                <th>Femenino</th>
-                                                                <th>22</th>
-                                                                <th>22%</th>
-                                                                
-                                                                <td>
-                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
-                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
-
-                                                                </td>
-                                                              </tr>                         
-                                                              <tr>
-                                                                <th>Sin especificar</th>
-                                                                <th>2</th>
-                                                                <th>5%</th>
-                                                                
-                                                                <td>
-                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
-                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
-
-                                                                </td>
-                                                              </tr>  
-                                                              <tr>
-                                                                <th>Total</th>
-                                                                <th>100</th>
-                                                                <th>100%</th>
-                                                                
-                                                                <td>
-                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
-                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
-
-                                                                </td>
-                                                              </tr>  
-                                                          </tbody>
-                                                        </table>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div><!-- /.container-fluid -->
-                                              </section>
-                                          
-                                                    <img src="/img/imagen4.png">
-                                                    <br>
+                                              <div class="container">
+                                                <div class="form-container">
+                                                    <h2 class="form-title">Encuesta de Datos de Trabajadores</h2>
+                                                    <form action="/submit" method="POST">
+                                                        <!-- Género -->
+                                                        <div class="form-group">
+                                                            <label for="genero">Género:</label>
+                                                            <select class="form-control" id="genero" name="genero" required>
+                                                                <option value="">Seleccione</option>
+                                                                <option value="Mujeres">Mujeres</option>
+                                                                <option value="Hombres">Hombres</option>
+                                                            </select>
+                                                        </div>
+                                            
+                                                        <!-- Edad -->
+                                                        <div class="form-group">
+                                                            <label for="edad">Edad:</label>
+                                                            <select class="form-control" id="edad" name="edad" required>
+                                                                <option value="">Seleccione</option>
+                                                                <option value="20-24">20-24</option>
+                                                                <option value="25-29">25-29</option>
+                                                                <option value="30-34">30-34</option>
+                                                                <option value="35-39">35-39</option>
+                                                                <option value="40-44">40-44</option>
+                                                                <option value="45-49">45-49</option>
+                                                                <option value="50-55">50-55</option>
+                                                                <option value="55-60">55-60</option>
+                                                            </select>
+                                                        </div>
+                                            
+                                                        <!-- Estado Civil -->
+                                                        <div class="form-group">
+                                                            <label for="estado_civil">Estado Civil:</label>
+                                                            <select class="form-control" id="estado_civil" name="estado_civil" required>
+                                                                <option value="">Seleccione</option>
+                                                                <option value="Casado">Casado</option>
+                                                                <option value="Soltero">Soltero</option>
+                                                                <option value="Divorciado">Divorciado</option>
+                                                                <option value="Unión Libre">Unión Libre</option>
+                                                                <option value="Viudo">Viudo</option>
+                                                            </select>
+                                                        </div>
+                                            
+                                                        <!-- Escolaridad -->
+                                                        <div class="form-group">
+                                                            <label for="escolaridad">Escolaridad:</label>
+                                                            <select class="form-control" id="escolaridad" name="escolaridad" required>
+                                                                <option value="">Seleccione</option>
+                                                                <option value="Incompleto">Incompleto</option>
+                                                                <option value="Primaria">Primaria</option>
+                                                                <option value="Secundaria">Secundaria</option>
+                                                                <option value="Preparatoria">Preparatoria</option>
+                                                                <option value="Técnico">Técnico</option>
+                                                                <option value="Licenciatura">Licenciatura</option>
+                                                                <option value="Maestría">Maestría</option>
+                                                                <option value="Doctorado">Doctorado</option>
+                                                            </select>
+                                                        </div>
+                                            
+                                                        <!-- Tipo de Puesto -->
+                                                        <div class="form-group">
+                                                            <label for="tipo_puesto">Tipo de Puesto:</label>
+                                                            <select class="form-control" id="tipo_puesto" name="tipo_puesto" required>
+                                                                <option value="">Seleccione</option>
+                                                                <option value="Operativo">Operativo</option>
+                                                                <option value="Administrativo">Administrativo</option>
+                                                            </select>
+                                                        </div>
+                                            
+                                                        <!-- Categoría de Puesto -->
+                                                        <div class="form-group">
+                                                            <label for="categoria_puesto">Categoría de Puesto:</label>
+                                                            <input type="text" class="form-control" id="categoria_puesto" name="categoria_puesto" placeholder="Ej: Operador de prensa" required>
+                                                        </div>
+                                            
+                                                        <!-- Antigüedad -->
+                                                        <div class="form-group">
+                                                            <label for="antiguedad">Antigüedad:</label>
+                                                            <select class="form-control" id="antiguedad" name="antiguedad" required>
+                                                                <option value="">Seleccione</option>
+                                                                <option value="Menos de 12 meses">Menos de 12 meses</option>
+                                                                <option value="1 año o más">1 año o más</option>
+                                                            </select>
+                                                        </div>
+                                            
+                                                        <!-- Botón de Enviar -->
+                                                        <button type="submit" class="btn btn-primary">Guardar Encuesta</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                                   
                                         </div>
                                         
                                     </div>

@@ -1,7 +1,14 @@
 <%- include("template/header") %>
     <%- include("template/navbar") %>
         <%- include("template/aside") %>
-
+        
+        <!-- Puedes añadir más canvas para otros gráficos -->
+        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        
+        
+        
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 
@@ -94,325 +101,485 @@
                                                 </div><!-- /.container-fluid -->
                                               </section>
                                           
-                                                    <img src="/img/imagen0.png">
-                                                    <br>
-                                                  <section><div>
-                                                    <canvas id="myChart0"></canvas>
-                                                  </div></section>
+                                                    
+                                               <!-- Contenedor de la Genero -->
+                                               <div class="container mt-5">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Analisis de Generos frecuencia / población</h3>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                      <div class="card-body">
+                                                        
+                                                            <!-- Pregunta 1 -->
+                                                            <div class="form-group">
+                                                                <label for="pregunta1">1. Genero</label>
+                                                                <div>
+                                                                  <div class="container mt-5">
+                                                                    <h2 class="mb-4">Gráfica de Género</h2>
+                                                                    
+                                                                    <canvas id="graficoGenero" width="400" height="400"></canvas>
+
+                                                                </div>
+                                                            </div>
+                                    
+                                                            
+                                    
+                                                            
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                             
-                                                    <div>
-                                                      <canvas id="myChart"></canvas>
+                                                    
+                                               </div>
+                                               <!-- Contenedor de la Edad -->
+                                               <div class="container mt-5">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                      
+                                                        <h3 class="card-title">Edad Frecuencia / muestra de población</h3>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                      <canvas id="myChart2"></canvas>
+                                                    <div class="card-body">
+                                                      <div class="card-body">
+                                                        
+                                                            <!-- Pregunta 1 -->
+                                                            <div class="grafico-container">
+                                                              <h3>Gráfico de Edad</h3>
+                                                              <canvas id="graficoEdad" width="40" height="40"></canvas>
+                                                          </div>
+                                                          
+                                                            
+                                    
+                                                            
+                                                        
                                                     </div>
-                                                    <div>
-                                                      <canvas id="myChart3"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Contenedor de la EstadoC -->
+                                        <div class="container mt-5">
+                                          <div class="card">
+                                              <div class="card-header">
+                                                  <h3 class="card-title">Estado Civil Frecuencia / muestra de población</h3>
+                                                  <div class="card-tools">
+                                                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                          <i class="fas fa-minus"></i>
+                                                      </button>
+                                                  </div>
+                                              </div>
+                                              <div class="card-body">
+                                                <div class="card-body">
+                                                  
+                                                      <!-- Pregunta 1 -->
+                                                      <div class="grafico-container">
+                                                        <h3>Gráfico de Estado Ci</h3>
+                                                        
                                                     </div>
-                                                    <div>
-                                                      <canvas id="myChart4"></canvas>
+                                                    
+                                                    <canvas id="graficoEstadoCivil" width="10" height="10"></canvas>
+                                                    
+                              
+                                                      
+                                                  
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                            <!-- Contenedor de la EstadoC -->
+                                        <div class="container mt-5">
+                                          <div class="card">
+                                              <div class="card-header">
+                                                  <h3 class="card-title">Escolaridad Frecuencia / muestra de población</h3>
+                                                  <div class="card-tools">
+                                                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                          <i class="fas fa-minus"></i>
+                                                      </button>
+                                                  </div>
+                                              </div>
+                                              <div class="card-body">
+                                                <div class="card-body">
+                                                  
+                                                      <!-- Pregunta 1 -->
+                                                      <div class="grafico-container">
+                                                        <h3>Gráfico de Escolaridad</h3>
+                                                        
                                                     </div>
-                                                    <div>
-                                                      <canvas id="myChart5"></canvas>
-                                                    </div>
-                                                    <div>
-                                                      <canvas id="myChart6"></canvas>
-                                                    </div>
+                                                    
+                                                    <canvas id="graficoEscolar" width="100" height="100"></canvas>
+                                                    
+                              
+                                                      
+                                                  
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <!-- Contenedor de la Tipo de puestoC -->
+                                  <div class="container mt-5">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Tipo de Puesto Frecuencia / muestra de población</h3>
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                          <div class="card-body">
+                                            
+                                                <!-- Pregunta 1 -->
+                                                <div class="grafico-container">
+                                                  <h3>Gráfico de Tipo de puesto</h3>
+                                                  
+                                              </div>
+                                              
+                                              <canvas id="graficoEscolar" width="100" height="100"></canvas>
+                                              
+                        
+                                                
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Contenedor de la Categoria puestoC -->
+                             <div class="container mt-5">
+                              <div class="card">
+                                  <div class="card-header">
+                                      <h3 class="card-title">Categoria de Puesto Frecuencia / muestra de población</h3>
+                                      <div class="card-tools">
+                                          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                              <i class="fas fa-minus"></i>
+                                          </button>
+                                      </div>
+                                  </div>
+                                  <div class="card-body">
+                                    <div class="card-body">
+                                      
+                                          <!-- Pregunta 1 -->
+                                          <div class="grafico-container">
+                                            <h3>Gráfico de Tipo de puesto</h3>
+                                            
+                                        </div>
+                                        
+                                        <canvas id="graficoEscolar" width="100" height="100"></canvas>
+                                        
+                  
+                                          
+                                      
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                                            <!-- Contenedor de la AntiguedadC -->
+                                  <div class="container mt-5">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Antiguedad Frecuencia / muestra de población</h3>
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                          <div class="card-body">
+                                            
+                                                <!-- Pregunta 1 -->
+                                                <div class="grafico-container">
+                                                  <h3>Gráfico de Tipo de puesto</h3>
+                                                  
+                                              </div>
+                                              
+                                              <canvas id="graficoEscolar" width="100" height="100"></canvas>
+                                              
+                        
+                                                
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                                               </div>
+                                                    
 
                                                     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                                                     
-                                                    <script>
-                                                      const ct = document.getElementById('myChart0');
-                                                    
-                                                      new Chart(ct, {
-                                                        type: 'doughnut',
-                                                        data: {
-                                                          labels: ['Hombres', 'Mujeres'],
-                                                          datasets: [{
-                                                            label: 'Genero',
-                                                            data: [52, 48],
-                                                            borderWidth: 1
-                                                          }]
-                                                        },
-                                                        options: {
-                                                          scales: {
-                                                            y: {
-                                                              beginAtZero: true
-                                                            }
-                                                          }
-                                                        }
-                                                      });
-                                                      const mixedChart0 = new Chart(ct, {
-    data: {
-        datasets: [{
-            type: 'bar',
-            label: 'Bar Dataset',
-            data: [10, 20, 30, 40]
-        }, {
-            type: 'line',
-            label: 'Line Dataset',
-            data: [50, 50, 50, 50],
-        }],
-        labels: ['Edades', 'Fe', 'March', 'April']
-    },
-    options: options
-});
-
-
-                                                    </script>  
+                                                     
                                                     
 
-                                                    <script>
-                                                      const ctx = document.getElementById('myChart');
+                                                     
                                                     
-                                                      new Chart(ctx, {
-                                                        type: 'bar',
-                                                        label: 'ranngos',
-                                                        data: {
-                                                          labels: ['20-24', '25-29', '30-34', '34-38', '39-43', '45-49','50-54','55-60'],
-                                                          datasets: [{
-                                                            label: 'Rango de Edades',
-                                                            data: [22, 19, 3, 5, 2, 20, 10,10],
-                                                            borderWidth: 1
-                                                          }]
-                                                        },
-                                                        options: {
-                                                          scales: {
-                                                            y: {
-                                                              beginAtZero: true
-                                                            }
-                                                          }
-                                                        }
-                                                      });
-                                                      const mixedChart = new Chart(ctx, {
-    data: {
-        datasets: [{
-            type: 'bar',
-            label: 'Bar Dataset',
-            data: [10, 20, 30, 40]
-        }, {
-            type: 'line',
-            label: 'Line Dataset',
-            data: [50, 50, 50, 50],
-        }],
-        labels: ['Edades', 'Fe', 'March', 'April']
-    },
-    options: options
-});
-
-
-                                                    </script>  
-                                                    
-                                                    <script>
-                                                      const ctxx = document.getElementById('myChart2');
-                                                    
-                                                      new Chart(ctxx, {
-                                                        type: 'radar',
-                                                        data: {
-                                                          labels: ['Casado', 'Soltero', 'Divorciado', 'unión libre', 'Viudo'],
-                                                          datasets: [{
-                                                            label: 'Estado Civil',
-                                                            data: [52, 19, 30, 5, 2],
-                                                            borderWidth: 1
-                                                          }]
-                                                        },
-                                                        options: {
-                                                          scales: {
-                                                            y: {
-                                                              beginAtZero: true
-                                                            }
-                                                          }
-                                                        }
-                                                      });
-                                                      const mixxedChart = new Chart(ctxx, {
-    data: {
-        datasets: [{
-            type: 'bar',
-            label: 'Bar Dataset',
-            data: [10, 20, 30, 40]
-        }, {
-            type: 'line',
-            label: 'Line Dataset',
-            data: [50, 50, 50, 50],
-        }],
-        labels: ['Edades', 'Fe', 'March', 'April']
-    },
-    options: options
-});
-
-
-                                                    </script>  
-                                                    
-                                                    <script>
-                                                      const ctx3 = document.getElementById('myChart3');
-                                                    
-                                                      new Chart(ctx3, {
-                                                        type: 'bar',
-                                                        data: {
-                                                          labels: ['Incompleto', 'Primaria', 'Secundaria', 'Preparatoria', 'Técnico', 'Licenciatura', 'Maestría', 'Doctorado'],
-                                                          datasets: [{
-                                                            label: 'Escolaridad',
-                                                            data: [22, 19, 3, 5, 2, 20, 10,10],
-                                                            borderWidth: 1
-                                                          }]
-                                                        },
-                                                        options: {
-                                                          scales: {
-                                                            y: {
-                                                              beginAtZero: true
-                                                            }
-                                                          }
-                                                        }
-                                                      });
-                                                      const mixedChart3 = new Chart(ctx3, {
-    data: {
-        datasets: [{
-            type: 'bar',
-            label: 'Bar Dataset',
-            data: [10, 20, 30, 40]
-        }, {
-            type: 'line',
-            label: 'Line Dataset',
-            data: [50, 50, 50, 50],
-        }],
-        labels: ['Edades', 'Fe', 'March', 'April']
-    },
-    options: options
-});
-
-
-                                                    </script>  
-                                                    
-                                                    <script>
-                                                      const ct4 = document.getElementById('myChart4');
-                                                    
-                                                      new Chart(ct4, {
-                                                        type: 'polarArea',
-                                                        data: {
-                                                          labels: ['Operativo', 'Administrativo'],
-                                                          datasets: [{
-                                                            label: 'Tipo de puesto',
-                                                            data: [52, 48],
-                                                            borderWidth: 1
-                                                          }]
-                                                        },
-                                                        options: {
-                                                          scales: {
-                                                            y: {
-                                                              beginAtZero: true
-                                                            }
-                                                          }
-                                                        }
-                                                      });
-                                                      const mixedChart4 = new Chart(ct4, {
-    data: {
-        datasets: [{
-            type: 'bar',
-            label: 'Bar Dataset',
-            data: [10, 20, 30, 40]
-        }, {
-            type: 'line',
-            label: 'Line Dataset',
-            data: [50, 50, 50, 50],
-        }],
-        labels: ['Edades', 'Fe', 'March', 'April']
-    },
-    options: options
-});
-
-
-                                                    </script>  
-                                                    
-                                                    <script>
-                                                      const ctx5 = document.getElementById('myChart5');
-                                                    
-                                                      new Chart(ctx5, {
-                                                        type: 'bar',
-                                                        data: {
-                                                          labels: ['Incompleto', 'Primaria', 'Secundaria', 'Preparatoria', 'Técnico', 'Licenciatura', 'Maestría', 'Doctorado'],
-                                                          datasets: [{
-                                                            label: 'Categoria de puesto',
-                                                            data: [22, 19, 3, 5, 2, 20, 10,10],
-                                                            borderWidth: 1
-                                                          }]
-                                                        },
-                                                        options: {
-                                                          scales: {
-                                                            y: {
-                                                              beginAtZero: true
-                                                            }
-                                                          }
-                                                        }
-                                                      });
-                                                      const mixedChart5 = new Chart(ctx5, {
-    data: {
-        datasets: [{
-            type: 'bar',
-            label: 'Bar Dataset',
-            data: [10, 20, 30, 40]
-        }, {
-            type: 'line',
-            label: 'Line Dataset',
-            data: [50, 50, 50, 50],
-        }],
-        labels: ['Edades', 'Fe', 'March', 'April']
-    },
-    options: options
-});
-
-
-                                                    </script> 
                                                    
-                                                   <script>
-                                                    const ctxx6 = document.getElementById('myChart6');
+                                                    
+                                                     
+                                                    
+                                                    
+                                                    
                                                   
-                                                    new Chart(ctxx6, {
-                                                      type: 'line',
-                                                      data: {
-                                                        labels: ['menos de 6 meses ', 'mas de 6 meses hasta 1 año', 'mas de un año', 'mas de dos años', 'mas de 5 años'],
-                                                        datasets: [{
-                                                          label: 'Antiguedad',
-                                                          data: [52, 19, 30, 5, 2],
-                                                          borderWidth: 1
-                                                        }]
-                                                      },
-                                                      options: {
-                                                        scales: {
-                                                          y: {
-                                                            beginAtZero: true
-                                                          }
-                                                        }
-                                                      }
-                                                    });
-                                                    const mixxedChart6 = new Chart(ctxx6, {
-  data: {
-      datasets: [{
-          type: 'bar',
-          label: 'Bar Dataset',
-          data: [10, 20, 30, 40]
-      }, {
-          type: 'line',
-          label: 'Line Dataset',
-          data: [50, 50, 50, 50],
-      }],
-      labels: ['Edades', 'Fe', 'March', 'April']
-  },
-  options: options
-});
-
-
-                                                  </script> 
+                                                   
+                                                   
                                         </div>
                                         
                                     </div>
 
                                 </div>
                             </div>
+                            
                         </div><!-- /.container-fluid -->
                     </section>
 
                     <!-- /.content -->
             </div>
+            <script>
+        // Función para obtener los datos vía AJAX
+        function obtenerDatos() {
+            fetch('/datos-graficas')
+                .then(response => response.json())
+                .then(data => {
+                    const generos = data.map(item => item.genero);
+                    const cantidades = data.map(item => item.cantidad);
+
+                    // Renderizar la gráfica
+                    const ctx = document.getElementById('graficaGenero').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: generos,
+                            datasets: [{
+                                label: 'Número de Trabajadores por Género',
+                                data: cantidades,
+                                backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(255, 99, 132, 0.6)'],
+                                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error al obtener los datos:', error));
+        }
+
+        // Llamar a la función para obtener los datos al cargar la página
+        window.onload = obtenerDatos;
+    </script>
+    <script>
+      function cargarGraficos() {
+          $.ajax({
+              url: '/api/datos-graficos',
+              method: 'GET',
+              success: function(data) {
+                  // Aquí deberías mapear correctamente los resultados según tus datos
+                  const generos = data.map(d => d.genero);
+                  const cantidadesGenero = data.map(d => d.cantidadGenero);
+
+                  const edades = data.map(d => d.edad);
+                  const cantidadesEdad = data.map(d => d.cantidadEdad);
+
+                  const estadosCiviles = data.map(d => d.estado_civil);
+                  const cantidadesEstadoCivil = data.map(d => d.cantidadEstadoCivil);
+
+                  const escolar = data.map(d => d.escolaridad);
+                  const cantidadesEscolaridad = data.map(d => d.cantidadEscolaridad);
+
+                  // Crear gráfico de Género
+                  const ctxGenero = document.getElementById('graficoGenero').getContext('2d');
+                  new Chart(ctxGenero, {
+                      type: 'bar',
+                      data: {
+                          labels: generos,
+                          datasets: [{
+                              label: 'Cantidad por Género',
+                              data: cantidadesGenero,
+                              backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+                              borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+                              borderWidth: 1
+                          }]
+                      },
+                      options: {
+                          scales: {
+                              y: {
+                                  beginAtZero: true
+                              }
+                          }
+                      }
+                  });
+
+                  // Crear gráfico de Edad
+                  const ctxEdad = document.getElementById('graficoEdad').getContext('2d');
+                  new Chart(ctxEdad, {
+                      type: 'pie',
+                      data: {
+                          labels: edades,
+                          datasets: [{
+                              label: 'Cantidad por Edad',
+                              data: cantidadesEdad,
+                              backgroundColor: [
+                                  'rgba(255, 99, 132, 0.2)',
+                                  'rgba(54, 162, 235, 0.2)',
+                                  'rgba(255, 206, 86, 0.2)',
+                                  'rgba(75, 192, 192, 0.2)',
+                                  'rgba(153, 102, 255, 0.2)',
+                                  'rgba(255, 159, 64, 0.2)'
+                              ],
+                              borderColor: [
+                                  'rgba(255, 99, 132, 1)',
+                                  'rgba(54, 162, 235, 1)',
+                                  'rgba(255, 206, 86, 1)',
+                                  'rgba(75, 192, 192, 1)',
+                                  'rgba(153, 102, 255, 1)',
+                                  'rgba(255, 159, 64, 1)'
+                              ],
+                              borderWidth: 1
+                          }]
+                      },
+                      options: {
+                          responsive: true,
+                          plugins: {
+                              legend: {
+                                  position: 'top',
+                              },
+                              tooltip: {
+                                  callbacks: {
+                                      label: function(tooltipItem) {
+                                          const total = tooltipItem.dataset.data.reduce((sum, value) => sum + value, 0);
+                                          const porcentaje = ((tooltipItem.raw / total) * 100).toFixed(2);
+                                          return `${tooltipItem.label}: ${tooltipItem.raw} (${porcentaje}%)`;
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  });
+
+                  // Crear gráfico de Estado Civil
+                  const ctxEstadoCivil = document.getElementById('graficoEstadoCivil').getContext('2d');
+                  new Chart(ctxEstadoCivil, {
+                      type: 'doughnut',
+                      data: {
+                          labels: estadosCiviles,
+                          datasets: [{
+                              label: 'Cantidad por Estado Civil',
+                              data: cantidadesEstadoCivil,
+                              backgroundColor: [
+                                  'rgba(255, 99, 132, 0.2)',
+                                  'rgba(54, 162, 235, 0.2)',
+                                  'rgba(255, 206, 86, 0.2)',
+                                  'rgba(75, 192, 192, 0.2)',
+                                  'rgba(153, 102, 255, 0.2)',
+                                  'rgba(255, 159, 64, 0.2)'
+                              ],
+                              borderColor: [
+                                  'rgba(255, 99, 132, 1)',
+                                  'rgba(54, 162, 235, 1)',
+                                  'rgba(255, 206, 86, 1)',
+                                  'rgba(75, 192, 192, 1)',
+                                  'rgba(153, 102, 255, 1)',
+                                  'rgba(255, 159, 64, 1)'
+                              ],
+                              borderWidth: 1
+                          }]
+                      },
+                      options: {
+                          responsive: true,
+                          plugins: {
+                              legend: {
+                                  position: 'top',
+                              },
+                              tooltip: {
+                                  callbacks: {
+                                      label: function(tooltipItem) {
+                                          const total = tooltipItem.dataset.data.reduce((sum, value) => sum + value, 0);
+                                          const porcentaje = ((tooltipItem.raw / total) * 100).toFixed(2);
+                                          return `${tooltipItem.label}: ${tooltipItem.raw} (${porcentaje}%)`;
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  });
+
+                  // Crear gráfico de escolaridad
+                  const ctxEcscolar= document.getElementById('graficoEscolar').getContext('2d');
+                  new Chart(ctxEscolar, {
+                      type: 'doughnut',
+                      data: {
+                          labels: estadosEscolar,
+                          datasets: [{
+                              label: 'Cantidad por Escolaridad',
+                              data: cantidadesEscolaridad,
+                              backgroundColor: [
+                                  'rgba(255, 99, 132, 0.2)',
+                                  'rgba(54, 162, 235, 0.2)',
+                                  'rgba(255, 206, 86, 0.2)',
+                                  'rgba(75, 192, 192, 0.2)',
+                                  'rgba(153, 102, 255, 0.2)',
+                                  'rgba(255, 159, 64, 0.2)'
+                              ],
+                              borderColor: [
+                                  'rgba(255, 99, 132, 1)',
+                                  'rgba(54, 162, 235, 1)',
+                                  'rgba(255, 206, 86, 1)',
+                                  'rgba(75, 192, 192, 1)',
+                                  'rgba(153, 102, 255, 1)',
+                                  'rgba(255, 159, 64, 1)'
+                              ],
+                              borderWidth: 1
+                          }]
+                      },
+                      options: {
+                          responsive: true,
+                          plugins: {
+                              legend: {
+                                  position: 'top',
+                              },
+                              tooltip: {
+                                  callbacks: {
+                                      label: function(tooltipItem) {
+                                          const total = tooltipItem.dataset.data.reduce((sum, value) => sum + value, 0);
+                                          const porcentaje = ((tooltipItem.raw / total) * 100).toFixed(2);
+                                          return `${tooltipItem.label}: ${tooltipItem.raw} (${porcentaje}%)`;
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  });
+
+              },
+              error: function(err) {
+                  console.error('Error al obtener los datos:', err);
+              }
+          });
+      }
+
+      // Cargar los gráficos cuando el documento esté listo
+      $(document).ready(function() {
+          cargarGraficos();
+      });
+  </script>
+  
+    
             <!-- /.content-wrapper -->
 
             <%- include("template/footer") %>

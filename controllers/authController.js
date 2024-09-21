@@ -35,7 +35,7 @@ exports.register = async (req, res) => {
                     </ul>
                 `;
                 //set email configuration, sender and server
-                const transporter = nodemailer.createTransport({
+                /*const transporter = nodemailer.createTransport({
                     host: 'mail.gustabin.com',
                     port: 587,
                     secure: false,
@@ -54,7 +54,7 @@ exports.register = async (req, res) => {
                     to: email,
                     subject: 'Website contact form',
                     html: contentHTML
-                });
+                });*/
             
 
                 res.redirect('/')
@@ -143,3 +143,98 @@ exports.isAuthenticated = async (req, res, next)=>{
         res.redirect('/login')        
     }
 } 
+
+//register encuesta
+exports.registrarEncuesta = (req, res) => {
+    const genero = req.body.genero;
+    const edad = req.body.edad;
+    const estado_civil = req.body.estado_civil;
+    const escolaridad = req.body.escolaridad;
+    const tipo_puesto = req.body.tipo_puesto;
+    const categoria_puesto = req.body.categoria_puesto;
+    const antiguedad = req.body.antiguedad;
+
+    // Verifica que todos los campos obligatorios estén presentes
+    if (!genero || !edad || !estado_civil || !escolaridad || !tipo_puesto || !categoria_puesto || !antiguedad) {
+        return res.status(400).send('Todos los campos son obligatorios');
+    }
+
+    const encuestaData = {
+        genero: genero,
+        edad: edad,
+        estado_civil: estado_civil,
+        escolaridad: escolaridad,
+        tipo_puesto: tipo_puesto,
+        categoria_puesto: categoria_puesto,
+        antiguedad: antiguedad
+    };
+
+    // Inserta los datos en la base de datos
+    conexion.query('INSERT INTO encuesta_trabajadores SET ?', encuestaData, (error, results) => {
+        if (error) {
+            console.error('Error al registrar la encuesta:', error);
+            res.status(500).send('Error al registrar la encuesta');
+        } else {
+            res.redirect('/data');  // Redirecciona después de la inserción exitosa
+        }
+    });
+};
+exports.obtenerDatosParaGraficas = (req, res) => {
+    const sql = 'SELECT genero, COUNT(*) AS cantidad FROM encuesta_trabajadores GROUP BY genero';
+    
+    conexion.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error al obtener datos:', err);
+            return res.status(500).send('Error al obtener datos');
+        }
+        res.json(results);
+    });
+};
+
+exports.obtenerDatosParaGraficas1 = (req, res) => {
+    const sql = 'SELECT edad, COUNT(*) AS cantidad FROM encuesta_trabajadores GROUP BY edad';
+    
+    conexion.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error al obtener datos:', err);
+            return res.status(500).send('Error al obtener datos');
+        }
+        res.json(results);
+    });
+};
+
+// Obtener datos de frecuencia y porcentaje para gráficos
+exports.obtenerDatosGraficos = (req, res) => {
+    const sql = `
+        SELECT 
+            genero, 
+            COUNT(*) AS cantidadGenero,
+            edad, 
+            COUNT(*) AS cantidadEdad,
+            estado_civil,
+            COUNT(*) AS cantidadEstadoCivil,
+            escolaridad,
+            COUNT(*) AS cantidadEscolaridad,
+            tipo_puesto,
+            COUNT(*) AS cantidadPuesto,
+            categoria_puesto,
+            COUNT(*) AS cantidadCategoria,
+            antiguedad,
+            COUNT(*) AS cantidadAntiguedad
+        FROM 
+            encuesta_trabajadores
+        GROUP BY 
+            genero, edad, estado_civil, escolaridad, tipo_puesto, categoria_puesto, antiguedad
+    `;
+
+    conexion.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error al obtener datos:', err);
+            return res.status(500).send('Error al obtener datos');
+        }
+
+        // Devolver los datos en formato JSON
+        res.json(results);
+    });
+};
+

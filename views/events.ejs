@@ -1,7 +1,39 @@
 <%- include("template/header") %>
     <%- include("template/navbar") %>
         <%- include("template/aside") %>
-
+        <style>
+          .card {
+              margin: 20px;
+          }
+          .radio-group {
+              display: flex;
+              justify-content: space-between;
+          }
+          .radio-group label {
+              flex: 1;
+              text-align: center;
+          }
+          .emoji-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .emoji-group label {
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+        }
+        .emoji-group input[type="radio"] {
+            display: none;
+        }
+        .emoji-group label i {
+            font-size: 2rem;
+            color: gray;
+        }
+        .emoji-group input[type="radio"]:checked + label i {
+            color: #007bff;
+        }
+      </style>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 
@@ -23,79 +55,176 @@
                                                 Creación del softweare para la Guia de referencia II y III 
                                                 <br>Agregar a la evaluación de eventos traumáticos  severos 
                                             </p> <br>
-                                            <section class="content-header">
-                                                <div class="container-fluid">
-                                                  <div class="row mb-2">
-                                                    <div class="col-md-12">            
-                                                      <div class="container">
-                                                        <a href="/createEstadio" class="btn btn-primary mt-4 mb-2"> <i class="fa-regular fa-square-plus"></i></a>
-                                                        <table id="example1" class="table table-bordered table-striped text-center mt-4">
-                                                          <thead>
-                                                            <tr class="bg-primary text-white">
-                                                              <th scope="col">Genero</th>
-                                                              <th scope="col">Frecuencia</th>
-                                                              <th scope="col">Porcentaje</th>
-                                                              <th scope="col">Editar/Eliminar</th>
-                                                              
-                                                            </tr>
-                                                          </thead>
-                                                          <tbody>
-                                                            
-                                                  
-                                                              <tr>
-                                                                <th>Masculino</th>
-                                                                <th>73</th>
-                                                                <th>73%</th>
-                                                                
-                                                                <td>
-                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
-                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
-
-                                                                </td>
-                                                              </tr>       
-                                                              <tr>
-                                                                <th>Femenino</th>
-                                                                <th>22</th>
-                                                                <th>22%</th>
-                                                                
-                                                                <td>
-                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
-                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
-
-                                                                </td>
-                                                              </tr>                         
-                                                              <tr>
-                                                                <th>Sin especificar</th>
-                                                                <th>2</th>
-                                                                <th>5%</th>
-                                                                
-                                                                <td>
-                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
-                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
-
-                                                                </td>
-                                                              </tr>  
-                                                              <tr>
-                                                                <th>Total</th>
-                                                                <th>100</th>
-                                                                <th>100%</th>
-                                                                
-                                                                <td>
-                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
-                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
-
-                                                                </td>
-                                                              </tr>  
-                                                          </tbody>
-                                                        </table>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div><!-- /.container-fluid -->
-                                              </section>
+                                            
+                                              
+                                              <section class="content-header">
+                                                <div class="wrapper">
+                                                  <!-- Contenedor de la encuesta -->
+                                                  <div class="container mt-5">
+                                                      <div class="card">
+                                                          <div class="card-header">
+                                                              <h3 class="card-title">Encuesta de Eventos traumaticos</h3>
+                                                              <div class="card-tools">
+                                                                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                                      <i class="fas fa-minus"></i>
+                                                                  </button>
+                                                              </div>
+                                                          </div>
+                                                          <div class="card-body">
+                                                            <div class="card-body">
+                                                              <form id="encuestaForm">
+                                                                  <!-- Pregunta 1 -->
+                                                                  <div class="form-group">
+                                                                      <label for="pregunta1">1. ¿Cómo calificarías nuestro servicio?</label>
+                                                                      <div class="emoji-group">
+                                                                          <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                                                          <label for="p1-0">
+                                                                              <i class="far fa-angry"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                                                          <label for="p1-1">
+                                                                              <i class="far fa-frown"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                                                          <label for="p1-2">
+                                                                              <i class="far fa-meh"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                                                          <label for="p1-3">
+                                                                              <i class="far fa-smile"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                                                          <label for="p1-4">
+                                                                              <i class="far fa-laugh-beam"></i>
+                                                                          </label>
+                                                                      </div>
+                                                                  </div>
                                           
-                                                    <img src="/img/imagen4.png">
-                                                    <br>
+                                                                  <!-- Pregunta 2 -->
+                                                                  <div class="form-group">
+                                                                      <label for="pregunta2">2. ¿Qué tan satisfecho estás con la atención al cliente?</label>
+                                                                      <div class="emoji-group">
+                                                                          <input type="radio" name="pregunta2" id="p2-0" value="0">
+                                                                          <label for="p2-0">
+                                                                              <i class="far fa-angry"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta2" id="p2-1" value="1">
+                                                                          <label for="p2-1">
+                                                                              <i class="far fa-frown"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta2" id="p2-2" value="2">
+                                                                          <label for="p2-2">
+                                                                              <i class="far fa-meh"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta2" id="p2-3" value="3">
+                                                                          <label for="p2-3">
+                                                                              <i class="far fa-smile"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta2" id="p2-4" value="4">
+                                                                          <label for="p2-4">
+                                                                              <i class="far fa-laugh-beam"></i>
+                                                                          </label>
+                                                                      </div>
+                                                                  </div>
+                                          
+                                                                  <!-- Pregunta 3 -->
+                                                                  <div class="form-group">
+                                                                      <label for="pregunta3">3. ¿Recomendarías nuestros productos?</label>
+                                                                      <div class="emoji-group">
+                                                                          <input type="radio" name="pregunta3" id="p3-0" value="0">
+                                                                          <label for="p3-0">
+                                                                              <i class="far fa-angry"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta3" id="p3-1" value="1">
+                                                                          <label for="p3-1">
+                                                                              <i class="far fa-frown"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta3" id="p3-2" value="2">
+                                                                          <label for="p3-2">
+                                                                              <i class="far fa-meh"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta3" id="p3-3" value="3">
+                                                                          <label for="p3-3">
+                                                                              <i class="far fa-smile"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta3" id="p3-4" value="4">
+                                                                          <label for="p3-4">
+                                                                              <i class="far fa-laugh-beam"></i>
+                                                                          </label>
+                                                                      </div>
+                                                                  </div>
+                                                                  <!-- Pregunta  4-->
+                                                                  <div class="form-group">
+                                                                    <label for="pregunta3">3. ¿Recomendarías nuestros productos?</label>
+                                                                    <div class="emoji-group">
+                                                                        <input type="radio" name="pregunta3" id="p3-0" value="0">
+                                                                        <label for="p3-0">
+                                                                            <i class="far fa-angry"></i>
+                                                                        </label>
+                                                                        <input type="radio" name="pregunta3" id="p3-1" value="1">
+                                                                        <label for="p3-1">
+                                                                            <i class="far fa-frown"></i>
+                                                                        </label>
+                                                                        <input type="radio" name="pregunta3" id="p3-2" value="2">
+                                                                        <label for="p3-2">
+                                                                            <i class="far fa-meh"></i>
+                                                                        </label>
+                                                                        <input type="radio" name="pregunta3" id="p3-3" value="3">
+                                                                        <label for="p3-3">
+                                                                            <i class="far fa-smile"></i>
+                                                                        </label>
+                                                                        <input type="radio" name="pregunta3" id="p3-4" value="4">
+                                                                        <label for="p3-4">
+                                                                            <i class="far fa-laugh-beam"></i>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Pregunta  5-->
+                                                                <div class="form-group">
+                                                                  <label for="pregunta3">3. ¿Recomendarías nuestros productos?</label>
+                                                                  <div class="emoji-group">
+                                                                      <input type="radio" name="pregunta3" id="p3-0" value="0">
+                                                                      <label for="p3-0">
+                                                                          <i class="far fa-angry"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta3" id="p3-1" value="1">
+                                                                      <label for="p3-1">
+                                                                          <i class="far fa-frown"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta3" id="p3-2" value="2">
+                                                                      <label for="p3-2">
+                                                                          <i class="far fa-meh"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta3" id="p3-3" value="3">
+                                                                      <label for="p3-3">
+                                                                          <i class="far fa-smile"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta3" id="p3-4" value="4">
+                                                                      <label for="p3-4">
+                                                                          <i class="far fa-laugh-beam"></i>
+                                                                      </label>
+                                                                  </div>
+                                                              </div>
+                                          
+                                                                  <!-- Botón de envío -->
+                                                                  <button type="submit" class="btn btn-primary">Enviar Encuesta</button>
+                                                              </form>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                                              
+      </div>
+                                                     
+                                          </div>
+                                          
+                                      </div>
+  
+                                  </div>
+                              </div>
+                          </div><!-- /.container-fluid -->
+                      </section>
+                                                    
                                         </div>
                                         
                                     </div>
