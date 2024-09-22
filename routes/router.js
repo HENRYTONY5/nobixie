@@ -29,6 +29,21 @@ router.get('/users', authController.isAuthenticated, (req, res) => {
         }
     })
 })
+router.get('/tabledata', authController.isAuthenticated, (req, res) => {
+    // res.send('hola mundo')    
+    conexion.query('SELECT * FROM encuesta_trabajadores', (error, results) => {
+        if(error){
+            throw error;
+        } else {
+            // res.send(results);
+            if (row.rol=="Admin") { 
+                res.render('tabledata', { results: results, titleWeb: "Lista de Colaboradores" })
+            } else {
+                res.render('index', { userName: row.name, image: row.image, titleWeb: "Control Dashboard"})
+            }
+        }
+    })
+})
 
 //path to create a record
 router.get('/createUser', authController.isAuthenticated, (req, res) => {
@@ -47,9 +62,9 @@ router.get('/createData', authController.isAuthenticated, (req, res) => {
     }
 })
 //insertar Info del usuario
-router.get('/createData', authController.isAuthenticated, (req, res) => {
+router.get('/createUser', authController.isAuthenticated, (req, res) => {
     if (row.rol=="Admin") {        
-        res.render('createData', { titleWeb: "Crear Datos de Usuario"})
+        res.render('creatUser', { titleWeb: "Crear Datos de Usuario"})
     } else {
         res.render('index', { userName: row.name, image: row.image, titleWeb: "Control de Datos"})
     }
@@ -122,11 +137,12 @@ router.get('/res_events', (req, res) => {
 router.get('/data', (req, res) => {
     res.render('resdata', { alert:false })
 })
+
 router.get('/guia2', (req, res) => {
-    res.render('res_guia2', { alert:false })
+    res.render('guia2', { alert:false })
 })
 router.get('/guia3', (req, res) => {
-    res.render('res_guia3', { alert:false })
+    res.render('guia3', { alert:false })
 })
 router.get('/datos-graficas', authController.obtenerDatosParaGraficas);
 
@@ -153,5 +169,18 @@ router.post('/upload/:id', (req, res) => {
         }
     })
 })
-
+router.post('/submit1', (req, res) => {
+    const { pregunta1, pregunta2, pregunta3, pregunta4 } = req.body;
+    
+    const query = 'INSERT INTO respuestas (pregunta1, pregunta2, pregunta3, pregunta4) VALUES (?, ?, ?, ?)';
+    conexion.query(query, [pregunta1, pregunta2, pregunta3, pregunta4], (err, result) => {
+        if (err) {
+            console.log('Error insertando datos:', err);
+            res.status(500).send('Error al registrar las respuestas.');
+        } else {
+            res.send('Respuestas registradas exitosamente.');
+        }
+    });
+    res.redirect('/events')
+});
 module.exports = router;

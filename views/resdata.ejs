@@ -50,10 +50,21 @@
                                                 <br>Agregar la información personal del colaborador.
                                             </p> <br>
                                             <section class="content-header">
+                                                
                                               <div class="container">
                                                 <div class="form-container">
                                                     <h2 class="form-title">Encuesta de Datos de Trabajadores</h2>
                                                     <form action="/submit" method="POST">
+                                                        <!-- Id_Empleado -->
+                                                <div class="form-group">
+                                                    <label for="edad">Id Empleado</label>
+                                                    <input type="number" class="form-control" id="id_empleado" name="id_empleado" placeholder="Número de empleado" required>
+                                                </div>
+                                                <!-- razon_social -->
+                                                <div class="form-group">
+                                                    <label for="edad">Razón Social</label>
+                                                    <input type="text" class="form-control" id="razon_social" name="razon_social" placeholder="Razón social" required>
+                                                </div>
                                                         <!-- Género -->
                                                         <div class="form-group">
                                                             <label for="genero">Género:</label>

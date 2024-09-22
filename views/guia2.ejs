@@ -1,7 +1,39 @@
 <%- include("template/header") %>
     <%- include("template/navbar") %>
         <%- include("template/aside") %>
-
+        <style>
+            .card {
+                margin: 20px;
+            }
+            .radio-group {
+                display: flex;
+                justify-content: space-between;
+            }
+            .radio-group label {
+                flex: 1;
+                text-align: center;
+            }
+            .emoji-group {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+          }
+          .emoji-group label {
+              flex: 1;
+              text-align: center;
+              cursor: pointer;
+          }
+          .emoji-group input[type="radio"] {
+              display: none;
+          }
+          .emoji-group label i {
+              font-size: 2rem;
+              color: gray;
+          }
+          .emoji-group input[type="radio"]:checked + label i {
+              color: #007bff;
+          }
+        </style>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 
@@ -15,281 +47,362 @@
                                     <div class="card">
                                         <div class="card-header">
                                             Guia de referencia 2 
-                                           
-
                                         </div>
-                                        <div class="card-body">
-                                            <p class="card-text">
-                                              <div class="container2">
-                                                <h1>Para responder las preguntas siguientes considere las condiciones de su centro de trabajo, así como la cantidad y ritmo de trabajo. </h1>
-                                                <table>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Pregunta</th>
-                                                            <th>Siempre  &nbsp; &nbsp;</th>
-                                                            <th>Casi siempre &nbsp; &nbsp;</th>
-                                                            <th>Algunas veces &nbsp; &nbsp;</th>
-                                                            <th>Casi nunca  &nbsp; &nbsp;</th>
-                                                            <th>Nunca</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td data-label="Pregunta">1. Mi trabajo me exige hacer mucho esfuerzo físico</td>
-                                                            <td><input type="radio" name="q1" value="siempre"></td>
-                                                            <td><input type="radio" name="q1" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q1" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q1" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q1" value="nunca"></td>
-                                                        </tr>
-                                                        <tr class="highlight">
-                                                            <td data-label="Pregunta">2. Me preocupa sufrir un accidente en mi trabajo</td>
-                                                            <td><input type="radio" name="q2" value="siempre"></td>
-                                                            <td><input type="radio" name="q2" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q2" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q2" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q2" value="nunca" checked></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td data-label="Pregunta">3. Considero que las actividades que realizo son peligrosas</td>
-                                                            <td><input type="radio" name="q3" value="siempre"></td>
-                                                            <td><input type="radio" name="q3" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q3" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q3" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q3" value="nunca"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td data-label="Pregunta">4. Por la cantidad de trabajo que tengo debo quedarme tiempo adicional a mi turno</td>
-                                                            <td><input type="radio" name="q4" value="siempre"></td>
-                                                            <td><input type="radio" name="q4" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q4" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q4" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q4" value="nunca"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td data-label="Pregunta">5. Por la cantidad de trabajo que tengo debo trabajar sin parar</td>
-                                                            <td><input type="radio" name="q5" value="siempre"></td>
-                                                            <td><input type="radio" name="q5" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q5" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q5" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q5" value="nunca"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td data-label="Pregunta">6. Considero que es necesario mantener mi ritmo de trabajo acelerado</td>
-                                                            <td><input type="radio" name="q6" value="siempre"></td>
-                                                            <td><input type="radio" name="q6" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q6" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q6" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q6" value="nunca"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td data-label="Pregunta">7. Mi trabajo exige que esté muy concentrado</td>
-                                                            <td><input type="radio" name="q7" value="siempre"></td>
-                                                            <td><input type="radio" name="q7" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q7" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q7" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q7" value="nunca"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td data-label="Pregunta">8. Mi trabajo exige que memorice mucha información</td>
-                                                            <td><input type="radio" name="q8" value="siempre"></td>
-                                                            <td><input type="radio" name="q8" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q8" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q8" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q8" value="nunca"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td data-label="Pregunta">9. Mi trabajo exige que atienda varios asuntos al mismo tiempo</td>
-                                                            <td><input type="radio" name="q9" value="siempre"> &nbsp; &nbsp;</td>
-                                                            <td><input type="radio" name="q9" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q9" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q9" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q9" value="nunca"></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div> <br>
-                                            <div class="container2">
-                                                <h1>Las preguntas siguientes están relacionadas con las actividades que realiza en su trabajo y las responsabilidades que se tiene. </h1>
-                                                
-                                                <div class="section-header">Actividades y Responsabilidades</div>
-                                                <table>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Pregunta &nbsp; &nbsp;</th>
-                                                            <th>Siempre  &nbsp; &nbsp;</th>
-                                                            <th>Casi siempre &nbsp; &nbsp;</th>
-                                                            <th>Algunas veces &nbsp; &nbsp;</th>
-                                                            <th>Casi nunca &nbsp; &nbsp;</th>
-                                                            <th>Nunca</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td data-label="Pregunta">10. En mi trabajo soy responsable de cosas de mucho valor</td>
-                                                            <td><input type="radio" name="q10" value="siempre"></td>
-                                                            <td><input type="radio" name="q10" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q10" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q10" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q10" value="nunca"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td data-label="Pregunta">11. Respondo ante mi jefe por los resultados de toda mi área de trabajo    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;   </td>
-                                                            <td><input type="radio" name="q11" value="siempre"></td>
-                                                            <td><input type="radio" name="q11" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q11" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q11" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q11" value="nunca"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td data-label="Pregunta">12. En mi trabajo me dan órdenes contradictorias</td>
-                                                            <td><input type="radio" name="q12" value="siempre"></td>
-                                                            <td><input type="radio" name="q12" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q12" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q12" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q12" value="nunca"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td data-label="Pregunta">13. Considero que en mi trabajo me piden hacer cosas innecesarias</td>
-                                                            <td><input type="radio" name="q13" value="siempre"></td>
-                                                            <td><input type="radio" name="q13" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q13" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q13" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q13" value="nunca"></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table> 
-                                                <br>
-                                                <table>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Pregunta</th>
-                                                            <th>Siempre &nbsp; &nbsp;</th>
-                                                            <th>Casi siempre &nbsp; &nbsp;  </th>
-                                                            <th>Algunas veces &nbsp; &nbsp;</th>
-                                                            <th>Casi nunca &nbsp; &nbsp;</th>
-                                                            <th>Nunca</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <div class="container2">
-                                                                <h1>Las preguntas siguientes están relacionadas con el tiempo destinado a su trabajo y sus responsabilidades familiares. </h1>
-                                                                <div class="section-header">Tiempo y Responsabilidades Familiares</div>
-                                                            <td data-label="Pregunta">14. Trabajo horas extras más de tres veces a la semana &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
-                                                            <td><input type="radio" name="q14" value="siempre"></td>
-                                                            <td><input type="radio" name="q14" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q14" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q14" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q14" value="nunca"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td data-label="Pregunta">15. Mi trabajo me exige laborar días de descanso, festivos o fines de semana</td>
-                                                            <td><input type="radio" name="q15" value="siempre"></td>
-                                                            <td><input type="radio" name="q15" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q15" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q15" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q15" value="nunca"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td data-label="Pregunta">16. Considero que el tiempo en el trabajo es mucho y perjudica mis<br> actividades familiares o personales</td>
-                                                            <td><input type="radio" name="q16" value="siempre"></td>
-                                                            <td><input type="radio" name="q16" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q16" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q16" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q16" value="nunca"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td data-label="Pregunta">17. Pienso en las actividades familiares o personales cuando estoy en mi trabajo</td>
-                                                            <td><input type="radio" name="q17" value="siempre"></td>
-                                                            <td><input type="radio" name="q17" value="casi_siempre"></td>
-                                                            <td><input type="radio" name="q17" value="algunas_veces"></td>
-                                                            <td><input type="radio" name="q17" value="casi_nunca"></td>
-                                                            <td><input type="radio" name="q17" value="nunca"></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table> 
+                                        <h5>Identificación y Análisis de los Factores de Riesgo Psicosocial</h5>
+                                    </div>
+                                </div>
+                            </div><!-- /.container-fluid -->
+                        </div>
+            
+                        <!-- Main content -->
+                        <div class="content">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <!-- Box for Instructions -->
+                                        <div class="card card-primary instructions" id="instructions">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Instrucciones</h3>
                                             </div>
-    
-                                            
+                                            <!-- /.card-header -->
+                                            <div class="card-body">
+                                                <p><strong>*</strong> El contenido de esta guía es un complemento para la mejor comprensión de la presente Norma...</p>
+                                                <h5>A) Antes de iniciar la aplicación del cuestionario deberá:</h5>
+                                                <ul>
+                                                    <li>Verificar que las condiciones de las instalaciones y mobiliario sean idóneas.</li>
+                                                    <li>Realizar la presentación del aplicador ante las personas a evaluar.</li>
+                                                    <li>Explicar el objetivo de la evaluación.</li>
+                                                    <li>Enfatizar en la protección de la privacidad y confidencialidad...</li>
+                                                    <li>Dar instrucciones claras sobre: la forma de responder...</li>
+                                                    <li><strong>Iniciar la aplicación en el orden siguiente:</strong> primero el cuestionario sobre factores de riesgo psicosocial...</li>
+                                                </ul>
+            
+                                                <h5>B) Durante la aplicación del cuestionario deberá:</h5>
+                                                <ul>
+                                                    <li>Propiciar un ambiente de confianza.</li>
+                                                    <li>Aclarar dudas y brindar apoyo a los trabajadores que lo requieran.</li>
+                                                    <li>Verificar que las indicaciones proporcionadas hayan quedado claras.</li>
+                                                    <li>Evitar interrumpir a los trabajadores cuando realicen sus respuestas.</li>
+                                                    <li>Evitar conducir, persuadir o dirigir respuestas.</li>
+                                                </ul>
+            
+                                                <h5>C) Después de la aplicación del cuestionario se deberá:</h5>
+                                                <ul>
+                                                    <li>Recoger cada cuestionario y verificar que hayan sido respondidos completamente...</li>
+                                                    <li>Comprobar que la cantidad de cuestionarios entregados corresponda con la cantidad de cuestionarios respondidos...</li>
+                                                </ul>
+                                            </div>
+                                            <!-- /.card-body -->
+                                            <div class="card-footer">
+                                                <button id="btn-read" class="btn btn-success">He leído las instrucciones</button>
+                                            </div>
                                         </div>
-                                        
-                                            </p> <br>
-                                            <section class="content-header">
-                                                <div class="container-fluid">
-                                                  <div class="row mb-2">
-                                                    <div class="col-md-12">            
-                                                      <div class="container">
-                                                        <a href="/createEstadio" class="btn btn-primary mt-4 mb-2"> <i class="fa-solid fa-gears"></i></a>
-                                                        <table id="example1" class="table table-bordered table-striped text-center mt-4">
-
-                                                          <thead> 
-                                                            <tr class="bg-primary text-white">
-                                                              <th scope="col">no es Genero</th>
-                                                              <th scope="col">no esFrecuencia</th>
-                                                              <th scope="col">Porcentaje</th>
-                                                              <th scope="col">Editar/Eliminar</th>
-                                                              
-                                                            </tr>
-                                                          </thead>
-                                                          <tbody>
-                                                            
-                                                  
-                                                              <tr>
-                                                                <th>Masculino</th>
-                                                                <th>73</th>
-                                                                <th>73%</th>
-                                                                
-                                                                <td>
-                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
-                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
-
-                                                                </td>
-                                                              </tr>       
-                                                              <tr>
-                                                                <th>Femenino</th>
-                                                                <th>22</th>
-                                                                <th>22%</th>
-                                                                
-                                                                <td>
-                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
-                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
-
-                                                                </td>
-                                                              </tr>                         
-                                                              <tr>
-                                                                <th>Sin especificar</th>
-                                                                <th>2</th>
-                                                                <th>5%</th>
-                                                                
-                                                                <td>
-                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
-                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
-
-                                                                </td>
-                                                              </tr>  
-                                                              <tr>
-                                                                <th>Total</th>
-                                                                <th>100</th>
-                                                                <th>100%</th>
-                                                                
-                                                                <td>
-                                                                  <a href="/" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
-                                                                  <a onclick="confirmation();" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
-
-                                                                </td>
-                                                              </tr>  
-                                                          </tbody>
-                                                        </table>
-                                                      </div>
+            
+                                        <!-- Hidden section placeholder -->
+                                        <div class="card card-success hide-section" id="hidden-section">
+                                            <div class="card-body">
+                                                <p>Las instrucciones han sido leídas. Puede proceder con la aplicación del cuestionario.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.container-fluid -->
+                                        <section>
+                                            <div class="container mt-4">
+                                                <!-- Título estático -->
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Para responder las preguntas siguientes considere las condiciones de su centro de trabajo, así como <br>la cantidad y ritmo de trabajo.  </h3>
+                                                        <div class="card-tools">
+                                                            <!-- Botón para colapsar o expandir -->
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Colapsar">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                  </div>
-                                                </div><!-- /.container-fluid -->
-                                              </section>
+                                                    <!-- Contenido del cuestionario (colapsable) -->
+                                                    <div class="card-body">
+                                                        <div class="card-body">
+                                                            <div class="card-body">
+                                                              
+                                                          </div>
+                                                      </div>
+                                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        
+                                        <section>
+                                            <div class="container mt-4">
+                                                <!-- Título estático -->
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Para responder las preguntas siguientes considere las condiciones de su centro de trabajo, así como <br>la cantidad y ritmo de trabajo.  </h3>
+                                                        <div class="card-tools">
+                                                            <!-- Botón para colapsar o expandir -->
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Colapsar">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Contenido del cuestionario (colapsable) -->
+                                                    <div class="card-body">
+                                                        <div class="card-body">
+                                                            <div class="card-body">
+                                                              <form id="encuestaForm">
+                                                                  <!-- Pregunta 1 -->
+                                                                  <div class="form-group">
+                                                                      <label for="pregunta1">1.- Mi trabajo me exige hacer mucho esfuerzo físico </label>
+                                                                      <div class="emoji-group">
+                                                                          <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                                                          <label for="p1-0">
+                                                                              <i class="far fa-angry"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                                                          <label for="p1-1">
+                                                                              <i class="far fa-frown"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                                                          <label for="p1-2">
+                                                                              <i class="far fa-meh"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                                                          <label for="p1-3">
+                                                                              <i class="far fa-smile"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                                                          <label for="p1-4">
+                                                                              <i class="far fa-laugh-beam"></i>
+                                                                          </label>
+                                                                          
+                                                                      </div>
+                                                                  </div>
                                           
-                                                    
-                                                    <br>
-                                        </div>
+                                                                  <!-- Pregunta 2 -->
+                                                                  <div class="form-group">
+                                                                      <label for="pregunta2">2.- Me preocupa sufrir un accidente en mi trabajo </label>
+                                                                      <div class="emoji-group">
+                                                                          <input type="radio" name="pregunta2" id="p2-0" value="0">
+                                                                          <label for="p2-0">
+                                                                              <i class="far fa-angry"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta2" id="p2-1" value="1">
+                                                                          <label for="p2-1">
+                                                                              <i class="far fa-frown"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta2" id="p2-2" value="2">
+                                                                          <label for="p2-2">
+                                                                              <i class="far fa-meh"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta2" id="p2-3" value="3">
+                                                                          <label for="p2-3">
+                                                                              <i class="far fa-smile"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta2" id="p2-4" value="4">
+                                                                          <label for="p2-4">
+                                                                              <i class="far fa-laugh-beam"></i>
+                                                                          </label>
+                                                                      </div>
+                                                                  </div>
+                                          
+                                                                  <!-- Pregunta 3 -->
+                                                                  <div class="form-group">
+                                                                      <label for="pregunta3">3.- Por la cantidad de trabajo que tengo debo quedarme tiempo adicional a mi turno. </label>
+                                                                      <div class="emoji-group">
+                                                                          <input type="radio" name="pregunta3" id="p3-0" value="0">
+                                                                          <label for="p3-0">
+                                                                              <i class="far fa-angry"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta3" id="p3-1" value="1">
+                                                                          <label for="p3-1">
+                                                                              <i class="far fa-frown"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta3" id="p3-2" value="2">
+                                                                          <label for="p3-2">
+                                                                              <i class="far fa-meh"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta3" id="p3-3" value="3">
+                                                                          <label for="p3-3">
+                                                                              <i class="far fa-smile"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta3" id="p3-4" value="4">
+                                                                          <label for="p3-4">
+                                                                              <i class="far fa-laugh-beam"></i>
+                                                                          </label>
+                                                                      </div>
+                                                                  </div>
+                                                                  <!-- Pregunta  4-->
+                                                                  <div class="form-group">
+                                                                    <label for="pregunta3">4.- Por la cantidad de trabajo que tengo debo quedarme tiempo adicional a mi turno. </label>
+                                                                    <div class="emoji-group">
+                                                                        <input type="radio" name="pregunta3" id="p3-0" value="0">
+                                                                        <label for="p3-0">
+                                                                            <i class="far fa-angry"></i>
+                                                                        </label>
+                                                                        <input type="radio" name="pregunta3" id="p3-1" value="1">
+                                                                        <label for="p3-1">
+                                                                            <i class="far fa-frown"></i>
+                                                                        </label>
+                                                                        <input type="radio" name="pregunta3" id="p3-2" value="2">
+                                                                        <label for="p3-2">
+                                                                            <i class="far fa-meh"></i>
+                                                                        </label>
+                                                                        <input type="radio" name="pregunta3" id="p3-3" value="3">
+                                                                        <label for="p3-3">
+                                                                            <i class="far fa-smile"></i>
+                                                                        </label>
+                                                                        <input type="radio" name="pregunta3" id="p3-4" value="4">
+                                                                        <label for="p3-4">
+                                                                            <i class="far fa-laugh-beam"></i>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Pregunta  5-->
+                                                                <div class="form-group">
+                                                                  <label for="pregunta3">5.- Por la cantidad de trabajo que tengo debo trabajar sin parar </label>
+                                                                  <div class="emoji-group">
+                                                                      <input type="radio" name="pregunta3" id="p3-0" value="0">
+                                                                      <label for="p3-0">
+                                                                          <i class="far fa-angry"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta3" id="p3-1" value="1">
+                                                                      <label for="p3-1">
+                                                                          <i class="far fa-frown"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta3" id="p3-2" value="2">
+                                                                      <label for="p3-2">
+                                                                          <i class="far fa-meh"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta3" id="p3-3" value="3">
+                                                                      <label for="p3-3">
+                                                                          <i class="far fa-smile"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta3" id="p3-4" value="4">
+                                                                      <label for="p3-4">
+                                                                          <i class="far fa-laugh-beam"></i>
+                                                                      </label>
+                                                                  </div>
+                                                              </div>
+                                                            <!-- Pregunta 6 -->
+                                                            <div class="form-group">
+                                                                <label for="pregunta1">6.- Considero que es necesario mantener mi ritmo de trabajo acelerado.  </label>
+                                                                <div class="emoji-group">
+                                                                    <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                                                    <label for="p1-0">
+                                                                        <i class="far fa-angry"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                                                    <label for="p1-1">
+                                                                        <i class="far fa-frown"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                                                    <label for="p1-2">
+                                                                        <i class="far fa-meh"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                                                    <label for="p1-3">
+                                                                        <i class="far fa-smile"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                                                    <label for="p1-4">
+                                                                        <i class="far fa-laugh-beam"></i>
+                                                                    </label>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                    
+                                                            <!-- Pregunta 7 -->
+                                                            <div class="form-group">
+                                                                <label for="pregunta2">7.- Mi trabajo exige que esté muy concentrado  </label>
+                                                                <div class="emoji-group">
+                                                                    <input type="radio" name="pregunta2" id="p2-0" value="0">
+                                                                    <label for="p2-0">
+                                                                        <i class="far fa-angry"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta2" id="p2-1" value="1">
+                                                                    <label for="p2-1">
+                                                                        <i class="far fa-frown"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta2" id="p2-2" value="2">
+                                                                    <label for="p2-2">
+                                                                        <i class="far fa-meh"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta2" id="p2-3" value="3">
+                                                                    <label for="p2-3">
+                                                                        <i class="far fa-smile"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta2" id="p2-4" value="4">
+                                                                    <label for="p2-4">
+                                                                        <i class="far fa-laugh-beam"></i>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                    
+                                                            <!-- Pregunta 8 -->
+                                                            <div class="form-group">
+                                                                <label for="pregunta3">8.- Mi trabajo exige que memorice mucha información </label>
+                                                                <div class="emoji-group">
+                                                                    <input type="radio" name="pregunta3" id="p3-0" value="0">
+                                                                    <label for="p3-0">
+                                                                        <i class="far fa-angry"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p3-1" value="1">
+                                                                    <label for="p3-1">
+                                                                        <i class="far fa-frown"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p3-2" value="2">
+                                                                    <label for="p3-2">
+                                                                        <i class="far fa-meh"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p3-3" value="3">
+                                                                    <label for="p3-3">
+                                                                        <i class="far fa-smile"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p3-4" value="4">
+                                                                    <label for="p3-4">
+                                                                        <i class="far fa-laugh-beam"></i>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                             <!-- Pregunta 9 -->
+                                                             <div class="form-group">
+                                                                <label for="pregunta3">9.- Mi trabajo exige que atienda varios asuntos al mismo tiempo</label>
+                                                                <div class="emoji-group">
+                                                                    <input type="radio" name="pregunta3" id="p3-0" value="0">
+                                                                    <label for="p3-0">
+                                                                        <i class="far fa-angry"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p3-1" value="1">
+                                                                    <label for="p3-1">
+                                                                        <i class="far fa-frown"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p3-2" value="2">
+                                                                    <label for="p3-2">
+                                                                        <i class="far fa-meh"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p3-3" value="3">
+                                                                    <label for="p3-3">
+                                                                        <i class="far fa-smile"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p3-4" value="4">
+                                                                    <label for="p3-4">
+                                                                        <i class="far fa-laugh-beam"></i>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                          
+                                                                  <!-- Botón de envío -->
+                                                                  <button type="submit" class="btn btn-primary">Enviar Encuesta</button>
+                                                              </form>
+                                                          </div>
+                                                      </div>
+                                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        
                                         
                                     </div>
 
@@ -301,5 +414,11 @@
                     <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
-
+            <script>
+                document.getElementById("btn-read").addEventListener("click", function() {
+                    // Hide instructions and show hidden section
+                    document.getElementById("instructions").style.display = "none";
+                    document.getElementById("hidden-section").style.display = "block";
+                });
+            </script>
             <%- include("template/footer") %>

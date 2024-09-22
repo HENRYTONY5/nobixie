@@ -153,6 +153,9 @@ exports.registrarEncuesta = (req, res) => {
     const tipo_puesto = req.body.tipo_puesto;
     const categoria_puesto = req.body.categoria_puesto;
     const antiguedad = req.body.antiguedad;
+    const id_empleado = req.body.categoria_puesto;
+    const razon_social = req.body.antiguedad;
+    
 
     // Verifica que todos los campos obligatorios estén presentes
     if (!genero || !edad || !estado_civil || !escolaridad || !tipo_puesto || !categoria_puesto || !antiguedad) {
@@ -237,4 +240,6 @@ exports.obtenerDatosGraficos = (req, res) => {
         res.json(results);
     });
 };
+
+
 
