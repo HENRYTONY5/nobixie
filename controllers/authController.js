@@ -125,6 +125,32 @@ exports.login = async (req, res)=>{
         console.log(error)
     }
 }
+exports.validarEmpleado = (req, res) => {
+    const { idEmpleado } = req.body;
+
+    // Verifica que el campo idEmpleado esté presente
+    if (!idEmpleado) {
+        return res.status(400).json({ success: false, message: "ID de empleado es obligatorio." });
+    }
+
+    // Consulta para verificar si existe el id_empleado
+    const query = 'SELECT * FROM encuesta_trabajadores WHERE id_empleado = ?';
+    conexion.query(query, [idEmpleado], (error, results) => {
+        if (error) {
+            console.error("Error en la consulta:", error);
+            return res.status(500).json({ success: false, message: "Error en el servidor." });
+        }
+
+        if (results.length > 0) {
+            res.json({ success: true });  // ID encontrado
+        } else {
+            res.json({ success: false, message: "ID de empleado no encontrado." });  // ID no encontrado
+        }
+    });
+};
+
+
+
 exports.isAuthenticated = async (req, res, next)=>{
     if (req.cookies.jwt) {
         try {
@@ -146,6 +172,8 @@ exports.isAuthenticated = async (req, res, next)=>{
 
 //register encuesta
 exports.registrarEncuesta = (req, res) => {
+    const id_empleado = req.body.categoria_puesto;
+    const razon_social = req.body.antiguedad;
     const genero = req.body.genero;
     const edad = req.body.edad;
     const estado_civil = req.body.estado_civil;
@@ -153,16 +181,17 @@ exports.registrarEncuesta = (req, res) => {
     const tipo_puesto = req.body.tipo_puesto;
     const categoria_puesto = req.body.categoria_puesto;
     const antiguedad = req.body.antiguedad;
-    const id_empleado = req.body.categoria_puesto;
-    const razon_social = req.body.antiguedad;
+    
     
 
     // Verifica que todos los campos obligatorios estén presentes
-    if (!genero || !edad || !estado_civil || !escolaridad || !tipo_puesto || !categoria_puesto || !antiguedad) {
+    if (!id_empleado || !razon_social || !genero || !edad || !estado_civil || !escolaridad || !tipo_puesto || !categoria_puesto || !antiguedad) {
         return res.status(400).send('Todos los campos son obligatorios');
     }
 
     const encuestaData = {
+        id_empleado: id_empleado,
+        razon_social: razon_social,
         genero: genero,
         edad: edad,
         estado_civil: estado_civil,
@@ -170,6 +199,8 @@ exports.registrarEncuesta = (req, res) => {
         tipo_puesto: tipo_puesto,
         categoria_puesto: categoria_puesto,
         antiguedad: antiguedad
+        
+
     };
 
     // Inserta los datos en la base de datos
@@ -243,3 +274,21 @@ exports.obtenerDatosGraficos = (req, res) => {
 
 
 
+exports.guardarRespuestas = (req, res) => {
+    const { pregunta1 } = req.body;  // Obtener la respuesta desde el formulario
+     // Suponiendo que tienes un sistema de autenticación
+  
+    const sql = 'INSERT INTO res_g2 (pregunta_id, respuesta) VALUES (?, ?)';
+    const values = [1, pregunta1];  // Valores para la consulta SQL
+  
+    // Ejecutar la consulta
+    conexion.query(sql, values, (err, results) => {
+      if (err) {
+        console.error('Error al insertar la respuesta:', err);
+        return res.status(500).json({ message: 'Error al guardar la respuesta' });
+      }
+      
+      // Respuesta exitosa
+      res.json({ message: 'Respuesta guardada correctamente', results });
+    });
+  };

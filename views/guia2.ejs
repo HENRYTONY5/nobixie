@@ -33,10 +33,46 @@
           .emoji-group input[type="radio"]:checked + label i {
               color: #007bff;
           }
+          
+        .card {
+            margin: 20px;
+        }
+        .form-group label {
+            font-size: 1.2em;
+        }
+        .questions-section {
+            display: none;
+        }
+
         </style>
+           <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+           <script>
+              $(document).ready(function() {
+                  // Mostrar secciones dependiendo de la respuesta
+                  $('input[name="servicio"]').change(function() {
+                      if ($('#si').is(':checked')) {
+                          $('#sectionSi').show();
+                          $('#sectionNo').hide();
+                      } else if ($('#no').is(':checked')) {
+                          $('#sectionSi').hide();
+                          $('#sectionNo').show();
+                      }
+                  });
+      
+                  // Mostrar preguntas adicionales si se selecciona "Sí" en ser jefe
+                  $('input[name="jefe"]').change(function() {
+                      if ($('#jefeSi').is(':checked')) {
+                          $('#jefeQuestions').show();
+                      } else {
+                          $('#jefeQuestions').hide();
+                      }
+                  });
+              });
+          </script>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-                
+             
                 <%- include('template/breadcrumb', {module: 'Evaluación de Eventos traumaticos' }) %>
                     <!-- Content Header (Page header) -->
                     <section class="content-header">
@@ -107,38 +143,14 @@
                                     </div>
                                 </div>
                             </div><!-- /.container-fluid -->
-                                        <section>
-                                            <div class="container mt-4">
-                                                <!-- Título estático -->
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <h3 class="card-title">Para responder las preguntas siguientes considere las condiciones de su centro de trabajo, así como <br>la cantidad y ritmo de trabajo.  </h3>
-                                                        <div class="card-tools">
-                                                            <!-- Botón para colapsar o expandir -->
-                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Colapsar">
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Contenido del cuestionario (colapsable) -->
-                                                    <div class="card-body">
-                                                        <div class="card-body">
-                                                            <div class="card-body">
-                                                              
-                                                          </div>
-                                                      </div>
-                                                            
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </section>
+                                        
                                         
                                         <section>
-                                            <div class="container mt-4">
+                                            <div class="container mt-4" >
                                                 <!-- Título estático -->
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        <h3 class="card-title">Para responder las preguntas siguientes considere las condiciones de su centro de trabajo, así como <br>la cantidad y ritmo de trabajo.  </h3>
+                                                        <h3 class="card-title" >Para responder las preguntas siguientes considere las condiciones de su centro de trabajo, así como <br>la cantidad y ritmo de trabajo.  </h3>
                                                         <div class="card-tools">
                                                             <!-- Botón para colapsar o expandir -->
                                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Colapsar">
@@ -150,7 +162,7 @@
                                                     <div class="card-body">
                                                         <div class="card-body">
                                                             <div class="card-body">
-                                                              <form id="encuestaForm">
+                                                              <form id="encuestaForm1" action="/submit2" method="post">
                                                                   <!-- Pregunta 1 -->
                                                                   <div class="form-group">
                                                                       <label for="pregunta1">1.- Mi trabajo me exige hacer mucho esfuerzo físico </label>
@@ -236,6 +248,301 @@
                                                                   <div class="form-group">
                                                                     <label for="pregunta3">4.- Por la cantidad de trabajo que tengo debo quedarme tiempo adicional a mi turno. </label>
                                                                     <div class="emoji-group">
+                                                                        <input type="radio" name="pregunta4" id="p4-0" value="0">
+                                                                        <label for="p4-0">
+                                                                            <i class="far fa-angry"></i>
+                                                                        </label>
+                                                                        <input type="radio" name="pregunta4" id="p4-1" value="1">
+                                                                        <label for="p4-1">
+                                                                            <i class="far fa-frown"></i>
+                                                                        </label>
+                                                                        <input type="radio" name="pregunta4" id="p4-2" value="2">
+                                                                        <label for="p4-2">
+                                                                            <i class="far fa-meh"></i>
+                                                                        </label>
+                                                                        <input type="radio" name="pregunta4" id="p4-3" value="3">
+                                                                        <label for="p4-3">
+                                                                            <i class="far fa-smile"></i>
+                                                                        </label>
+                                                                        <input type="radio" name="pregunta4" id="p4-4" value="4">
+                                                                        <label for="p4-4">
+                                                                            <i class="far fa-laugh-beam"></i>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Pregunta  5-->
+                                                                <div class="form-group">
+                                                                  <label for="pregunta3">5.- Por la cantidad de trabajo que tengo debo trabajar sin parar </label>
+                                                                  <div class="emoji-group">
+                                                                      <input type="radio" name="pregunta3" id="p5-0" value="0">
+                                                                      <label for="p5-0">
+                                                                          <i class="far fa-angry"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta3" id="p3-1" value="1">
+                                                                      <label for="p5-1">
+                                                                          <i class="far fa-frown"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta3" id="p3-2" value="2">
+                                                                      <label for="p5-2">
+                                                                          <i class="far fa-meh"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta3" id="p3-3" value="3">
+                                                                      <label for="p5-3">
+                                                                          <i class="far fa-smile"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta3" id="p3-4" value="4">
+                                                                      <label for="p5-4">
+                                                                          <i class="far fa-laugh-beam"></i>
+                                                                      </label>
+                                                                  </div>
+                                                              </div>
+                                                            <!-- Pregunta 6 -->
+                                                            <div class="form-group">
+                                                                <label for="pregunta1">6.- Considero que es necesario mantener mi ritmo de trabajo acelerado.  </label>
+                                                                <div class="emoji-group">
+                                                                    <input type="radio" name="pregunta1" id="p6-0" value="0">
+                                                                    <label for="p6-0">
+                                                                        <i class="far fa-angry"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta1" id="p6-1" value="1">
+                                                                    <label for="p6-1">
+                                                                        <i class="far fa-frown"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta1" id="p6-2" value="2">
+                                                                    <label for="p6-2">
+                                                                        <i class="far fa-meh"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta1" id="p6-3" value="3">
+                                                                    <label for="p6-3">
+                                                                        <i class="far fa-smile"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta1" id="p6-4" value="4">
+                                                                    <label for="p6-4">
+                                                                        <i class="far fa-laugh-beam"></i>
+                                                                    </label>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                    
+                                                            <!-- Pregunta 7 -->
+                                                            <div class="form-group">
+                                                                <label for="pregunta2">7.- Mi trabajo exige que esté muy concentrado  </label>
+                                                                <div class="emoji-group">
+                                                                    <input type="radio" name="pregunta2" id="p7-0" value="0">
+                                                                    <label for="p7-0">
+                                                                        <i class="far fa-angry"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta2" id="p7-1" value="1">
+                                                                    <label for="p7-1">
+                                                                        <i class="far fa-frown"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta2" id="p7-2" value="2">
+                                                                    <label for="p7-2">
+                                                                        <i class="far fa-meh"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta2" id="p7-3" value="3">
+                                                                    <label for="p7-3">
+                                                                        <i class="far fa-smile"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta2" id="p7-4" value="4">
+                                                                    <label for="p7-4">
+                                                                        <i class="far fa-laugh-beam"></i>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                    
+                                                            <!-- Pregunta 8 -->
+                                                            <div class="form-group">
+                                                                <label for="pregunta3">8.- Mi trabajo exige que memorice mucha información </label>
+                                                                <div class="emoji-group">
+                                                                    <input type="radio" name="pregunta3" id="p8-0" value="0">
+                                                                    <label for="p8-0">
+                                                                        <i class="far fa-angry"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p8-1" value="1">
+                                                                    <label for="p3-1">
+                                                                        <i class="far fa-frown"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p8-2" value="2">
+                                                                    <label for="p8-2">
+                                                                        <i class="far fa-meh"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p8-3" value="3">
+                                                                    <label for="p8-3">
+                                                                        <i class="far fa-smile"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p8-4" value="4">
+                                                                    <label for="p8-4">
+                                                                        <i class="far fa-laugh-beam"></i>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                             <!-- Pregunta 9 -->
+                                                             <div class="form-group">
+                                                                <label for="pregunta3">9.- Mi trabajo exige que atienda varios asuntos al mismo tiempo</label>
+                                                                <div class="emoji-group">
+                                                                    <input type="radio" name="pregunta3" id="p9-0" value="0">
+                                                                    <label for="p9-0">
+                                                                        <i class="far fa-angry"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p9-1" value="1">
+                                                                    <label for="p9-1">
+                                                                        <i class="far fa-frown"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p9-2" value="2">
+                                                                    <label for="p9-2">
+                                                                        <i class="far fa-meh"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p9-3" value="3">
+                                                                    <label for="p9-3">
+                                                                        <i class="far fa-smile"></i>
+                                                                    </label>
+                                                                    <input type="radio" name="pregunta3" id="p9-4" value="4">
+                                                                    <label for="p9-4">
+                                                                        <i class="far fa-laugh-beam"></i>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                          
+                                                                  <!-- Botón de envío -->
+                                                                  <button type="submit" class="btn btn-primary" id="s1">Enviar Encuesta</button>
+                                                              </form>
+                                                          </div>
+                                                      </div>
+                                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        
+                                    <section>
+                                            <div class="container mt-4">
+                                                <!-- Título estático -->
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Secccion en blanco  </h3>
+                                                        <div class="card-tools">
+                                                            <!-- Botón para colapsar o expandir -->
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Colapsar">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Contenido del cuestionario (colapsable) -->
+                                                    <div class="card-body">
+                                                        <div class="card-body">
+                                                            <div class="card-body">
+                                                              
+                                                          </div>
+                                                      </div>
+                                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </section>
+                                    <section>
+                                            <div class="container mt-4">
+                                                <!-- Título estático -->
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Las preguntas siguientes están relacionadas  con las actividades que realiza en su trabajo <br> y las responsabilidades que se tiene.  </h3>
+                                                        <div class="card-tools">
+                                                            <!-- Botón para colapsar o expandir -->
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Colapsar">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Contenido del cuestionario (colapsable) -->
+                                                    <div class="card-body">
+                                                        <div class="card-body">
+                                                            <div class="card-body">
+                                                              <form id="encuestaForm">
+                                                                  <!-- Pregunta 1 -->
+                                                                  <div class="form-group">
+                                                                      <label for="pregunta1">10.- En mi trabajo soy responsable de cosas de mucho valor  </label>
+                                                                      <div class="emoji-group">
+                                                                          <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                                                          <label for="p1-0">
+                                                                              <i class="far fa-angry"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                                                          <label for="p1-1">
+                                                                              <i class="far fa-frown"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                                                          <label for="p1-2">
+                                                                              <i class="far fa-meh"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                                                          <label for="p1-3">
+                                                                              <i class="far fa-smile"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                                                          <label for="p1-4">
+                                                                              <i class="far fa-laugh-beam"></i>
+                                                                          </label>
+                                                                          
+                                                                      </div>
+                                                                  </div>
+                                          
+                                                                  <!-- Pregunta 2 -->
+                                                                  <div class="form-group">
+                                                                      <label for="pregunta2">11.- Respondo ante mi jefe por los resultados de toda mi área de trabajo </label>
+                                                                      <div class="emoji-group">
+                                                                          <input type="radio" name="pregunta2" id="p2-0" value="0">
+                                                                          <label for="p2-0">
+                                                                              <i class="far fa-angry"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta2" id="p2-1" value="1">
+                                                                          <label for="p2-1">
+                                                                              <i class="far fa-frown"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta2" id="p2-2" value="2">
+                                                                          <label for="p2-2">
+                                                                              <i class="far fa-meh"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta2" id="p2-3" value="3">
+                                                                          <label for="p2-3">
+                                                                              <i class="far fa-smile"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta2" id="p2-4" value="4">
+                                                                          <label for="p2-4">
+                                                                              <i class="far fa-laugh-beam"></i>
+                                                                          </label>
+                                                                      </div>
+                                                                  </div>
+                                          
+                                                                  <!-- Pregunta 3 -->
+                                                                  <div class="form-group">
+                                                                      <label for="pregunta3">12.- En mi trabajo me dan órdenes contradictorias  </label>
+                                                                      <div class="emoji-group">
+                                                                          <input type="radio" name="pregunta3" id="p3-0" value="0">
+                                                                          <label for="p3-0">
+                                                                              <i class="far fa-angry"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta3" id="p3-1" value="1">
+                                                                          <label for="p3-1">
+                                                                              <i class="far fa-frown"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta3" id="p3-2" value="2">
+                                                                          <label for="p3-2">
+                                                                              <i class="far fa-meh"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta3" id="p3-3" value="3">
+                                                                          <label for="p3-3">
+                                                                              <i class="far fa-smile"></i>
+                                                                          </label>
+                                                                          <input type="radio" name="pregunta3" id="p3-4" value="4">
+                                                                          <label for="p3-4">
+                                                                              <i class="far fa-laugh-beam"></i>
+                                                                          </label>
+                                                                      </div>
+                                                                  </div>
+                                                                  <!-- Pregunta  4-->
+                                                                  <div class="form-group">
+                                                                    <label for="pregunta3">13.- Considero que en mi trabajo me piden hacer cosas innecesarias </label>
+                                                                    <div class="emoji-group">
                                                                         <input type="radio" name="pregunta3" id="p3-0" value="0">
                                                                         <label for="p3-0">
                                                                             <i class="far fa-angry"></i>
@@ -258,9 +565,94 @@
                                                                         </label>
                                                                     </div>
                                                                 </div>
-                                                                <!-- Pregunta  5-->
-                                                                <div class="form-group">
-                                                                  <label for="pregunta3">5.- Por la cantidad de trabajo que tengo debo trabajar sin parar </label>
+                                                                
+                                          
+                                                                  <!-- Botón de envío -->
+                                                                  <button type="submit" class="btn btn-primary">Enviar Encuesta</button>
+                                                              </form>
+                                                          </div>
+                                                      </div>
+                                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </section>
+                                    <section>
+                                        <div class="container mt-4">
+                                            <!-- Título estático -->
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Las preguntas siguientes están relacionadas con el tiempo destinado a su trabajo y sus responsabilidades familiares.  </h3>
+                                                    <div class="card-tools">
+                                                        <!-- Botón para colapsar o expandir -->
+                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Colapsar">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <!-- Contenido del cuestionario (colapsable) -->
+                                                <div class="card-body">
+                                                    <div class="card-body">
+                                                        <div class="card-body">
+                                                          <form id="encuestaForm">
+                                                              <!-- Pregunta 1 -->
+                                                              <div class="form-group">
+                                                                  <label for="pregunta1">14.- Trabajo horas extras más de tras veces a la semana  </label>
+                                                                  <div class="emoji-group">
+                                                                      <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                                                      <label for="p1-0">
+                                                                          <i class="far fa-angry"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                                                      <label for="p1-1">
+                                                                          <i class="far fa-frown"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                                                      <label for="p1-2">
+                                                                          <i class="far fa-meh"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                                                      <label for="p1-3">
+                                                                          <i class="far fa-smile"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                                                      <label for="p1-4">
+                                                                          <i class="far fa-laugh-beam"></i>
+                                                                      </label>
+                                                                      
+                                                                  </div>
+                                                              </div>
+                                      
+                                                              <!-- Pregunta 2 -->
+                                                              <div class="form-group">
+                                                                  <label for="pregunta2">15.- Mi trabajo me exige laborar días de descanso, festivos o fines de semana</label>
+                                                                  <div class="emoji-group">
+                                                                      <input type="radio" name="pregunta2" id="p2-0" value="0">
+                                                                      <label for="p2-0">
+                                                                          <i class="far fa-angry"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta2" id="p2-1" value="1">
+                                                                      <label for="p2-1">
+                                                                          <i class="far fa-frown"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta2" id="p2-2" value="2">
+                                                                      <label for="p2-2">
+                                                                          <i class="far fa-meh"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta2" id="p2-3" value="3">
+                                                                      <label for="p2-3">
+                                                                          <i class="far fa-smile"></i>
+                                                                      </label>
+                                                                      <input type="radio" name="pregunta2" id="p2-4" value="4">
+                                                                      <label for="p2-4">
+                                                                          <i class="far fa-laugh-beam"></i>
+                                                                      </label>
+                                                                  </div>
+                                                              </div>
+                                      
+                                                              <!-- Pregunta 3 -->
+                                                              <div class="form-group">
+                                                                  <label for="pregunta3">16.- Considero que el tiempo en el trabajo es mucho y perjudica mis actividades familiares o personales  </label>
                                                                   <div class="emoji-group">
                                                                       <input type="radio" name="pregunta3" id="p3-0" value="0">
                                                                       <label for="p3-0">
@@ -284,64 +676,9 @@
                                                                       </label>
                                                                   </div>
                                                               </div>
-                                                            <!-- Pregunta 6 -->
-                                                            <div class="form-group">
-                                                                <label for="pregunta1">6.- Considero que es necesario mantener mi ritmo de trabajo acelerado.  </label>
-                                                                <div class="emoji-group">
-                                                                    <input type="radio" name="pregunta1" id="p1-0" value="0">
-                                                                    <label for="p1-0">
-                                                                        <i class="far fa-angry"></i>
-                                                                    </label>
-                                                                    <input type="radio" name="pregunta1" id="p1-1" value="1">
-                                                                    <label for="p1-1">
-                                                                        <i class="far fa-frown"></i>
-                                                                    </label>
-                                                                    <input type="radio" name="pregunta1" id="p1-2" value="2">
-                                                                    <label for="p1-2">
-                                                                        <i class="far fa-meh"></i>
-                                                                    </label>
-                                                                    <input type="radio" name="pregunta1" id="p1-3" value="3">
-                                                                    <label for="p1-3">
-                                                                        <i class="far fa-smile"></i>
-                                                                    </label>
-                                                                    <input type="radio" name="pregunta1" id="p1-4" value="4">
-                                                                    <label for="p1-4">
-                                                                        <i class="far fa-laugh-beam"></i>
-                                                                    </label>
-                                                                    
-                                                                </div>
-                                                            </div>
-                                    
-                                                            <!-- Pregunta 7 -->
-                                                            <div class="form-group">
-                                                                <label for="pregunta2">7.- Mi trabajo exige que esté muy concentrado  </label>
-                                                                <div class="emoji-group">
-                                                                    <input type="radio" name="pregunta2" id="p2-0" value="0">
-                                                                    <label for="p2-0">
-                                                                        <i class="far fa-angry"></i>
-                                                                    </label>
-                                                                    <input type="radio" name="pregunta2" id="p2-1" value="1">
-                                                                    <label for="p2-1">
-                                                                        <i class="far fa-frown"></i>
-                                                                    </label>
-                                                                    <input type="radio" name="pregunta2" id="p2-2" value="2">
-                                                                    <label for="p2-2">
-                                                                        <i class="far fa-meh"></i>
-                                                                    </label>
-                                                                    <input type="radio" name="pregunta2" id="p2-3" value="3">
-                                                                    <label for="p2-3">
-                                                                        <i class="far fa-smile"></i>
-                                                                    </label>
-                                                                    <input type="radio" name="pregunta2" id="p2-4" value="4">
-                                                                    <label for="p2-4">
-                                                                        <i class="far fa-laugh-beam"></i>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                    
-                                                            <!-- Pregunta 8 -->
-                                                            <div class="form-group">
-                                                                <label for="pregunta3">8.- Mi trabajo exige que memorice mucha información </label>
+                                                              <!-- Pregunta  4-->
+                                                              <div class="form-group">
+                                                                <label for="pregunta3">17.- Pienso en las actividades familiares o personales cuando estoy en mi trabajo.  </label>
                                                                 <div class="emoji-group">
                                                                     <input type="radio" name="pregunta3" id="p3-0" value="0">
                                                                     <label for="p3-0">
@@ -365,60 +702,1097 @@
                                                                     </label>
                                                                 </div>
                                                             </div>
-                                                             <!-- Pregunta 9 -->
-                                                             <div class="form-group">
-                                                                <label for="pregunta3">9.- Mi trabajo exige que atienda varios asuntos al mismo tiempo</label>
-                                                                <div class="emoji-group">
-                                                                    <input type="radio" name="pregunta3" id="p3-0" value="0">
-                                                                    <label for="p3-0">
-                                                                        <i class="far fa-angry"></i>
-                                                                    </label>
-                                                                    <input type="radio" name="pregunta3" id="p3-1" value="1">
-                                                                    <label for="p3-1">
-                                                                        <i class="far fa-frown"></i>
-                                                                    </label>
-                                                                    <input type="radio" name="pregunta3" id="p3-2" value="2">
-                                                                    <label for="p3-2">
-                                                                        <i class="far fa-meh"></i>
-                                                                    </label>
-                                                                    <input type="radio" name="pregunta3" id="p3-3" value="3">
-                                                                    <label for="p3-3">
-                                                                        <i class="far fa-smile"></i>
-                                                                    </label>
-                                                                    <input type="radio" name="pregunta3" id="p3-4" value="4">
-                                                                    <label for="p3-4">
-                                                                        <i class="far fa-laugh-beam"></i>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                          
-                                                                  <!-- Botón de envío -->
-                                                                  <button type="submit" class="btn btn-primary">Enviar Encuesta</button>
-                                                              </form>
-                                                          </div>
-                                                      </div>
                                                             
-                                                    </div>
+                                      
+                                                              <!-- Botón de envío -->
+                                                              <button type="submit" class="btn btn-primary">Enviar Encuesta</button>
+                                                          </form>
+                                                      </div>
+                                                  </div>
+                                                        
                                                 </div>
                                             </div>
-                                        </section>
+                                        </div>
+                                </section>
+
+                                
+                            
+                       
+                        <section>
+                            <div class="container mt-4">
+                                <!-- Título estático -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Las preguntas siguientes están relacionadas con las decisiones que puede tomar en su trabajo.  </h3>
+                                        <div class="card-tools">
+                                            <!-- Botón para colapsar o expandir -->
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Colapsar">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Contenido del cuestionario (colapsable) -->
+                                    <div class="card-body">
+                                        <div class="card-body">
+                                            <div class="card-body">
+                                              <form id="encuestaForm">
+                                                  
+                                                  <!-- Pregunta 18 -->
+                                                  <div class="form-group">
+                                                    <label for="pregunta1">18.- Mi trabajo permite que desarrolle nuevas habilidades  </label>
+                                                    <div class="emoji-group">
+                                                        <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                                        <label for="p1-0">
+                                                            <i class="far fa-angry"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                                        <label for="p1-1">
+                                                            <i class="far fa-frown"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                                        <label for="p1-2">
+                                                            <i class="far fa-meh"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                                        <label for="p1-3">
+                                                            <i class="far fa-smile"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                                        <label for="p1-4">
+                                                            <i class="far fa-laugh-beam"></i>
+                                                        </label>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <!-- Pregunta 19 -->
+                                                <div class="form-group">
+                                                    <label for="pregunta1">19.-En mi trabajo puedo aspirar a un mejor puesto   </label>
+                                                    <div class="emoji-group">
+                                                        <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                                        <label for="p1-0">
+                                                            <i class="far fa-angry"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                                        <label for="p1-1">
+                                                            <i class="far fa-frown"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                                        <label for="p1-2">
+                                                            <i class="far fa-meh"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                                        <label for="p1-3">
+                                                            <i class="far fa-smile"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                                        <label for="p1-4">
+                                                            <i class="far fa-laugh-beam"></i>
+                                                        </label>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <!-- Pregunta 20 -->
+                                                <div class="form-group">
+                                                    <label for="pregunta1">20.- Durante mi jornada de trabajo puedo tomar pausas cuando las necesito  </label>
+                                                    <div class="emoji-group">
+                                                        <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                                        <label for="p1-0">
+                                                            <i class="far fa-angry"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                                        <label for="p1-1">
+                                                            <i class="far fa-frown"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                                        <label for="p1-2">
+                                                            <i class="far fa-meh"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                                        <label for="p1-3">
+                                                            <i class="far fa-smile"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                                        <label for="p1-4">
+                                                            <i class="far fa-laugh-beam"></i>
+                                                        </label>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <!-- Pregunta 21 -->
+                                                <div class="form-group">
+                                                    <label for="pregunta1">21.- Puedo decidir la velocidad a la que realizo mis actividades en mi trabajo   </label>
+                                                    <div class="emoji-group">
+                                                        <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                                        <label for="p1-0">
+                                                            <i class="far fa-angry"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                                        <label for="p1-1">
+                                                            <i class="far fa-frown"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                                        <label for="p1-2">
+                                                            <i class="far fa-meh"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                                        <label for="p1-3">
+                                                            <i class="far fa-smile"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                                        <label for="p1-4">
+                                                            <i class="far fa-laugh-beam"></i>
+                                                        </label>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <!-- Pregunta 22 -->
+                                                <div class="form-group">
+                                                    <label for="pregunta1">22.- Puedo cambiar el orden de las actividades que realizo en mi trabajo    </label>
+                                                    <div class="emoji-group">
+                                                        <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                                        <label for="p1-0">
+                                                            <i class="far fa-angry"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                                        <label for="p1-1">
+                                                            <i class="far fa-frown"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                                        <label for="p1-2">
+                                                            <i class="far fa-meh"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                                        <label for="p1-3">
+                                                            <i class="far fa-smile"></i>
+                                                        </label>
+                                                        <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                                        <label for="p1-4">
+                                                            <i class="far fa-laugh-beam"></i>
+                                                        </label>
+                                                        
+                                                    </div>
+                                                </div>
+                                                  
+                          
+                                                  <!-- Botón de envío -->
+                                                  <button type="submit" class="btn btn-primary">Enviar Encuesta</button>
+                                              </form>
+                                          </div>
+                                      </div>
+                                            
+                                    </div>
+                                </div>
+                            </div>
+                    </section>
+            <section>
+                <div class="container mt-4">
+                    <!-- Título estático -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"> Las preguntas siguientes están relacionadas con la Capacitación e información que recibe sobre su trabajo.  </h3>
+                            <div class="card-tools">
+                                <!-- Botón para colapsar o expandir -->
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Colapsar">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Contenido del cuestionario (colapsable) -->
+                        <div class="card-body">
+                            <div class="card-body">
+                                <div class="card-body">
+                                  <form id="encuestaForm">
+                                      
+                                      <!-- Pregunta 23 -->
+                                      <div class="form-group">
+                                        <label for="pregunta1">23.- Me informan con claridad cuáles son mis funciones  </label>
+                                        <div class="emoji-group">
+                                            <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                            <label for="p1-0">
+                                                <i class="far fa-angry"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                            <label for="p1-1">
+                                                <i class="far fa-frown"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                            <label for="p1-2">
+                                                <i class="far fa-meh"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                            <label for="p1-3">
+                                                <i class="far fa-smile"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                            <label for="p1-4">
+                                                <i class="far fa-laugh-beam"></i>
+                                            </label>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- Pregunta 19 -->
+                                    <div class="form-group">
+                                        <label for="pregunta1">24.-Me explican claramente los resultados que debo obtener en mi trabajo   </label>
+                                        <div class="emoji-group">
+                                            <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                            <label for="p1-0">
+                                                <i class="far fa-angry"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                            <label for="p1-1">
+                                                <i class="far fa-frown"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                            <label for="p1-2">
+                                                <i class="far fa-meh"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                            <label for="p1-3">
+                                                <i class="far fa-smile"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                            <label for="p1-4">
+                                                <i class="far fa-laugh-beam"></i>
+                                            </label>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- Pregunta 20 -->
+                                    <div class="form-group">
+                                        <label for="pregunta1">25.- Me informan con quién puedo resolver problemas o asuntos de trabajo    </label>
+                                        <div class="emoji-group">
+                                            <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                            <label for="p1-0">
+                                                <i class="far fa-angry"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                            <label for="p1-1">
+                                                <i class="far fa-frown"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                            <label for="p1-2">
+                                                <i class="far fa-meh"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                            <label for="p1-3">
+                                                <i class="far fa-smile"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                            <label for="p1-4">
+                                                <i class="far fa-laugh-beam"></i>
+                                            </label>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- Pregunta 26 -->
+                                    <div class="form-group">
+                                        <label for="pregunta1">26.- Me permiten asistir a capacitaciones relacionadas con mi trabajo    </label>
+                                        <div class="emoji-group">
+                                            <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                            <label for="p1-0">
+                                                <i class="far fa-angry"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                            <label for="p1-1">
+                                                <i class="far fa-frown"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                            <label for="p1-2">
+                                                <i class="far fa-meh"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                            <label for="p1-3">
+                                                <i class="far fa-smile"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                            <label for="p1-4">
+                                                <i class="far fa-laugh-beam"></i>
+                                            </label>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- Pregunta 22 -->
+                                    <div class="form-group">
+                                        <label for="pregunta1">27.- Recibo capacitación útil para hacer mi trabajo     </label>
+                                        <div class="emoji-group">
+                                            <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                            <label for="p1-0">
+                                                <i class="far fa-angry"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                            <label for="p1-1">
+                                                <i class="far fa-frown"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                            <label for="p1-2">
+                                                <i class="far fa-meh"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                            <label for="p1-3">
+                                                <i class="far fa-smile"></i>
+                                            </label>
+                                            <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                            <label for="p1-4">
+                                                <i class="far fa-laugh-beam"></i>
+                                            </label>
+                                            
+                                        </div>
+                                    </div>
+                                      
+              
+                                      <!-- Botón de envío -->
+                                      <button type="submit" class="btn btn-primary">Enviar Encuesta</button>
+                                  </form>
+                              </div>
+                          </div>
+                                
+                        </div>
+                    </div>
+                </div>
+        </section>
+        <section>
+            <div class="container mt-4">
+                <!-- Título estático -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"> Las preguntas siguientes se refieren a las relaciones de sus compañeros de trabajo y su jefe.   </h3>
+                        <div class="card-tools">
+                            <!-- Botón para colapsar o expandir -->
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Colapsar">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Contenido del cuestionario (colapsable) -->
+                    <div class="card-body">
+                        <div class="card-body">
+                            <div class="card-body">
+                              <form id="encuestaForm">
+                                  
+                                  <!-- Pregunta 23 -->
+                                  <div class="form-group">
+                                    <label for="pregunta1">28.- Mi jefe tiene en cuanta mis puntos de vista y opiniones  </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
                                         
+                                    </div>
+                                </div>
+                                
+                                <!-- Pregunta 29 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">29.- Mi jefe ayuda a solucionar los problemas que se presentan en el trabajo 					
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
                                         
+                                    </div>
+                                </div>
+                                <!-- Pregunta 30 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">30.- Puedo confiar en mis compañeros de trabajo 					
+					
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Pregunta 31 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">31.- Cuando tenemos que realizar trabajo de equipo los compañeros colaboran 					
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                  <!-- Pregunta 32 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">32.-  Mis compañeros de trabajo me ayudan cuando tengo dificultades 					
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Pregunta 33 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">33.- En mi trabajo puedo expresarme libremente sin interrupciones 					
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="4">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="3">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="1">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="0">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Pregunta 34 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">34.-  					
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Pregunta 33 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">35.-  					
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                
+                                <!-- Pregunta 36 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">36.- 		
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Pregunta 37 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">37.-  					
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Pregunta 38 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">38.-  					
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Pregunta 39 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">39.- 					
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Pregunta 40 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">40.- 		
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Pregunta 41 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">41.- 		
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Pregunta 42 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">42.- 		
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Pregunta 43 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">43.- 		
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Pregunta 44 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">44.- 		
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Pregunta 45 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">45.- 		
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                <!-- Pregunta 46 -->
+                                <div class="form-group">
+                                    <label for="pregunta1">46.- 		
+                                    </label>
+                                    <div class="emoji-group">
+                                        <input type="radio" name="pregunta1" id="p1-0" value="0">
+                                        <label for="p1-0">
+                                            <i class="far fa-angry"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-1" value="1">
+                                        <label for="p1-1">
+                                            <i class="far fa-frown"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-2" value="2">
+                                        <label for="p1-2">
+                                            <i class="far fa-meh"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-3" value="3">
+                                        <label for="p1-3">
+                                            <i class="far fa-smile"></i>
+                                        </label>
+                                        <input type="radio" name="pregunta1" id="p1-4" value="4">
+                                        <label for="p1-4">
+                                            <i class="far fa-laugh-beam"></i>
+                                        </label>
+                                        
+                                    </div>
+                                </div>
+                                  <!-- Botón de envío -->
+                                  <button type="submit" class="btn btn-primary">Enviar Encuesta</button>
+                              </form>
+                          </div>
+                      </div>
+                            
+                    </div>
+                </div>
+            </div>
+    </section>
+    <section>
+        <div class="container mt-4">
+            <!-- Título estático -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Las preguntas siguientes están relacionadas con la atención a clientes y usuarios  </h3>
+                    <div class="card-tools">
+                        <!-- Botón para colapsar o expandir -->
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Colapsar">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Contenido del cuestionario (colapsable) -->
+                <div class="card-body">
+                    <div class="card-body">
+                        <div class="card-body">
+                            <div class="card-body">
+                                <!-- Pregunta inicial -->
+                                <form id="surveyForm">
+                                    <div class="form-group">
+                                        <label for="servicio">En mi trabajo debo brindar servicio a clientes o usuarios:</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="servicio" id="si" value="si">
+                                            <label class="form-check-label" for="si">
+                                                Sí
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="servicio" id="no" value="no">
+                                            <label class="form-check-label" for="no">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+        
+                                    <!-- Sección de preguntas si se selecciona "Sí" -->
+                                    <div id="sectionSi" class="questions-section">
+                                        <h4>Si su respuesta fue "Sí", responda las preguntas siguientes:</h4>
+                                        <div class="form-group">
+                                            <label>41. Atiendo clientes o usuarios muy enojados:</label>
+                                            <select class="form-control">
+                                                <option>Siempre</option>
+                                                <option>Casi siempre</option>
+                                                <option>Algunas veces</option>
+                                                <option>Casi nunca</option>
+                                                <option>Nunca</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>42. Mi trabajo me exige atender personas muy necesitadas de ayuda o enfermas:</label>
+                                            <select class="form-control">
+                                                <option>Siempre</option>
+                                                <option>Casi siempre</option>
+                                                <option>Algunas veces</option>
+                                                <option>Casi nunca</option>
+                                                <option>Nunca</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>43. Para hacer mi trabajo debo demostrar sentimientos distintos a los míos:</label>
+                                            <select class="form-control">
+                                                <option>Siempre</option>
+                                                <option>Casi siempre</option>
+                                                <option>Algunas veces</option>
+                                                <option>Casi nunca</option>
+                                                <option>Nunca</option>
+                                            </select>
+                                        </div>
+                                    </div>
+        
+                                    <!-- Sección de preguntas para "No" -->
+                                    <div id="sectionNo" class="questions-section">
+                                        <h4>Soy el jefe de otros colaboradores:</h4>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="jefe" id="jefeSi" value="si">
+                                            <label class="form-check-label" for="jefeSi">
+                                                Sí
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="jefe" id="jefeNo" value="no">
+                                            <label class="form-check-label" for="jefeNo">
+                                                No
+                                            </label>
+                                        </div>
+        
+                                        <!-- Preguntas adicionales si es jefe -->
+                                        <div id="jefeQuestions" class="questions-section">
+                                            <div class="form-group">
+                                                <label>44. Comunican tarde los asuntos de trabajo:</label>
+                                                <select class="form-control">
+                                                    <option>Siempre</option>
+                                                    <option>Casi siempre</option>
+                                                    <option>Algunas veces</option>
+                                                    <option>Casi nunca</option>
+                                                    <option>Nunca</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>45. Dificultan el logro de los resultados de trabajo:</label>
+                                                <select class="form-control">
+                                                    <option>Siempre</option>
+                                                    <option>Casi siempre</option>
+                                                    <option>Algunas veces</option>
+                                                    <option>Casi nunca</option>
+                                                    <option>Nunca</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>46. Ignoran las sugerencias para mejorar su trabajo:</label>
+                                                <select class="form-control">
+                                                    <option>Siempre</option>
+                                                    <option>Casi siempre</option>
+                                                    <option>Algunas veces</option>
+                                                    <option>Casi nunca</option>
+                                                    <option>Nunca</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+        
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+                                    </div>
+                                </form>
+                            </div>
+                      </div>
+                  </div>
+                        
+                </div>
+            </div>
+        </div>
+</section>
+                    
+                
                                     </div>
 
                                 </div>
                             </div>
                         </div><!-- /.container-fluid -->
+                        
                     </section>
 
                     <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
             <script>
+                document.getElementById("s1").addEventListener("click", function() {
+                     // Evita el envío inmediato del formulario
+                     document.getElementById("seccion1").style.display = "none";
+                     document.getElementById("s_seccion1").style.display = "block";
+                    // Muestra el mensaje de éxito con SweetAlert
+                    Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Tu encuesta ha sido enviada",
+                    showConfirmButton: false,  // Asegura que haya un botón de confirmación
+                    allowOutsideClick: false,  // Evita que la alerta se cierre haciendo clic fuera
+                    allowEscapeKey: false,     // Evita que la alerta se cierre presionando 'Esc'
+                    })
+                });
+           
+           </script>
+                
+            <script>
                 document.getElementById("btn-read").addEventListener("click", function() {
                     // Hide instructions and show hidden section
                     document.getElementById("instructions").style.display = "none";
                     document.getElementById("hidden-section").style.display = "block";
+                    // Muestra el mensaje de éxito con SweetAlert
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "VISTO a",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 });
             </script>
-            <%- include("template/footer") %>
+           
+        
+        <%- include("template/footer") %>
