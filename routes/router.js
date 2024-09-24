@@ -100,6 +100,8 @@ router.get('/deleteUser/:id', (req, res) => {
 
 router.post('/saveUser', userController.saveUser)
 router.post('/updateUser', userController.updateUser)
+router.post('/guardarRespuestas', authController.guardarRespuestas);
+
 
 
 //router for views
@@ -182,5 +184,23 @@ router.post('/submit1', (req, res) => {
         }
     });
     res.redirect('/events')
+});
+
+router.post('/submit2', (req, res) => {
+    const { pregunta1, pregunta2, pregunta3 } = req.body;
+    
+    const query = 'INSERT INTO res_g2 (pregunta1, pregunta2, pregunta3) VALUES (?, ?, ?)';
+    conexion.query(query, [pregunta1, pregunta2, pregunta3], (err, result) => {
+        if (err) {
+            console.log('Error insertando datos:', err);
+            res.status(500).send('Error al registrar las respuestas.');
+        } else {
+            
+            res.send('Respuestas registradas exitosamente.');
+           
+        }
+        res.redirect('/guia2')
+    });
+    
 });
 module.exports = router;

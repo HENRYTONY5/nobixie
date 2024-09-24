@@ -160,4 +160,22 @@
             </div>
             <!-- /.content-wrapper -->
 
+            <script>
+                document.getElementById("nom035Form").addEventListener("submit", function(event) {
+                    event.preventDefault(); // Evita el envío inmediato del formulario
+                    
+                    // Muestra el mensaje de éxito con SweetAlert
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Tu encuesta ha sido enviada",
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(function() {
+                        // Redirige a la página asistencia después de que se muestra la alerta
+                        window.location.href = "/asistencia";
+                    });
+                });
+           
+           </script>
             <%- include("template/footer") %>
