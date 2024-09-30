@@ -122,6 +122,7 @@
                                                                 <div>
                                                                   <div class="container mt-5">
                                                                     <h2 class="mb-4">Gráfica de Género</h2>
+                                
                                                                     
                                                                     <canvas id="graficoGenero" width="400" height="400"></canvas>
 
@@ -157,7 +158,7 @@
                                                             <!-- Pregunta 1 -->
                                                             <div class="grafico-container">
                                                               <h3>Gráfico de Edad</h3>
-                                                              <canvas id="graficoEdad" width="40" height="40"></canvas>
+                                                              <canvas id="graficoEdad" width="400" height="400"></canvas>
                                                           </div>
                                                           
                                                             
@@ -184,11 +185,11 @@
                                                   
                                                       <!-- Pregunta 1 -->
                                                       <div class="grafico-container">
-                                                        <h3>Gráfico de Estado Ci</h3>
+                                                        <h3>Gráfico de Estado Civil.</h3>
                                                         
                                                     </div>
                                                     
-                                                    <canvas id="graficoEstadoCivil" width="10" height="10"></canvas>
+                                                    <canvas id="graficoEstadoCivil" width="400" height="400"></canvas>
                                                     
                               
                                                       
@@ -246,7 +247,7 @@
                                                   
                                               </div>
                                               
-                                              <canvas id="graficoEscolar" width="100" height="100"></canvas>
+                                              <canvas id="graficoPuesto" width="100" height="100"></canvas>
                                               
                         
                                                 
@@ -271,11 +272,11 @@
                                       
                                           <!-- Pregunta 1 -->
                                           <div class="grafico-container">
-                                            <h3>Gráfico de Tipo de puesto</h3>
+                                            <h3>Gráfico de Ctegoria</h3>
                                             
                                         </div>
                                         
-                                        <canvas id="graficoEscolar" width="100" height="100"></canvas>
+                                        <canvas id="graficoCate" width="100" height="100"></canvas>
                                         
                   
                                           
@@ -300,11 +301,11 @@
                                             
                                                 <!-- Pregunta 1 -->
                                                 <div class="grafico-container">
-                                                  <h3>Gráfico de Tipo de puesto</h3>
+                                                  <h3>Gráfico de Antiguedad </h3>
                                                   
                                               </div>
                                               
-                                              <canvas id="graficoEscolar" width="100" height="100"></canvas>
+                                              <canvas id="graficoAge" width="100" height="100"></canvas>
                                               
                         
                                                 
@@ -346,238 +347,346 @@
                     <!-- /.content -->
             </div>
             <script>
-        // Función para obtener los datos vía AJAX
-        function obtenerDatos() {
-            fetch('/datos-graficas')
-                .then(response => response.json())
-                .then(data => {
-                    const generos = data.map(item => item.genero);
-                    const cantidades = data.map(item => item.cantidad);
+                // Función para obtener los datos de la gráfica de género
+                function obtenerDatos0() {
+                    fetch('/datos-graficas')
+                        .then(response => response.json())
+                        .then(data => {
+                            const generos = data.map(item => item.genero);
+                            const cantidades = data.map(item => item.cantidad);
+            
+                            // Renderizar la gráfica de género
+                            const ctx = document.getElementById('graficoGenero').getContext('2d');
+                            new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: generos,
+                                    datasets: [{
+                                        label: 'Número de Trabajadores por Género',
+                                        data: cantidades,
+                                        backgroundColor: ['rgba(205, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)'],
+                                        borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            });
+                        })
+                        .catch(error => console.error('Error al obtener los datos:', error));
+                }
+            
+                // Función para obtener los datos de la gráfica de edad
+                function obtenerDatos1() {
+                    fetch('/edad-graficas')
+                        .then(response => response.json())
+                        .then(data => {
+                            const edades = data.map(item => item.edad);
+                            const cantidades = data.map(item => item.cantidad);
+            
+                            // Renderizar la gráfica de edad
+                            const ctx = document.getElementById('graficoEdad').getContext('2d');
+                            new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: edades,
+                                    datasets: [{
+                                        label: 'Contando Rangos de Edades',
+                                        data: cantidades,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    indexAxis: 'y',  // Barras horizontales
+                                    scales: {
+                                        x: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            });
+                        })
+                        .catch(error => console.error('Error al obtener los datos:', error));
+                }
+                function obtenerDatos2() {
+        fetch('/civil-graficas') // Asegúrate de que esta es la ruta correcta para tu API
+            .then(response => response.json())
+            .then(data => {
+                // Extraer etiquetas y datos
+                const labels = data.map(item => item.estado_civil);
+                const cantidades = data.map(item => item.cantidad);
 
-                    // Renderizar la gráfica
-                    const ctx = document.getElementById('graficaGenero').getContext('2d');
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: generos,
-                            datasets: [{
-                                label: 'Número de Trabajadores por Género',
-                                data: cantidades,
-                                backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(255, 99, 132, 0.6)'],
-                                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
+                // Renderizar la gráfica de radar
+                const ctx = document.getElementById('graficoEstadoCivil').getContext('2d');
+                new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Cantidad de Trabajadores por Estado Civil',
+                            data: cantidades,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(54, 162, 235, 1)'
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                suggestedMax: Math.max(...cantidades) + 1 // Ajusta el rango según tus datos
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error al obtener los datos:', error));
+    }
+
+    
+    
+    function obtenerDatos3() {
+        fetch('/escolar-graficas') // Asegúrate de que esta es la ruta correcta para tu API
+            .then(response => response.json())
+            .then(data => {
+                // Extraer etiquetas y datos
+                const labels = data.map(item => item.escolaridad); // Asegúrate de que este es el campo correcto
+                const cantidades = data.map(item => item.cantidad);
+
+                // Renderizar la gráfica de pie
+                const ctx = document.getElementById('graficoEscolar').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut', // Cambiar el tipo a 'pie'
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Promedio de Escolaridad',
+                            data: cantidades,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.6)', 
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 206, 86, 0.6)',
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)', 
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw; // Muestra la cantidad
+                                    }
                                 }
                             }
                         }
-                    });
-                })
-                .catch(error => console.error('Error al obtener los datos:', error));
-        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error al obtener los datos:', error));
+    }
 
-        // Llamar a la función para obtener los datos al cargar la página
-        window.onload = obtenerDatos;
-    </script>
-    <script>
-      function cargarGraficos() {
-          $.ajax({
-              url: '/api/datos-graficos',
-              method: 'GET',
-              success: function(data) {
-                  // Aquí deberías mapear correctamente los resultados según tus datos
-                  const generos = data.map(d => d.genero);
-                  const cantidadesGenero = data.map(d => d.cantidadGenero);
+    function obtenerDatos4() {
+        fetch('/puesto-graficas') // Asegúrate de que esta es la ruta correcta para tu API
+            .then(response => response.json())
+            .then(data => {
+                // Extraer etiquetas y datos
+                const labels = data.map(item => item.tipo_puesto); // Asegúrate de que este es el campo correcto
+                const cantidades = data.map(item => item.cantidad);
 
-                  const edades = data.map(d => d.edad);
-                  const cantidadesEdad = data.map(d => d.cantidadEdad);
+                // Renderizar la gráfica de pie
+                const ctx = document.getElementById('graficoPuesto').getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie', // Cambiar el tipo a 'pie'
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Promedio de Tipo de Puesto',
+                            data: cantidades,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.6)', 
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 206, 86, 0.6)',
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)', 
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw; // Muestra la cantidad
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error al obtener los datos:', error));
+    }
 
-                  const estadosCiviles = data.map(d => d.estado_civil);
-                  const cantidadesEstadoCivil = data.map(d => d.cantidadEstadoCivil);
+    function obtenerDatos5() {
+        fetch('/cate-graficas') // Asegúrate de que esta es la ruta correcta para tu API
+            .then(response => response.json())
+            .then(data => {
+                // Extraer etiquetas y datos
+                const labels = data.map(item => item.categoria_puesto); // Asegúrate de que este es el campo correcto
+                const cantidades = data.map(item => item.cantidad);
 
-                  const escolar = data.map(d => d.escolaridad);
-                  const cantidadesEscolaridad = data.map(d => d.cantidadEscolaridad);
+                // Renderizar la gráfica de pie
+                const ctx = document.getElementById('graficoCate').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar', // Cambiar el tipo a 'pie'
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Promedio de Categoria de Puesto',
+                            data: cantidades,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.6)', 
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 206, 86, 0.6)',
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)', 
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw; // Muestra la cantidad
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error al obtener los datos:', error));
+    }
 
-                  // Crear gráfico de Género
-                  const ctxGenero = document.getElementById('graficoGenero').getContext('2d');
-                  new Chart(ctxGenero, {
-                      type: 'bar',
-                      data: {
-                          labels: generos,
-                          datasets: [{
-                              label: 'Cantidad por Género',
-                              data: cantidadesGenero,
-                              backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
-                              borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
-                              borderWidth: 1
-                          }]
-                      },
-                      options: {
-                          scales: {
-                              y: {
-                                  beginAtZero: true
-                              }
-                          }
-                      }
-                  });
+    function obtenerDatos6() {
+        fetch('/age-graficas') // Asegúrate de que esta es la ruta correcta para tu API
+            .then(response => response.json())
+            .then(data => {
+                // Extraer etiquetas y datos
+                const labels = data.map(item => item.antiguedad); // Asegúrate de que este es el campo correcto
+                const cantidades = data.map(item => item.cantidad);
 
-                  // Crear gráfico de Edad
-                  const ctxEdad = document.getElementById('graficoEdad').getContext('2d');
-                  new Chart(ctxEdad, {
-                      type: 'pie',
-                      data: {
-                          labels: edades,
-                          datasets: [{
-                              label: 'Cantidad por Edad',
-                              data: cantidadesEdad,
-                              backgroundColor: [
-                                  'rgba(255, 99, 132, 0.2)',
-                                  'rgba(54, 162, 235, 0.2)',
-                                  'rgba(255, 206, 86, 0.2)',
-                                  'rgba(75, 192, 192, 0.2)',
-                                  'rgba(153, 102, 255, 0.2)',
-                                  'rgba(255, 159, 64, 0.2)'
-                              ],
-                              borderColor: [
-                                  'rgba(255, 99, 132, 1)',
-                                  'rgba(54, 162, 235, 1)',
-                                  'rgba(255, 206, 86, 1)',
-                                  'rgba(75, 192, 192, 1)',
-                                  'rgba(153, 102, 255, 1)',
-                                  'rgba(255, 159, 64, 1)'
-                              ],
-                              borderWidth: 1
-                          }]
-                      },
-                      options: {
-                          responsive: true,
-                          plugins: {
-                              legend: {
-                                  position: 'top',
-                              },
-                              tooltip: {
-                                  callbacks: {
-                                      label: function(tooltipItem) {
-                                          const total = tooltipItem.dataset.data.reduce((sum, value) => sum + value, 0);
-                                          const porcentaje = ((tooltipItem.raw / total) * 100).toFixed(2);
-                                          return `${tooltipItem.label}: ${tooltipItem.raw} (${porcentaje}%)`;
-                                      }
-                                  }
-                              }
-                          }
-                      }
-                  });
+                // Renderizar la gráfica de pie
+                const ctx = document.getElementById('graficoAge').getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie', // Cambiar el tipo a 'pie'
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Promedio de antiguedad',
+                            data: cantidades,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.6)', 
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 206, 86, 0.6)',
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)', 
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw; // Muestra la cantidad
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error al obtener los datos:', error));
+    }
 
-                  // Crear gráfico de Estado Civil
-                  const ctxEstadoCivil = document.getElementById('graficoEstadoCivil').getContext('2d');
-                  new Chart(ctxEstadoCivil, {
-                      type: 'doughnut',
-                      data: {
-                          labels: estadosCiviles,
-                          datasets: [{
-                              label: 'Cantidad por Estado Civil',
-                              data: cantidadesEstadoCivil,
-                              backgroundColor: [
-                                  'rgba(255, 99, 132, 0.2)',
-                                  'rgba(54, 162, 235, 0.2)',
-                                  'rgba(255, 206, 86, 0.2)',
-                                  'rgba(75, 192, 192, 0.2)',
-                                  'rgba(153, 102, 255, 0.2)',
-                                  'rgba(255, 159, 64, 0.2)'
-                              ],
-                              borderColor: [
-                                  'rgba(255, 99, 132, 1)',
-                                  'rgba(54, 162, 235, 1)',
-                                  'rgba(255, 206, 86, 1)',
-                                  'rgba(75, 192, 192, 1)',
-                                  'rgba(153, 102, 255, 1)',
-                                  'rgba(255, 159, 64, 1)'
-                              ],
-                              borderWidth: 1
-                          }]
-                      },
-                      options: {
-                          responsive: true,
-                          plugins: {
-                              legend: {
-                                  position: 'top',
-                              },
-                              tooltip: {
-                                  callbacks: {
-                                      label: function(tooltipItem) {
-                                          const total = tooltipItem.dataset.data.reduce((sum, value) => sum + value, 0);
-                                          const porcentaje = ((tooltipItem.raw / total) * 100).toFixed(2);
-                                          return `${tooltipItem.label}: ${tooltipItem.raw} (${porcentaje}%)`;
-                                      }
-                                  }
-                              }
-                          }
-                      }
-                  });
+// Añadir eventos para cargar las gráficas sin sobrescribir window.onload
+                window.addEventListener('load', obtenerDatos0);
+                window.addEventListener('load', obtenerDatos1);
+                window.addEventListener('load', obtenerDatos2);
+                window.addEventListener('load', obtenerDatos3);
+                window.addEventListener('load', obtenerDatos4);
+                window.addEventListener('load', obtenerDatos5);
+                window.addEventListener('load', obtenerDatos6);
 
-                  // Crear gráfico de escolaridad
-                  const ctxEcscolar= document.getElementById('graficoEscolar').getContext('2d');
-                  new Chart(ctxEscolar, {
-                      type: 'doughnut',
-                      data: {
-                          labels: estadosEscolar,
-                          datasets: [{
-                              label: 'Cantidad por Escolaridad',
-                              data: cantidadesEscolaridad,
-                              backgroundColor: [
-                                  'rgba(255, 99, 132, 0.2)',
-                                  'rgba(54, 162, 235, 0.2)',
-                                  'rgba(255, 206, 86, 0.2)',
-                                  'rgba(75, 192, 192, 0.2)',
-                                  'rgba(153, 102, 255, 0.2)',
-                                  'rgba(255, 159, 64, 0.2)'
-                              ],
-                              borderColor: [
-                                  'rgba(255, 99, 132, 1)',
-                                  'rgba(54, 162, 235, 1)',
-                                  'rgba(255, 206, 86, 1)',
-                                  'rgba(75, 192, 192, 1)',
-                                  'rgba(153, 102, 255, 1)',
-                                  'rgba(255, 159, 64, 1)'
-                              ],
-                              borderWidth: 1
-                          }]
-                      },
-                      options: {
-                          responsive: true,
-                          plugins: {
-                              legend: {
-                                  position: 'top',
-                              },
-                              tooltip: {
-                                  callbacks: {
-                                      label: function(tooltipItem) {
-                                          const total = tooltipItem.dataset.data.reduce((sum, value) => sum + value, 0);
-                                          const porcentaje = ((tooltipItem.raw / total) * 100).toFixed(2);
-                                          return `${tooltipItem.label}: ${tooltipItem.raw} (${porcentaje}%)`;
-                                      }
-                                  }
-                              }
-                          }
-                      }
-                  });
+            </script>
+            
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-              },
-              error: function(err) {
-                  console.error('Error al obtener los datos:', err);
-              }
-          });
-      }
 
-      // Cargar los gráficos cuando el documento esté listo
-      $(document).ready(function() {
-          cargarGraficos();
-      });
-  </script>
   
     
             <!-- /.content-wrapper -->

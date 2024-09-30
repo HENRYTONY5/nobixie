@@ -3,6 +3,46 @@ const bcryptjs = require('bcryptjs')
 const conexion = require('../database/db')
 const { promisify } = require('util')
 const nodemailer = require('nodemailer')
+//jspdf
+const { jsPDF } = require('jspdf');
+const { ChartJS } = require('chart.js'); // Si estás usando gráficos
+//const pdfBase64 = doc.output('datauristring');
+// Importar express-validator
+const { body, validationResult } = require('express-validator');
+
+
+exports.previsualizarPDF = (req, res) => {
+    const doc = new jsPDF();
+
+    // Generar contenido del PDF
+    doc.text("Previsualización de Reporte", 10, 10);
+    // Añadir tabla
+    doc.autoTable({ 
+        head: [['Columna 1', 'Columna 2', 'Columna 3', 'Columna 4', 'Columna 5']], 
+        body: [['Dato 1', 'Dato 2', 'Dato 3', 'Dato 4', 'Dato 5']]
+    });
+
+    // Convertir el PDF a base64
+    const pdfBase64 = doc.output('datauristring');
+
+    // Renderizar la vista e insertar el PDF
+    res.render('previsualizarPDF', { pdf: pdfBase64 });
+};
+
+exports.descargarPDF = (req, res) => {
+    const doc = new jsPDF();
+    doc.text("Reporte descargado", 10, 10);
+
+    // Enviar el PDF como descarga
+    res.setHeader('Content-disposition', 'attachment; filename="reporte.pdf"');
+    res.setHeader('Content-type', 'application/pdf');
+    const pdf = doc.output();
+
+    // Redirigir a una vista de éxito
+    res.render('success', { message: 'El PDF fue descargado exitosamente' });
+};
+
+
 
 //procedure to register
 exports.register = async (req, res) => {   
@@ -172,8 +212,8 @@ exports.isAuthenticated = async (req, res, next)=>{
 
 //register encuesta
 exports.registrarEncuesta = (req, res) => {
-    const id_empleado = req.body.categoria_puesto;
-    const razon_social = req.body.antiguedad;
+    const id_empleado = req.body.id_empleado;
+    const razon_social = req.body.razon_social;
     const genero = req.body.genero;
     const edad = req.body.edad;
     const estado_civil = req.body.estado_civil;
@@ -181,6 +221,7 @@ exports.registrarEncuesta = (req, res) => {
     const tipo_puesto = req.body.tipo_puesto;
     const categoria_puesto = req.body.categoria_puesto;
     const antiguedad = req.body.antiguedad;
+    
     
     
 
@@ -213,6 +254,45 @@ exports.registrarEncuesta = (req, res) => {
         }
     });
 };
+//register empresa
+exports.registrarEnterprise = (req, res) => {
+    const nombre = req.body.nombre;
+    const rfc = req.body.rfc;
+    const giro = req.body.giro;
+    const domicilio = req.body.domicilio;
+    const fecha = req.body.fecha;
+    const vigencia = req.body.vigencia;
+    
+    
+
+    // Verifica que todos los campos obligatorios estén presentes
+    if (!nombre || !rfc || !giro || !domicilio || !fecha || !vigencia) {
+        console.log(res)
+        return res.status(400).send('Todos los campos son obligatorios');
+    }
+
+    const encuestaData = {
+        nombre: nombre,
+        rfc: rfc,
+        giro: giro,
+        domicilio: domicilio,
+        fecha: fecha,
+        vigencia: vigencia
+        
+        
+
+    };
+
+    // Inserta los datos en la base de datos
+    conexion.query('INSERT INTO data_enterprise SET ?', encuestaData, (error, results) => {
+        if (error) {
+            console.error('Error al registrar la encuesta:', error);
+            res.status(500).send('Error al registrar la encuesta');
+        } else {
+            res.redirect('/results');  // Redirecciona después de la inserción exitosa
+        }
+    });
+};
 exports.obtenerDatosParaGraficas = (req, res) => {
     const sql = 'SELECT genero, COUNT(*) AS cantidad FROM encuesta_trabajadores GROUP BY genero';
     
@@ -237,42 +317,61 @@ exports.obtenerDatosParaGraficas1 = (req, res) => {
     });
 };
 
-// Obtener datos de frecuencia y porcentaje para gráficos
-exports.obtenerDatosGraficos = (req, res) => {
-    const sql = `
-        SELECT 
-            genero, 
-            COUNT(*) AS cantidadGenero,
-            edad, 
-            COUNT(*) AS cantidadEdad,
-            estado_civil,
-            COUNT(*) AS cantidadEstadoCivil,
-            escolaridad,
-            COUNT(*) AS cantidadEscolaridad,
-            tipo_puesto,
-            COUNT(*) AS cantidadPuesto,
-            categoria_puesto,
-            COUNT(*) AS cantidadCategoria,
-            antiguedad,
-            COUNT(*) AS cantidadAntiguedad
-        FROM 
-            encuesta_trabajadores
-        GROUP BY 
-            genero, edad, estado_civil, escolaridad, tipo_puesto, categoria_puesto, antiguedad
-    `;
-
+exports.obtenerDatosParaGraficas2 = (req, res) => {
+    const sql = 'SELECT estado_civil, COUNT(*) AS cantidad FROM encuesta_trabajadores GROUP BY estado_civil';
+    
     conexion.query(sql, (err, results) => {
         if (err) {
             console.error('Error al obtener datos:', err);
             return res.status(500).send('Error al obtener datos');
         }
-
-        // Devolver los datos en formato JSON
         res.json(results);
     });
 };
-
-
+exports.obtenerDatosParaGraficas3 = (req, res) => {
+    const sql = 'SELECT escolaridad, COUNT(*) AS cantidad FROM encuesta_trabajadores GROUP BY escolaridad';
+    
+    conexion.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error al obtener datos:', err);
+            return res.status(500).send('Error al obtener datos');
+        }
+        res.json(results);
+    });
+};
+exports.obtenerDatosParaGraficas4 = (req, res) => {
+    const sql = 'SELECT tipo_puesto, COUNT(*) AS cantidad FROM encuesta_trabajadores GROUP BY tipo_puesto';
+    
+    conexion.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error al obtener datos:', err);
+            return res.status(500).send('Error al obtener datos');
+        }
+        res.json(results);
+    });
+};
+exports.obtenerDatosParaGraficas5 = (req, res) => {
+    const sql = 'SELECT antiguedad, COUNT(*) AS cantidad FROM encuesta_trabajadores GROUP BY antiguedad';
+    
+    conexion.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error al obtener datos:', err);
+            return res.status(500).send('Error al obtener datos');
+        }
+        res.json(results);
+    });
+};
+exports.obtenerDatosParaGraficas6 = (req, res) => {
+    const sql = 'SELECT categoria_puesto, COUNT(*) AS cantidad FROM encuesta_trabajadores GROUP BY categoria_puesto';
+    
+    conexion.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error al obtener datos:', err);
+            return res.status(500).send('Error al obtener datos');
+        }
+        res.json(results);
+    });
+};
 
 exports.guardarRespuestas = (req, res) => {
     const { pregunta1 } = req.body;  // Obtener la respuesta desde el formulario
@@ -291,4 +390,149 @@ exports.guardarRespuestas = (req, res) => {
       // Respuesta exitosa
       res.json({ message: 'Respuesta guardada correctamente', results });
     });
+
+    /*exports.obtenerDatosEncuesta = (req, res) => {
+        const sql = 'SELECT seccion, total FROM encuesta';
+        
+        conexion.query(sql, (err, results) => {
+            if (err) {
+                console.error('Error al obtener datos:', err);
+                return res.status(500).json({ error: 'Error al obtener datos' });
+            }
+            res.json(results);  // Enviar los datos de la encuesta al frontend
+        });
+    };*/
+
+    exports.obtenerYActualizarGranTotal = (req, res) => {
+        const sql = `
+            SELECT id, id_empleado, 
+                   (pregunta1 + pregunta2 + pregunta3 + pregunta4 + pregunta5 + pregunta6 +
+                    pregunta7 + pregunta8 + pregunta9 + pregunta10 + pregunta11 + pregunta12 +
+                    pregunta13 + pregunta14 + pregunta15 + pregunta16 + pregunta17 + pregunta18 +
+                    pregunta19 + pregunta20 + pregunta21 + pregunta22 + pregunta23 + pregunta24 +
+                    pregunta25 + pregunta26 + pregunta27 + pregunta28 + pregunta29 + pregunta30 +
+                    pregunta31 + pregunta32 + pregunta33 + pregunta34 + pregunta35 + pregunta36 +
+                    pregunta37 + pregunta38 + pregunta39 + pregunta40 + pregunta41 + pregunta42 +
+                    pregunta43 + pregunta44 + pregunta45 + pregunta46 + pregunta47 + pregunta48 +
+                    pregunta49 + pregunta50) AS gran_total
+            FROM res_g2;
+        `;
+        
+        conexion.query(sql, (err, results) => {
+            if (err) {
+                console.error('Error al obtener datos:', err);
+                return res.status(500).send('Error al obtener datos');
+            }
+    
+            results.forEach(row => {
+                const updateSql = `
+                    UPDATE res_g2 
+                    SET gran_total = ?
+                    WHERE id = ?;
+                `;
+                conexion.query(updateSql, [row.gran_total, row.id], (err, updateResult) => {
+                    if (err) {
+                        console.error('Error al actualizar gran_total:', err);
+                    }
+                });
+            });
+    
+            res.json(results);
+        });
+    };
+    exports.actualizarGranTotal = (req, res) => {
+        // Seleccionar todas las filas de la tabla res_g2
+        const sqlSelect = 'SELECT * FROM res_g2';
+        
+        conexion.query(sqlSelect, (err, results) => {
+            if (err) {
+                console.error('Error al obtener datos:', err);
+                return res.status(500).send('Error al obtener datos');
+            }
+    
+            results.forEach(row => {
+                // Calcular la suma de todas las preguntas de la fila actual
+                const sumaTotal = (row.pregunta1 || 0) + (row.pregunta2 || 0) + (row.pregunta3 || 0) +
+                                  (row.pregunta4 || 0) + (row.pregunta5 || 0) + (row.pregunta6 || 0) +
+                                  (row.pregunta7 || 0) + (row.pregunta8 || 0) + (row.pregunta9 || 0) +
+                                  (row.pregunta10 || 0) + (row.pregunta11 || 0) + (row.pregunta12 || 0) +
+                                  (row.pregunta13 || 0) + (row.pregunta14 || 0) + (row.pregunta15 || 0) +
+                                  (row.pregunta16 || 0) + (row.pregunta17 || 0) + (row.pregunta18 || 0) +
+                                  (row.pregunta19 || 0) + (row.pregunta20 || 0) + (row.pregunta21 || 0) +
+                                  (row.pregunta22 || 0) + (row.pregunta23 || 0) + (row.pregunta24 || 0) +
+                                  (row.pregunta25 || 0) + (row.pregunta26 || 0) + (row.pregunta27 || 0) +
+                                  (row.pregunta28 || 0) + (row.pregunta29 || 0) + (row.pregunta30 || 0) +
+                                  (row.pregunta31 || 0) + (row.pregunta32 || 0) + (row.pregunta33 || 0) +
+                                  (row.pregunta34 || 0) + (row.pregunta35 || 0) + (row.pregunta36 || 0) +
+                                  (row.pregunta37 || 0) + (row.pregunta38 || 0) + (row.pregunta39 || 0) +
+                                  (row.pregunta40 || 0) + (row.pregunta41 || 0) + (row.pregunta42 || 0) +
+                                  (row.pregunta43 || 0) + (row.pregunta44 || 0) + (row.pregunta45 || 0) +
+                                  (row.pregunta46 || 0) + (row.pregunta47 || 0) + (row.pregunta48 || 0) +
+                                  (row.pregunta49 || 0) + (row.pregunta50 || 0);
+    
+                // Actualizar la columna gran_total en la tabla con la suma calculada
+                const sqlUpdate = 'UPDATE res_g2 SET gran_total = ? WHERE id = 49';
+                conexion.query(sqlUpdate, [sumaTotal, row.id], (err, updateResult) => {
+                    if (err) {
+                        console.error('Error al actualizar gran_total:', err);
+                    }
+                });
+            });
+    
+            res.render('success', { message: 'Gran total actualizado correctamente' });
+
+        });
+    };
+    
+    
+
+exports.saveData = [
+    // Validación de campos
+    body('nombre').notEmpty().withMessage('El nombre o razón social es requerido'),
+    body('rfc').notEmpty().withMessage('El RFC es requerido'),
+    body('giro').notEmpty().withMessage('El giro o actividad es requerido'),
+    body('domicilio').notEmpty().withMessage('El domicilio es requerido'),
+    body('fecha').notEmpty().withMessage('La fecha del estudio es requerida'),
+    body('vigencia').notEmpty().withMessage('La vigencia es requerida'),
+
+    // Procesar los datos después de la validación
+    (req, res) => {
+        const errors = validationResult(req);
+        
+        if (!errors.isEmpty()) {
+            // Si hay errores de validación, devolver la vista del formulario con los errores
+            return res.render('results', {
+                errors: errors.array(),
+                data: req.body // Para devolver los datos introducidos al formulario
+            });
+        }
+
+        // Si los datos son válidos, se pueden guardar en la base de datos
+        const data = {
+            nombre: req.body.nombre,
+            rfc: req.body.rfc,
+            giro: req.body.giro,
+            domicilio: req.body.domicilio,
+            fecha: req.body.fecha,
+            vigencia: req.body.vigencia
+        };
+
+        // Aquí podrías insertar los datos en la base de datos
+        // Por ejemplo: 
+        // db.collection('empresas').insertOne(data, (err, result) => {
+        //     if (err) {
+        //         return res.status(500).send('Error al guardar los datos');
+        //     }
+        //     // Redirigir o mostrar los datos guardados
+        //     res.render('results', { data });
+        // });
+
+        // Por ahora, solo mostramos los datos ingresados
+        res.render('results', { data });
+    }
+];
+
+    
+
+
   };

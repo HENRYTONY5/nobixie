@@ -1,7 +1,52 @@
 <%- include("template/header") %>
     <%- include("template/navbar") %>
         <%- include("template/aside") %>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    
+        <style>
+            /* Opcional: Estilo para el input */
+        .form-control {
+            width: 300px; /* Ajustar según sea necesario */
+            margin-bottom: 10px; /* Espacio entre inputs */
 
+        }
+            table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        /* Colores de la tabla */
+        .nulo {
+            background-color: #9bc2e6; /* Azul */
+        }
+        .bajo {
+            background-color: #a9d08e; /* Verde */
+        }
+        .medio {
+            background-color: #ffff00; /* Amarillo */
+        }
+        .alto {
+            background-color: #ffc000; /* Naranja */
+        }
+        .muy-alto {
+            background-color: #ff0000; /* Rojo */
+        }
+        
+
+
+  
+
+        </style>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <%- include('template/breadcrumb', {module: 'Distribución global ' }) %>
@@ -16,15 +61,759 @@
                                             Resultados del cuestionario.
                                         </div>
                                         <div class="card-body">
-                                            <p class="card-text">Medio, se requiere ver la politiva de prevencipon de riesgos psicosociales y programas para la prevensión de los factores de riesgo psicosocial, la promoción de un entorno organizacional favorable y la prevención de la villencia laboral, así como reforzar su aplicación y difusión mediante un Programa de intervención.
+                                            <p class="card-text">Medio, se requiere ver la politica de prevención de riesgos psicosociales y programas para la prevensión de los factores de riesgo psicosocial, la promoción de un entorno organizacional favorable y la prevención de la villencia laboral, así como reforzar su aplicación y difusión mediante un Programa de intervención.
                                             </p> <br>
-                                                    <img src="/img/Resultados.png">
-                                                    <br>
+                                            <section>
+                                                <div class="container mt-8">
+                                                    <!-- Título estático -->
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <h3 class="card-title">Datos de la empresa </h3>
+                                                            <div class="card-tools">
+                                                                <!-- Botón para colapsar o expandir -->
+                                                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Colapsar">
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Contenido del cuestionario (colapsable) -->
+                                                        <div class="card-body">
+                                                            <div class="card-body">
+                                                                <div class="card-body">
+                                                                  <div class="wrapper">
+
+                                                <!-- Header con imagen -->
+                                                
+                                            
+                                                <!-- Contenido principal -->
+                                                <div class="content-wrapper">
+                                                    <section class="content">
+                                                        <div class="container-fluid">
+                                            
+                                                            <!-- Título -->
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <h2 class="text-center mt-4">Datos de la Empresa Evaluada</h2>
+                                                                </div>
+                                                            </div>
+                                                                
+                                                            <!-- Formulario en tarjeta AdminLTE -->
+                                                            <div class="row justify-content-center">
+                                                                <div class="col-md-8">
+                                                                    <div class="card card-primary">
+                                                                        <div class="card-header">
+                                                                            <h3 class="card-title">Formulario de Datos</h3>
+                                                                        </div>
+                                            
+                                                                        <!-- Formulario -->
+                                                                        <div class="card-body">
+                                                                            <form action="/save-datae" method="POST">
+                                                                            
+                                                                                <div class="form-group">
+                                                                                    <label for="nombre">Nombre o razón social:</label>
+                                                                                    <input type="text" id="nombre" name="nombre" class="form-control" required>
+                                                                                </div>
+                                            
+                                                                                <div class="form-group">
+                                                                                    <label for="rfc">RFC:</label>
+                                                                                    <input type="text" id="rfc" name="rfc" class="form-control" required>
+                                                                                </div>
+                                            
+                                                                                <div class="form-group">
+                                                                                    <label for="giro">Giro o actividad:</label>
+                                                                                    <input type="text" id="giro" name="giro" class="form-control" required>
+                                                                                </div>
+                                            
+                                                                                <div class="form-group">
+                                                                                    <label for="domicilio">Domicilio completo:</label>
+                                                                                    <input type="text" id="domicilio" name="domicilio" class="form-control" required>
+                                                                                </div>
+                                            
+                                                                                <div class="form-group">
+                                                                                    <label for="fecha">Fecha del estudio:</label>
+                                                                                    <input type="text" id ="fecha" name="fecha" class="form-control" required>
+                                                                                </div>
+                                            
+                                                                                <div class="form-group">
+                                                                                    <label for="vigencia">Vigencia:</label>
+                                                                                    <input type="text" id="vigencia" name="vigencia" class="form-control" required>
+                                                                                </div>
+
+                                                                                
+
+                                                                                <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                            
+                                                            
+                                                
+                                            
+                                                    
+                                                    
+    
+    
+    <!-- authcontroller.generar previsualizar, actualizar gran total fail:c 
+
+    <script>
+        // Función para actualizar el gran total
+        $('#actualizarGranTotalBtn').click(function() {
+            $.ajax({
+                url: '/actualizargrantotal',  // Ruta de tu función para actualizar gran_total
+                method: 'GET',
+                success: function(response) {
+                    $('#resultado').text(response);
+                },
+                error: function() {
+                    $('#resultado').text('Error al actualizar el gran total');
+                }
+            });
+        });
+
+        // Función para previsualizar el PDF (abre en una nueva pestaña o modal)
+        $('#previsualizarPDFBtn').click(function() {
+            window.open('/previsualizar-pdf', '_blank');  // Ruta para previsualizar el PDF
+        });
+
+        // Función para descargar el PDF
+        $('#descargarPDFBtn').click(function() {
+            window.location.href = '/descargar-pdf';  // Ruta para descargar el PDF
+        });
+    </script> -->
                                         </div>
                                         
                                     </div>
 
                                 </div>
+                                                              </div>
+                                                          </div>
+                                                                
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </section>
+                                        <h2>Reporte con Tabla y Gráfica</h2>
+                                        <div class="card-body">
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Resultado del cuestionario</th>
+                                                        <th>Calificación final del cuestionario CFinal</th>
+                                                        <th class="nulo">Nulo o despreciable</th>
+                                                        <th class="bajo">Bajo</th>
+                                                        <th class="medio">Medio</th>
+                                                        <th class="alto">Alto</th>
+                                                        <th class="muy-alto">Muy alto</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Ambiente de trabajo</td>
+                                                        <td>4.13</td>
+                                                        <td class="nulo"></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Factores propios de la actividad</td>
+                                                        <td>19.4</td>
+                                                        <td></td>
+                                                        <td class="bajo"></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Organización del tiempo de trabajo</td>
+                                                        <td>6.68</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td class="medio"></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Liderazgo y relaciones en el trabajo</td>
+                                                        <td>18.74</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td class="alto"></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                        <div style="display: flex;">
+                                            <!-- Div que contendrá la gráfica -->
+                                            <div style="width: 50%;">
+                                                <h2>Calificacion final. Prueba</h2><br>
+                                                <canvas id="riesgoChart"></canvas>
+                                                <br>
+                                                <h3>Gráfica de riesgo</h3> <br>
+                                                <canvas id="riesgoChart2" width="400" height="200"></canvas>
+                                                <br>
+                                                
+                                                <h3>Total por dominio</h3> <br>
+                                                <canvas id="riesgoChart5" width="400" height="200"></canvas>
+
+                                            </div>
+                                            
+                                            <!-- Imagen de la tabla que has proporcionado -->
+                                            <div style="width: 50%;">
+
+                                                <img src="/img/Resultados.png" alt="Distribución de riesgos" width="100%">
+                                                <!-- Tabla HTML con colores -->
+                                                <br>
+                                                <h3>Gráfica de calificacion. Prueba</h3> <br>
+                                                <canvas id="myChart" width="400" height="200"></canvas>
+                                                <br>
+                                                
+                                            </div>
+
+                                           
+
+                                        </div>
+                             <!-- Botón para actualizar gran_total -->
+
+
+<!-- Botón para previsualizar el PDF <iframe src="<%=  %>" width="100%" height="600px"></iframe> -->
+<br>
+<h3>Total por encuesta</h3> <br>
+                                                <canvas id="riesgoChart3"></canvas>
+                                             <br>
+<h3>Total por encuensta ID_E</h3> <br>
+                                                <canvas id="riesgoChart4" width="400" height="500"></canvas>
+                                                <br>
+<button id="previewPDFBtn">Previsualizar PDF</button>
+
+
+<!-- Botón para descargar el PDF -->
+<button id="generarPDFBtn">Generar PDF</button>
+<button id="generarPDFBt">Generar tabla y Descargar PDF</button>
+
+                                            
+    <!-- Aquí insertas tu gráfica en canvas -->
+   
+    
+    
+    <script>
+        // API call para obtener los datos
+        fetch('/api/resg2')
+            .then(response => response.json())
+            .then(data => {
+                // Generar las etiquetas y los totales del 'gran_total'
+                const labels = data.map(row => `ID ${row.id_empleado
+                }`); // Mostrar el ID como etiqueta
+                const totals = data.map(row => row.gran_total); // Extraer el 'gran_total'
+        
+                // Crear la gráfica de Chart.js (de barras verticales)
+                const ctx = document.getElementById('riesgoChart3').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar', // Asegúrate de que el tipo es 'bar' para gráfica de barras verticales
+                    data: {
+                        labels: labels, // IDs de la encuesta como etiquetas
+                        datasets: [{
+                            label: 'Gran Total de la Encuesta',
+                            data: totals, // Los totales correspondientes al gran_total
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'x', // 'x' para barras verticales (es la opción predeterminada, pero lo aclaro)
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener los datos de la API:', error);
+            });
+        
+        // Funcionalidad para generar PDF
+        document.getElementById('generarPDFBtn2').addEventListener('click', function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape');
+        
+            // Título del PDF
+            doc.setFontSize(16);
+            doc.text('Reporte de Encuesta', 10, 10);
+        
+            // Capturar el gráfico
+            html2canvas(document.getElementById('riesgoChart4')).then(function (canvas) {
+                const chartImage = canvas.toDataURL('image/png');
+        
+                // Añadir la gráfica al PDF
+                doc.addImage(chartImage, 'PNG', 150, 20, 120, 80);
+        
+                // Descargar el PDF
+                doc.save('reporte_encuesta.pdf');
+            });
+        });
+        
+        // Funcionalidad para previsualizar el PDF
+        document.getElementById('previewPDFBtn2').addEventListener('click', function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape');
+            doc.setFontSize(16);
+        
+            // Título del PDF
+            doc.text('Reporte de Encuesta', 10, 10);
+        
+            // Capturar el gráfico
+            html2canvas(document.getElementById('riesgoChart3')).then(function (canvas) {
+                const chartImage = canvas.toDataURL('image/png');
+        
+                // Añadir la gráfica al PDF
+                doc.addImage(chartImage, 'PNG', 150, 20, 120, 80);
+        
+                // Previsualizar el PDF en una nueva ventana
+                doc.output('dataurlnewwindow');
+            });
+        });
+    </script>
+    
+    <script>
+        // API call para obtener los datos
+        fetch('/api/resg2')
+            .then(response => response.json())
+            .then(data => {
+                // Generar las etiquetas y los totales del 'gran_total'
+                const labels = data.map(row => `ID ${row.id_empleado}`); // Mostrar el ID como etiqueta
+                const totals = data.map(row => row.gran_total); // Extraer el 'gran_total'
+        
+                // Crear la gráfica de Chart.js (de barras horizontales)
+                const ctx = document.getElementById('riesgoChart4').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar', // Gráfica de barras
+                    data: {
+                        labels: labels, // IDs de la encuesta como etiquetas
+                        datasets: [{
+                            label: 'Gran Total de la Encuesta',
+                            data: totals, // Los totales correspondientes al gran_total
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1.5,
+                            
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y', // 'y' para barras horizontales
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            }
+                        },
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener los datos de la API:', error);
+            });
+        
+        // Funcionalidad para generar PDF
+        document.getElementById('generarPDFBtn2').addEventListener('click', function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape');
+        
+            // Título del PDF
+            doc.setFontSize(16);
+            doc.text('Reporte de Encuesta', 10, 10);
+        
+            // Capturar el gráfico
+            html2canvas(document.getElementById('riesgoChart4')).then(function (canvas) {
+                const chartImage = canvas.toDataURL('image/png');
+        
+                // Añadir la gráfica al PDF
+                doc.addImage(chartImage, 'PNG', 150, 20, 120, 80);
+        
+                // Descargar el PDF
+                doc.save('reporte_encuesta.pdf');
+            });
+        });
+        
+        // Funcionalidad para previsualizar el PDF
+        document.getElementById('previewPDFBtn2').addEventListener('click', function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape');
+            doc.setFontSize(16);
+        
+            // Título del PDF
+            doc.text('Reporte de Encuesta', 10, 10);
+        
+            // Capturar el gráfico
+            html2canvas(document.getElementById('riesgoChart4')).then(function (canvas) {
+                const chartImage = canvas.toDataURL('image/png');
+        
+                // Añadir la gráfica al PDF
+                doc.addImage(chartImage, 'PNG', 150, 20, 120, 80);
+        
+                // Previsualizar el PDF en una nueva ventana
+                doc.output('dataurlnewwindow');
+            });
+        });
+    </script>
+    
+    <script>
+        // Crear gráfica en canvas
+        const ctx1 = document.getElementById('riesgoChart2').getContext('2d');
+        const myChart1 = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['Nulo', 'Bajo', 'Medio', 'Alto', 'Muy alto'],
+                datasets: [{
+                    label: 'Riesgo',
+                    data: [4.13, 19.4, 6.68, 18.74],
+                    backgroundColor: ['#9bc2e6', '#a9d08e', '#ffff00', '#ffc000', '#ff0000'],
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Generar el PDF
+        document.getElementById('generarPDFBtn').addEventListener('click', function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape');
+
+            // Título del PDF
+            doc.setFontSize(16);
+            doc.text('Reporte de Encuesta', 10, 10);
+
+            // Capturar el gráfico
+            html2canvas(document.getElementById('riesgoChart')).then(function (canvas) {
+                const chartImage = canvas.toDataURL('image/png');
+
+                // Añadir la gráfica a la derecha
+                doc.addImage(chartImage, 'PNG', 150, 20, 120, 80);
+
+                // Definir los datos de la tabla
+                const data = [
+                    ['Ambiente de trabajo', '4.13', '', '', '', ''],
+                    ['Factores propios de la actividad', '19.4', '', '', '', ''],
+                    ['Organización del tiempo de trabajo', '6.68', '', '', '', ''],
+                    ['Liderazgo y relaciones en el trabajo', '18.74', '', '', '', '']
+                ];
+
+                const head = [['Categoría', '', 'Nulo o despreciable', 'Bajo', 'Medio', 'Alto', 'Muy alto']];
+
+                // Añadir tabla con colores en el PDF
+                doc.autoTable({
+                    head: head,
+                    body: data,
+                    startY: 20,
+                    columnStyles: {
+                        2: { fillColor: [155, 194, 230] }, // Azul
+                        3: { fillColor: [169, 208, 142] }, // Verde
+                        4: { fillColor: [255, 255, 0] },   // Amarillo
+                        5: { fillColor: [255, 192, 0] },   // Naranja
+                        6: { fillColor: [255, 0, 0] }      // Rojo
+                    },
+                    margin: { top: 40 },
+                    styles: { fontSize: 10 },
+                    theme: 'grid',
+                });
+
+                // Descargar el PDF
+                doc.save('reporte_con_tabla_y_grafica.pdf');
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('generarPDFBt').addEventListener('click', function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape');
+
+            // Título del PDF
+            doc.setFontSize(16);
+            doc.text('Reporte de Encuesta', 10, 10);
+
+            // Definir los datos de la tabla
+            const data = [
+                ['Ambiente de trabajo', '4.13', '', '', '', ''],
+                ['Factores propios de la actividad', '19.4', '', '', '', ''],
+                ['Organización del tiempo de trabajo', '6.68', '', '', '', ''],
+                ['Liderazgo y relaciones en el trabajo', '18.74', '', '', '', '']
+            ];
+
+            const head = [['Categoría', '', 'Nulo o despreciable', 'Bajo', 'Medio', 'Alto', 'Muy alto']];
+            const finalResult = [['Calificación final del cuestionario CFinal', '', '', '64.82', '', '']];
+
+            // Añadir tabla con colores en las columnas
+            doc.autoTable({
+                head: head,
+                body: data,
+                startY: 30,
+                columnStyles: {
+                    2: { fillColor: [155, 194, 230] }, // Azul
+                    3: { fillColor: [169, 208, 142] }, // Verde
+                    4: { fillColor: [255, 255, 0] },   // Amarillo
+                    5: { fillColor: [255, 192, 0] },   // Naranja
+                    6: { fillColor: [255, 0, 0] }      // Rojo
+                },
+                margin: { top: 40 },
+                styles: { fontSize: 10 },
+                theme: 'grid',
+            });
+
+            // Añadir fila extra para calificación final
+            doc.autoTable({
+                body: finalResult,
+                startY: doc.lastAutoTable.finalY + 10, // Debajo de la tabla anterior
+                columnStyles: {
+                    3: { fillColor: [255, 255, 0] } // Amarillo para la celda final
+                },
+                styles: { fontSize: 10 },
+                theme: 'grid'
+            });
+
+            // Descargar el PDF
+            doc.save('tabla_colores.pdf');
+        });
+    </script>
+<!-- Previsualización del PDF -->
+<script>
+document.getElementById('previewPDFBtn').addEventListener('click', function () {
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF('landscape');
+doc.setFontSize(16);
+// Título del PDF
+doc.text('Reporte de Encuesta', 10, 10);
+
+// Datos de ejemplo para la tabla
+const data = [
+['Pregunta 1', 'Respuesta 1'],
+['Pregunta 2', 'Respuesta 2'],
+['Pregunta 3', 'Respuesta 3']
+];
+
+// Añadir tabla usando autoTable
+doc.autoTable({
+head: [['Pregunta', 'Respuesta']],
+body: data,
+startY: 20, // Para que no se superponga con el título
+margin: { right: 150 } // Deja espacio a la derecha para la gráfica
+});
+// Añadir la tabla a la izquierda usando autoTable
+const data1 = [
+                ['Ambiente de trabajo', '4.13'],
+                ['Factores propios de la actividad', '19.94'],
+                ['Organización del tiempo de trabajo', '6.68'],
+                ['Liderazgo y relaciones en el trabajo', '18.74']
+            ];
+
+            doc.autoTable({
+                head: [['Categoría', 'Puntuación']],
+                body: data1,
+                startY: 20,
+                margin: { right: 150 }, // Deja espacio para la gráfica
+                theme: 'grid', // Tema de la tabla
+                styles: {
+                    fillColor: [240, 240, 240] // Color gris claro para las celdas
+                }
+            });
+
+// Capturar el gráfico
+html2canvas(document.getElementById('riesgoChart')).then(function (canvas) {
+const chartImage = canvas.toDataURL('image/png');
+
+    // Añadir la gráfica debajo del encabezado
+    doc.addImage(chartImage, 'PNG', 150, 20, 120, 90);  // Ajustar tamaño y posición de la gráfica
+
+    // Puedes añadir más contenido aquí si lo necesitas
+    doc.setFontSize(12);
+    doc.text("Reporte de datos", 10, 180);  // Añadir un título o texto descriptivo debajo de la gráfica
+    
+
+ 
+// Previsualizar el PDF en una nueva ventana
+doc.output('dataurlnewwindow');
+});
+});
+</script>
+<script>
+     $(document).ready(function() {
+        // Inicializar el primer datepicker
+        $("#fecha1").datepicker({
+            dateFormat: "yy-mm-dd", // Cambiar el formato de la fecha si es necesario
+            showAnim: "slideDown"   // Animación al mostrar el calendario
+        });
+
+        // Inicializar el segundo datepicker
+        $("#fecha2").datepicker({
+            dateFormat: "yy-mm-dd", // Cambiar el formato de la fecha si es necesario
+            showAnim: "slideDown"   // Animación al mostrar el calendario
+        });
+    });
+</script>
+<!-- Generar y Descargar PDF -->
+<script>
+document.getElementById('generarPDFBtn').addEventListener('click', function () {
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF('landscape');
+
+// Título del PDF
+doc.text('Reporte de Encuesta', 10, 10);
+
+// Datos de ejemplo para la tabla
+const data = [
+['Pregunta 1', 'Respuesta 1'],
+['Pregunta 2', 'Respuesta 2'],
+['Pregunta 3', 'Respuesta 3']
+];
+
+// Añadir tabla usando autoTable a la izquierda
+doc.autoTable({
+head: [['Pregunta', 'Respuesta']],
+body: data,
+startY: 20, // Para que no se superponga con el título
+margin: { right: 150 } // Deja espacio a la derecha para la gráfica
+});
+
+// Capturar el gráfico
+html2canvas(document.getElementById('riesgoChart')).then(function (canvas) {
+const chartImage = canvas.toDataURL('image/png');
+
+// Agregar el gráfico al PDF a la derecha
+doc.addImage(chartImage, 'PNG', 150, 20, 120, 80);
+
+// Capturar la imagen proporcionada
+const img = document.querySelector('img');
+html2canvas(img).then(function (canvasImg) {
+    const image = canvasImg.toDataURL('image/png');
+
+
+    // Configurar la imagen de encabezado
+    //doc.addImage(image, 'PNG', 10, 10, 190, 60);  // Ajusta el tamaño y la posición para el encabezado
+    
+    // Si tienes una gráfica en tu página, conviértela a imagen base64
+    var chartImage = myChart.toBase64Image();
+
+    // Añadir la gráfica debajo del encabezado
+    doc.addImage(chartImage, 'PNG', 150, 120, 140, 80);  // Ajustar tamaño y posición de la gráfica
+    
+    // Puedes añadir más contenido aquí si lo necesitas
+    doc.setFontSize(12);
+    doc.text("Reporte de datos", 10, 180);  // Añadir un título o texto descriptivo debajo de la gráfica
+    // Descargar el PDF
+    doc.save('reporte.pdf');
+
+});
+});
+});
+</script>
+
+<script>
+// Datos de la tabla proporcionada
+const data = {
+labels: ['Nulo', 'Bajo', 'Medio', 'Alto', 'Muy alto'],
+datasets: [
+    {
+        label: 'Calificación final del cuestionario',
+        data: [0, 0, 64.82, 0, 0],
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+    },
+    {
+        label: 'Ambiente de trabajo',
+        data: [4.13, 19.4, 6.68, 18.74, 0],
+        backgroundColor: 'rgba(255, 206, 86, 0.6)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        borderWidth: 1
+    },
+    {
+        label: 'Dominio',
+        data: [4.13, 0, 20.93, 13.6, 0],
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+    }
+]
+};
+
+const config = {
+type: 'bar',
+data: data,
+options: {
+    scales: {
+        y: {
+            beginAtZero: true
+        }
+    }
+}
+};
+
+// Inicializar el gráfico
+const riesgoChart = new Chart(
+document.getElementById('riesgoChart'),
+config
+);
+
+
+</script>      
+<script>
+    
+        // Crear la gráfica
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Ambiente de trabajo', 'Factores propios de la actividad', 'Organización del tiempo de trabajo', 'Liderazgo y relaciones en el trabajo'],
+                datasets: [{
+                    label: 'Calificación',
+                    data: [4.13, 19.94, 6.68, 18.74],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+</script> 
                             </div>
                         </div><!-- /.container-fluid -->
                     </section>

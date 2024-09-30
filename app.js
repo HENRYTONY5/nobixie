@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser')
 const { json } = require('express')
 const multer = require('multer')
 const { Chart } = import('chart.js');
-
+const session = require('express-session');
 
 app.set('view engine', 'ejs')
 
@@ -35,8 +35,8 @@ app.use(multer({
 
 dotenv.config({path: './env/.env'})
 
-app.use(express.urlencoded({extended:false}))
-//app.use(express(json))
+app.use(express.urlencoded({extended:true}))
+app.use(express(json))
 app.use(cookieParser())
 
 // import the router
@@ -50,3 +50,6 @@ const PORT = process.env.PORT || 3000
 app.listen(PORT, ()=>{
     console.log('Server running in port: ', PORT)
 });
+
+
+

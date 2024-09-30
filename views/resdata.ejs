@@ -1,6 +1,7 @@
 <%- include("template/header") %>
     <%- include("template/navbar") %>
         <%- include("template/aside") %>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <style>
           .form-container {
               max-width: 800px;
@@ -28,6 +29,7 @@
               border-color: #004085;
           }
       </style>
+      
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 
@@ -59,6 +61,8 @@
                                                 <div class="form-group">
                                                     <label for="id_empleado">Id Empleado</label>
                                                     <input type="number" class="form-control" id="id_empleado" name="id_empleado" placeholder="Número de empleado" required>
+                                                    <div id="empleado-error" style="color: red; display: none;">Este empleado ya está registrado.</div>
+
                                                 </div>
                                                 <!-- razon_social -->
                                                 <div class="form-group">
@@ -142,12 +146,12 @@
                                                             <select class="form-control" id="antiguedad" name="antiguedad" required>
                                                                 <option value="">Seleccione</option>
                                                                 <option value="Menos de 12 meses">Menos de 12 meses</option>
-                                                                <option value="1 año o más">1 año o más</option>
+                                                                <option value="1 año o más" >1 año o más</option>
                                                             </select>
                                                         </div>
                                             
                                                         <!-- Botón de Enviar -->
-                                                        <button type="submit" class="btn btn-primary">Guardar Encuesta</button>
+                                                        <button type="submit" class="btn btn-primary" id="submit-btn" onclick="confirmation_encuesta10()">Guardar Encuesta</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -164,5 +168,93 @@
                     <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
+            <script>
+                function confirmation_encuesta10() {
+    // Mostrar ventana emergente SweetAlert2
+         
+        
+            
+            // Si el empleado fue validado correctamente, redirige al curso
+            Swal.fire({
+                    title: 'Guardado',
+                    text: 'Colaborador registrado, redirigiendo...',
+                    icon: 'success'
+                }).then(() => {
+                    window.location.href = '/'; // Redirige al usuario a la página
+                });
+        }
+    
+            </script>
+            <script>
+                $(document).ready(function() {
+                    // Monitorear el input en tiempo real
+                    $('#id_empleado').on('input', function() {
+                        const id_empleado = $(this).val();
+                        
+                        if (id_empleado) {
+                            // Hacer la petición a la API para verificar si el empleado ya existe
+                            $.ajax({
+                                url: 'http://localhost:3000/asistencia-auth',
+                                method: 'POST',
+                                contentType: 'application/json', // Asegurarse de que el contenido se envíe como JSON
+                                data: JSON.stringify({ id_empleado: id_empleado }), // Convertir el valor en JSON
+                                success: function(response) {
+                                    if (response.exists) {
+                                        // Mostrar el mensaje de error si el empleado ya existe
+                                        $('#empleado-error').show();
+                                        $('#submit-btn').prop('disabled', true); // Desactivar el botón de submit
+                                    } else {
+                                        // Ocultar el mensaje de error y habilitar el botón de submit si no existe
+                                        $('#empleado-error').hide();
+                                        $('#submit-btn').prop('disabled', false);
+                                    }
+                                }
+                            });
+                        } else {
+                            // Si el campo está vacío, desactivar el botón de submit
+                            $('#submit-btn').prop('disabled', true);
+                            $('#empleado-error').hide();
+                        }
+                    });
+                });
+                </script>
+                
+            
 
+<script>
+    $(document).ready(function() {
+        // Monitorear el input en tiempo real
+        $('#id_empleado').on('input', function() {
+            const id_empleado = $(this).val();
+            
+            if (id_empleado) {
+                // Hacer la petición a la API para verificar si el empleado ya existe
+                $.ajax({
+                    url: 'http://localhost:3000/asistencia-auth', // URL de la API
+                    method: 'GET', // Cambiado a GET si tu API espera una consulta
+                    success: function(response) {
+                        // Verificar si el id_empleado está en la lista de empleados
+                        const empleadoExiste = response.some(empleado => empleado.id_empleado == id_empleado);
+    
+                        if (empleadoExiste) {
+                            // Mostrar el mensaje de error si el empleado ya existe
+                            $('#empleado-error').show();
+                            $('#submit-btn').prop('disabled', true); // Desactivar el botón de submit
+                        } else {
+                            // Ocultar el mensaje de error y habilitar el botón si no existe
+                            $('#empleado-error').hide();
+                            $('#submit-btn').prop('disabled', false);
+                        }
+                    },
+                    
+                });
+            } else {
+                // Si el campo está vacío, desactivar el botón de submit
+                $('#submit-btn').prop('disabled', true);
+                $('#empleado-error').hide();
+            }
+        });
+    });
+    </script>
+    
             <%- include("template/footer") %>
