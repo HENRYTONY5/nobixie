@@ -115,6 +115,52 @@ router.get('/api/resg2', (req, res) => {
             res.json(result);
         });
     });
+    router.get('/api/resg3', (req, res) => {
+        const query = `SELECT *, 
+        -- Suma de las primeras 3 preguntas para "Condiciones peligrosas e inseguras"
+        (COALESCE(pregunta1, 0) + COALESCE(pregunta2, 0) + COALESCE(pregunta3, 0)) AS cate_ambiente_trabajo,
+        -- Suma de las preguntas correspondientes para "Factores propios de la actividad"
+        (COALESCE(pregunta4, 0) + COALESCE(pregunta5, 0) + COALESCE(pregunta6, 0) + COALESCE(pregunta7, 0) + COALESCE(pregunta8, 0) + COALESCE(pregunta9, 0) + COALESCE(pregunta41, 0)+ COALESCE(pregunta42, 0)+ COALESCE(pregunta43, 0)) AS factores_actividad,
+        -- Añadir más dominios y dimensiones según la tabla
+        (COALESCE(pregunta4, 0) + COALESCE(pregunta9, 0)) AS dom_Cargas_cuantitativas,
+        (COALESCE(pregunta5, 0) + COALESCE(pregunta6, 0)) AS dom_Ritmos_de_trabajo_acelerado,
+        (COALESCE(pregunta7, 0) + COALESCE(pregunta8, 0)) AS dom_Cargas_mental,
+        (COALESCE(pregunta5, 0) + COALESCE(pregunta6, 0)) AS dom_Ritmos_de_trabajo_acelerado,
+        (COALESCE(pregunta41, 0) + COALESCE(pregunta42, 0) + COALESCE(pregunta43, 0)) AS dom_cargas_psicolog_emocionales,
+        -- Suma de las preguntas correspondientes para "Cargas de trabajo"
+        (COALESCE(pregunta4, 0) + COALESCE(pregunta5, 0) + COALESCE(pregunta6, 0) + COALESCE(pregunta7, 0) + COALESCE(pregunta8, 0) + COALESCE(pregunta9, 0) + COALESCE(pregunta41, 0)+ COALESCE(pregunta42, 0)+ COALESCE(pregunta43, 0)) AS carga_trabajo,
+        -- Suma para "Cargas psicológicas emocionales"
+        (COALESCE(pregunta7, 0) + COALESCE(pregunta8, 0) + COALESCE(pregunta41, 0) + COALESCE(pregunta42, 0) + COALESCE(pregunta43, 0)) AS cargas_psicologicas,
+        -- Añadir más dominios y dimensiones según la tabla
+        (COALESCE(pregunta11, 0) + COALESCE(pregunta10, 0)) AS cate_Cargas_de_alta_responsabilidad,
+        (COALESCE(pregunta12, 0) + COALESCE(pregunta13, 0)) AS cate_Cargas_contradictorias_inconsistentes,
+        -- Falta de control sobre el trabajo"
+        (COALESCE(pregunta18, 0) + COALESCE(pregunta19, 0) + COALESCE(pregunta20, 0) + COALESCE(pregunta21, 0) + COALESCE(pregunta22, 0) + COALESCE(pregunta26, 0) + COALESCE(pregunta27, 0)) AS cate_falta_control_st,
+        -- Suma para "Cargas psicológicas emocionales"
+        (COALESCE(pregunta7, 0) + COALESCE(pregunta8, 0) + COALESCE(pregunta41, 0) + COALESCE(pregunta42, 0) + COALESCE(pregunta43, 0)) AS cargas_psicologicas_emos,
+        
+
+        -- Organización del tiempo de trabajo"
+        (COALESCE(pregunta14, 0) + COALESCE(pregunta15, 0) + COALESCE(pregunta16, 0) + COALESCE(pregunta17, 0) ) AS cate_Organización_tiempo_trabajo,
+        (COALESCE(pregunta16, 0)) AS Influencia_del_trabajo_fuera_del_centro_laboral,
+        (COALESCE(pregunta17, 0)) AS Limitada_o_inexistente_capacitacion,
+
+        (COALESCE(pregunta23, 0) + COALESCE(pregunta24, 0) + COALESCE(pregunta25, 0) + COALESCE(pregunta28, 0) + COALESCE(pregunta29, 0)) AS dom_liderazgo,
+        (COALESCE(pregunta23, 0) + COALESCE(pregunta24, 0) + COALESCE(pregunta25, 0)) AS dim_Escasa_claridad_de_funciones,
+        (COALESCE(pregunta28, 0) + COALESCE(pregunta29, 0)) AS dim_cate_liderazgo,
+
+        (COALESCE(pregunta30, 0) + COALESCE(pregunta31, 0) + COALESCE(pregunta32, 0) + COALESCE(pregunta44, 0) + COALESCE(pregunta45, 0) + COALESCE(pregunta46, 0)) AS dom_Relaciones_trabajo,
+        (COALESCE(pregunta30, 0) + COALESCE(pregunta31, 0) + COALESCE(pregunta32, 0)) AS dim_Relaciones_sociales_trabajo, 
+        (COALESCE(pregunta44, 0) + COALESCE(pregunta45, 0) + COALESCE(pregunta46, 0)) AS dim_Deficiente_relación_los_colaboradores_que_supervisa,
+
+        (COALESCE(pregunta33, 0) + COALESCE(pregunta34, 0) + COALESCE(pregunta35, 0) + COALESCE(pregunta36, 0) + COALESCE(pregunta37, 0) + COALESCE(pregunta38, 0) + COALESCE(pregunta39, 0) + COALESCE(pregunta40, 0)) AS diom_violencia_laboral
+        FROM res_g2`;
+                        
+        conexion.query(query, (err, result) => {
+            if (err) throw err;
+            res.json(result);
+        });
+    });
     
     
 
@@ -666,4 +712,7 @@ router.post('/submit88', (req, res) => {
     });
     
 });
+
+
+
 module.exports = router;
