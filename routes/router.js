@@ -566,12 +566,12 @@ router.post('/submit6', (req, res) => {
     });
 });
 router.post('/submit7', (req, res) => {
-    const { id_empleado7, pregunta23, pregunta24, pregunta25, pregunta26, pregunta27 } = req.body;
+    const { id_empleado7, pregunta28, pregunta29, pregunta30, pregunta31, pregunta32, pregunta33, pregunta34, pregunta35, pregunta36, pregunta37, pregunta38, pregunta39, pregunta40 } = req.body;
     console.log(req.body);
     // Verifica si el empleado ya tiene una fila en la tabla
     const checkQuery = 'SELECT id_empleado FROM res_g2 WHERE id_empleado = ?';
     
-    conexion.query(checkQuery, [id_empleado6], (err, results) => {
+    conexion.query(checkQuery, [id_empleado7], (err, results) => {
         if (err) {
             console.log('Error consultando id_empleado:', err);
             res.status(500).send('Error al verificar el empleado.');
@@ -579,10 +579,10 @@ router.post('/submit7', (req, res) => {
             // Si el empleado ya tiene una fila, actualizamos las respuestas
             const updateQuery = `
                 UPDATE res_g2 
-                SET pregunta23 = ?, pregunta24 = ?, pregunta25 = ?, pregunta26 = ?, pregunta27 = ?
+                SET pregunta28 = ?, pregunta29 = ?, pregunta30 = ?, pregunta31 = ?, pregunta32 = ?, pregunta33 = ?, pregunta34 = ?, pregunta35 = ?, pregunta36 = ?, pregunta37 = ?, pregunta38 = ?, pregunta39 = ?, pregunta40 = ?
                 WHERE id_empleado = ?
             `;
-            conexion.query(updateQuery, [ pregunta23, pregunta24, pregunta25, pregunta26, pregunta27, id_empleado6], (err, result) => {
+            conexion.query(updateQuery, [ pregunta28, pregunta29, pregunta30, pregunta31, pregunta32, pregunta33, pregunta34, pregunta35, pregunta36, pregunta37, pregunta38, pregunta39, pregunta40, id_empleado7], (err, result) => {
                 if (err) {
                     console.log('Error actualizando datos:', err);
                     res.status(500).send('Error al actualizar las respuestas.');
@@ -593,10 +593,10 @@ router.post('/submit7', (req, res) => {
         } else {
             // Si no hay fila para el id_empleado, insertamos una nueva
             const insertQuery = `
-                INSERT INTO res_g2(id_empleado,  pregunta23, pregunta24, pregunta25, pregunta26, pregunta27) 
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO res_g2(id_empleado, pregunta28, pregunta29, pregunta30, pregunta31, pregunta32, pregunta33, pregunta34, pregunta35, pregunta36, pregunta37, pregunta38, pregunta39, pregunta40) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             `;
-            conexion.query(insertQuery, [id_empleado6, pregunta23, pregunta24, pregunta25, pregunta26, pregunta27], (err, result) => {
+            conexion.query(insertQuery, [id_empleado7, pregunta28, pregunta29, pregunta30, pregunta31, pregunta32, pregunta33, pregunta34, pregunta35, pregunta36, pregunta37, pregunta38, pregunta39, pregunta40], (err, result) => {
                 if (err) {
                     console.log('Error insertando datos:', err);
                     res.status(500).send('Error al registrar las respuestas.');
@@ -608,6 +608,48 @@ router.post('/submit7', (req, res) => {
     });
 });
 router.post('/submit8', (req, res) => {
+    const { id_empleado8, pregunta41, pregunta42, pregunta43, pregunta44, pregunta45, pregunta46 } = req.body;
+    console.log(req.body);
+    // Verifica si el empleado ya tiene una fila en la tabla
+    const checkQuery = 'SELECT id_empleado FROM res_g2 WHERE id_empleado = ?';
+    
+    conexion.query(checkQuery, [id_empleado8], (err, results) => {
+        if (err) {
+            console.log('Error consultando id_empleado:', err);
+            res.status(500).send('Error al verificar el empleado.');
+        } else if (results.length > 0) {
+            // Si el empleado ya tiene una fila, actualizamos las respuestas
+            const updateQuery = `
+                UPDATE res_g2 
+                SET pregunta41 = ?, pregunta42 = ?, pregunta43 = ?, pregunta44 = ?, pregunta45 = ?, pregunta46 = ?
+                WHERE id_empleado = ?
+            `;
+            conexion.query(updateQuery, [ pregunta41, pregunta42, pregunta43, pregunta44, pregunta45, pregunta46, id_empleado8], (err, result) => {
+                if (err) {
+                    console.log('Error actualizando datos:', err);
+                    res.status(500).send('Error al actualizar las respuestas.');
+                } else {
+                    res.redirect('/guia2');
+                }
+            });
+        } else {
+            // Si no hay fila para el id_empleado, insertamos una nueva
+            const insertQuery = `
+                INSERT INTO res_g2(id_empleado, pregunta41, pregunta42, pregunta43, pregunta44, pregunta45, pregunta46) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            `;
+            conexion.query(insertQuery, [id_empleado8, pregunta41, pregunta42, pregunta43, pregunta44, pregunta45, pregunta46], (err, result) => {
+                if (err) {
+                    console.log('Error insertando datos:', err);
+                    res.status(500).send('Error al registrar las respuestas.');
+                } else {
+                    res.redirect('/guia2');
+                }
+            });
+        }
+    });
+});
+router.post('/submit88', (req, res) => {
     const { pregunta41, pregunta42, pregunta43, pregunta44, pregunta45, pregunta46 } = req.body;
     
     const query = 'INSERT INTO res_g2(pregunta41, pregunta42, pregunta43, pregunta44, pregunta45, pregunta46) VALUES (?, ?, ?, ?, ?, ?)';
