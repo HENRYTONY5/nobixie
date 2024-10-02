@@ -11,6 +11,13 @@
     
         <style>
             /* Opcional: Estilo para el input */
+            
+        .blue { background-color: lightblue; }
+        .green { background-color: lightgreen; }
+        .yellow { background-color: yellow; }
+        .orange { background-color: orange; }
+        .red { background-color: red; }
+   
         .form-control {
             width: 300px; /* Ajustar según sea necesario */
             margin-bottom: 10px; /* Espacio entre inputs */
@@ -49,7 +56,7 @@
         </style>
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-                <%- include('template/breadcrumb', {module: 'Distribución global ' }) %>
+                <%- include('template/breadcrumb', {module: 'Resultados De La evaluación ' }) %>
                     <!-- Content Header (Page header) -->
                     <section class="content-header">
                         <div class="container-fluid">
@@ -63,6 +70,19 @@
                                         <div class="card-body">
                                             <p class="card-text">Medio, se requiere ver la politica de prevención de riesgos psicosociales y programas para la prevensión de los factores de riesgo psicosocial, la promoción de un entorno organizacional favorable y la prevención de la villencia laboral, así como reforzar su aplicación y difusión mediante un Programa de intervención.
                                             </p> <br>
+                                            <table id="tablaResultados" class="table table-bordered table-striped">
+                                                <thead>
+                                                  <tr>
+                                                    <th>ID Empleado</th>
+                                                    <th>Gran Total</th>
+                                                    <th>Nivel de Riesgo</th>
+                                                    <th>Acciones Necesarias</th>
+                                                    <th>Descargar Reporte</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                              </table>
                                             <section>
                                                 <div class="container mt-8">
                                                     <!-- Título estático -->
@@ -103,12 +123,28 @@
                                                                     <div class="card card-primary">
                                                                         <div class="card-header">
                                                                             <h3 class="card-title">Formulario de Datos</h3>
+                                                                            <p>7.7 El resultado de la identificación y análisis de los factores de riesgo psicosocial y la evaluación del entorno organizacional deberá constar
+                                                                                en un informe que contenga lo siguiente:
+                                                                                Datos del centro de trabajo verificado:
+                                                                                Nombre, denominación o razón social;
+                                                                                Domicilio;
+                                                                                Actividad principal;
+                                                                                Objetivo;
+                                                                                Principales actividades realizadas en el centro de trabajo;
+                                                                                Método utilizado conforme al numeral 7.4, de la presente Norma;
+                                                                                Resultados obtenidos de acuerdo con el numeral 7.4, inciso d) de esta Norma,
+                                                                                Conclusiones;
+                                                                                Recomendaciones y acciones de intervención, en su caso, y
+                                                                                Datos del responsable de la evaluación;
+                                                                                Nombre completo, y
+                                                                                Número de cédula profesional, en su caso.
+                                                                                </p>
                                                                         </div>
                                             
                                                                         <!-- Formulario -->
                                                                         <div class="card-body">
                                                                             <form action="/save-datae" method="POST">
-                                                                            
+                                                                                
                                                                                 <div class="form-group">
                                                                                     <label for="nombre">Nombre o razón social:</label>
                                                                                     <input type="text" id="nombre" name="nombre" class="form-control" required>
@@ -194,6 +230,10 @@
                                                     </div>
                                                 </div>
                                         </section>
+                                        
+                                        
+                                    
+                                        
                                         <h2>Reporte con Tabla y Gráfica</h2>
                                         <div class="card-body">
                                             <table class="table table-bordered table-striped">
@@ -247,9 +287,9 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            </div>
+                                            </div> -->
                                         <div style="display: flex;">
-                                            <!-- Div que contendrá la gráfica -->
+                                             Div que contendrá la gráfica -->
                                             <div style="width: 50%;">
                                                 <h2>Calificacion final. Prueba</h2><br>
                                                 <canvas id="riesgoChart"></canvas>
@@ -297,8 +337,51 @@
 <button id="generarPDFBt">Generar tabla y Descargar PDF</button>
 
                                             
-    <!-- Aquí insertas tu gráfica en canvas -->
+    <!-- Aquí insertas tu gtabla en gjquery-->
    
+      
+      <script>
+      // Función para asignar nivel de riesgo, color y acciones basadas en el gran_total
+      function obtenerRiesgo(gran_total) {
+        if (gran_total < 20) {
+          return { nivel: "Nulo o despreciable", color: "#c0c0c0", accion: "No se requiere más acciones" };
+        } else if (gran_total < 45) {
+          return { nivel: "Bajo", color: "#00ff00", accion: "Se recomienda realizar una revisión" };
+        } else if (gran_total < 70) {
+          return { nivel: "Medio", color: "#ffff00", accion: "Intervención preventiva necesaria" };
+        } else if (gran_total < 90) {
+          return { nivel: "Alto", color: "#ff9900", accion: "Intervención obligatoria" };
+        } else {
+          return { nivel: "Muy alto", color: "#ff0000", accion: "Acción urgente requerida" };
+        }
+      }
+      
+      // Llamada a la API para obtener los datos
+      fetch('/api/resg3')
+        .then(response => response.json())
+        .then(data => {
+          const tbody = document.querySelector("#tablaResultados tbody");
+      
+          data.forEach(item => {
+            const riesgo = obtenerRiesgo(item.gran_total);
+            const tr = document.createElement("tr");
+      
+            // Crear las celdas de la tabla
+            tr.innerHTML = `
+              <td>${item.id_empleado}</td>
+              <td>${item.gran_total}</td>
+              <td style="background-color: ${riesgo.color}">${riesgo.nivel}</td>
+              <td>${riesgo.accion}</td>
+              <td><a href="/reporte1/${item.id_empleado}" class="btn btn-primary"><i class="fas fa-file-alt"></i> Descargar</a></td>
+            `;
+      
+            // Añadir la fila a la tabla
+            tbody.appendChild(tr);
+          });
+        })
+        .catch(error => console.error("Error al obtener los datos:", error));
+      </script>
+      
     
     
     <script>
@@ -728,7 +811,54 @@ html2canvas(img).then(function (canvasImg) {
 });
 });
 </script>
+<script>
+    // Realizar la solicitud a la API
+    fetch('/api/resg3')
+        .then(response => response.json())
+        .then(data => {
+            // Referencias a las tablas
+            const tabla1 = document.getElementById('tabla1').getElementsByTagName('tbody')[0];
+            const tabla2 = document.getElementById('tabla2').getElementsByTagName('tbody')[0];
 
+            // Recorrer todos los empleados en la API
+            data.forEach(empleadoData => {
+                // Llenar la primera tabla: Resultados por pregunta
+                const preguntasResultados = [
+                    ['Condiciones peligrosas e inseguras', empleadoData.cate_ambiente_trabajo],
+                    ['Factores propios de la actividad', empleadoData.factores_actividad],
+                    ['Cargas Cuantitativas', empleadoData.dom_Cargas_cuantitativas],
+                    ['Cargas Mentales', empleadoData.dom_Cargas_mental],
+                    ['Cargas Psicológicas Emocionales', empleadoData.dom_cargas_psicolog_emocionales],
+                    ['Organización del Tiempo', empleadoData.cate_Organización_tiempo_trabajo],
+                    ['Liderazgo', empleadoData.dom_liderazgo],
+                    ['Relaciones Sociales', empleadoData.dim_Relaciones_sociales_trabajo],
+                    ['Violencia Laboral', empleadoData.diom_violencia_laboral]
+                ];
+
+                preguntasResultados.forEach(item => {
+                    const row = tabla1.insertRow();
+                    row.insertCell(0).textContent = empleadoData.id_empleado; // ID del empleado
+                    row.insertCell(1).textContent = item[0]; // Pregunta o categoría
+                    row.insertCell(2).textContent = item[1]; // Resultado
+                });
+
+                // Llenar la segunda tabla: Totales después del Gran Total
+                const totalesResultados = [
+                    ['Total Ambiente de Trabajo', empleadoData.cate_ambiente_trabajo],
+                    ['Total Factores de Actividad', empleadoData.factores_actividad],
+                    ['Gran Total', '64.82'] // Ajusta este valor si tienes un cálculo dinámico
+                ];
+
+                totalesResultados.forEach(item => {
+                    const row = tabla2.insertRow();
+                    row.insertCell(0).textContent = empleadoData.id_empleado; // ID del empleado
+                    row.insertCell(1).textContent = item[0]; // Categoría o total
+                    row.insertCell(2).textContent = item[1]; // Valor del total
+                });
+            });
+        })
+        .catch(error => console.error('Error al obtener datos:', error));
+</script>
 <script>
 // Datos de la tabla proporcionada
 const data = {
@@ -814,6 +944,28 @@ config
             }
         });
 </script> 
+<script>
+    async function fetchData() {
+        const response = await fetch('/api/resg3');
+        const data = await response.json();
+        const tableBody = document.querySelector('#resultTable tbody');
+        tableBody.innerHTML = '';
+
+        data.forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${row.id_empleado}</td>
+                <td>${row.cate_ambiente_trabajo}</td>
+                <td>${row.factores_actividad}</td>
+                <!-- Completa con más columnas -->
+            `;
+            tableBody.appendChild(tr);
+        });
+    }
+
+    // Llamar a la función para cargar los datos al cargar la página
+    window.onload = fetchData;
+</script>
                             </div>
                         </div><!-- /.container-fluid -->
                     </section>

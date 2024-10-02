@@ -7,7 +7,8 @@ const { json } = require('express')
 const multer = require('multer')
 const { Chart } = import('chart.js');
 const session = require('express-session');
-
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
 app.set('view engine', 'ejs')
 
 //middlewares
