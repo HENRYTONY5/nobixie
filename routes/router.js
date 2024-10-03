@@ -67,17 +67,17 @@ router.get('/descargar-pdf', authController.descargarPDF);
 
 // Ruta para guardar datos
 router.get('/data-enterprise', (req, res) => {
-    const query = 'SELECT * FROM data_enterprise WHERE id = ?'; // Ajusta la consulta según tu necesidad
-    const id = req.query.id; // Suponiendo que recibes un ID como parámetro en la URL
-
-    db.query(query, [id], (err, result) => {
+    const query = 'SELECT * FROM data_enterprise'; // Ajusta la consulta según tu necesidad
+    
+    conexion.query(query, (err, result) => {
         if (err) {
             console.error('Error fetching data: ', err);
             return res.status(500).json({ error: 'Error al obtener los datos' });
         }
-        res.render('data-enterprise', { data: result[0] }); // Renderiza la vista con los datos obtenidos
+        res.json(result); // Devuelve los datos en formato JSON
     });
 });
+
 router.post('/asistencia/store-session', (req, res) => {
     const { id_empleado } = req.body;
     req.session.id_empleado = id_empleado; // Guarda el id_empleado en la sesión
@@ -305,17 +305,25 @@ router.get('/reporte1/:id_empleado', (req, res) => {
             const datos = result[idEmpleado-1]; // Obtenemos la primera fila de resultados
             //console.log(datos);
             const categories = [
+                {
+                    name: 'Caracteristicas', value: 0
+                },
                 { name: '1.- Condiciones peligrosas e inseguras', value: datos.cate_ambiente_trabajo },
                 { name: '2.-Factores propios de la actividad', value: datos.factores_actividad },
+                { name: '9.-Cargas de alta responsabilidad', value: datos.cate_Cargas_de_alta_responsabilidad },
+                { name: '10.-Cargas contradictorias/inconsistentes', value: datos.cate_Cargas_contradictorias_inconsistentes },
+                {
+                    name: 'Domininio del mundo', value: 0
+                },
+                { name: '11.-Falta control ST', value: datos.cargas_psicologicas_emos },
                 { name: '3.-Dominio cargas cuantitativas', value: datos.dom_cargas_cuantitativas },
+
                 { name: '4.-Dominio Ritmos de trabajo acelerado', value: datos.dom_Ritmos_de_trabajo_acelerado },
                 { name: '5.-Carga mental', value: datos.dom_Cargas_mental },
                 { name: '6.-Cargas psicológicas emocionales', value: datos.dom_cargas_psicolog_emocionales },
                 { name: '7.-Carga de trabajo', value: datos.carga_trabajo },
                 { name: '8.-Cargas psicológicas', value: datos.cargas_psicologicas },
-                { name: '9.-Cargas de alta responsabilidad', value: datos.cate_Cargas_de_alta_responsabilidad },
-                { name: '10.-Cargas contradictorias/inconsistentes', value: datos.cate_Cargas_contradictorias_inconsistentes },
-                { name: '11.-Falta control ST', value: datos.cargas_psicologicas_emos },
+                
                 { name: '12.-Organización tiempo de trabajo', value: datos.cate_Organización_tiempo_trabajo },
                 { name: '13.-Influencia del trabajo fuera del centro laboral', value: datos.Influencia_del_trabajo_fuera_del_centro_labora },
                 { name: '.-Limitada o inexistente capacitación', value: datos.Limitada_o_inexistente_capacitacion },
@@ -343,7 +351,7 @@ router.get('/reporte1/:id_empleado', (req, res) => {
             doc.moveDown();
         
             // Encabezado de la tabla
-            doc.fontSize(12).text('Resultado por ', { continued: true }).text('Categoría Y Dominio sin ordenar pero si sumadas', { underline: true });
+            doc.fontSize(12).text('Resultados por ', { continued: true }).text('Categoría Y Dominio ordenaradas, sumadas', { underline: true });
             doc.moveDown();
         
             // Dibuja la tabla
@@ -423,7 +431,7 @@ function getCategoryScore(value, category) {
             else if (value >= 28 && value < 38) return 'gray';
             else return 'red';
         default:
-            return 'pink';
+            return 'white';
     }
 }
 router.get('/reporte/:id_empleado', (req, res) => {

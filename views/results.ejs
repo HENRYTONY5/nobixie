@@ -330,6 +330,10 @@
                                                 <canvas id="riesgoChart4" width="400" height="500"></canvas>
                                                 <br>
 <button id="previewPDFBtn">Previsualizar PDF</button>
+<button id="previewPDFBtn2">Previsualizar PDF 2</button>
+
+<button id="previewPDFBtn20">Previsualizar PDF 20</button>
+
 
 
 <!-- Botón para descargar el PDF -->
@@ -382,6 +386,78 @@
         .catch(error => console.error("Error al obtener los datos:", error));
       </script>
       
+      <script>
+        document.getElementById('previewPDFBtn20').addEventListener('click', function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('portrait');  // Cambiar a orientación vertical
+    
+            // Función para cargar la imagen
+            const loadImage = (src) => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.src = src;  // Ruta de la imagen
+                    img.onload = () => resolve(img);
+                    img.onerror = reject;  // En caso de error al cargar la imagen
+                });
+            };
+    
+            // Cargar los datos de la empresa
+            fetch('/data-enterprise')
+                .then(response => response.json())
+                .then(data => {
+                    const { nombre, rfc, domicilio, giro, created_at, vigencia } = data[0]; // Asegúrate de ajustar esto según tu estructura de datos
+    
+                    // Añadir datos de la empresa en el centro de la portada
+                    doc.text(`Nombre: ${nombre}`, 10, 100);  // Ajusta la posición
+                    doc.text(`RFC: ${rfc}`, 10, 110);  // Ajusta la posición
+                    doc.text(`Domicilio: ${domicilio}`, 10, 120);  // Ajusta la posición
+                    doc.text(`Razón social: ${giro}`, 10, 130);  // Ajusta la posición
+                    doc.text(`fecha: ${created_at}`, 10, 140);  // Ajusta la posición
+                    doc.text(`vigencia: ${vigencia}`, 10, 150);  // Ajusta la posición
+                    
+                    // Crear promesas para cargar las imágenes
+                    const img1Promise = loadImage('/img/diet_.png'); // Imagen superior derecha
+                    const img2Promise = loadImage('/img/otra_imagen.png'); // Imagen inferior derecha
+    
+                    // Esperar a que ambas imágenes se carguen
+                    Promise.all([img1Promise, img2Promise])
+                        .then(([img1, img2]) => {
+                            // Añadir la primera imagen (superior derecha)
+                            doc.addImage(img1, 'PNG', 150, 10, 40, 30); // Ajusta posición y tamaño
+    
+                            // Añadir la segunda imagen (inferior derecha)
+                            doc.addImage(img2, 'PNG', 150, 160, 40, 30); // Ajusta posición y tamaño
+    
+                            // Añadir nueva página
+                            doc.addPage();
+                            doc.text('Reporte de Encuesta', 10, 10);
+    
+                            // Capturar el gráfico
+                            const captureChart = document.getElementById('riesgoChart3');
+                            if (captureChart) {
+                                return html2canvas(captureChart).then(canvas => {
+                                    const chartImage = canvas.toDataURL('image/png');
+                                    doc.addImage(chartImage, 'PNG', 10, 30, 180, 100); // Ajusta posición y tamaño
+                                });
+                            } else {
+                                console.error('No se encontró el gráfico con el ID "riesgoChart3"');
+                                throw new Error('No se encontró el gráfico');
+                            }
+                        })
+                        .then(() => {
+                            // Descargar el PDF
+                            doc.save('reporte_encuesta.pdf');  // Descarga el archivo PDF directamente
+                        })
+                        .catch(error => {
+                            console.error('Error al generar el PDF:', error);
+                        });
+                })
+                .catch(error => console.error('Error al obtener datos de la empresa:', error));
+        });
+    </script>
+    
+    
+        
     
     
     <script>
@@ -449,6 +525,8 @@
             });
         });
         
+        // Botón para generar el PDF
+
         // Funcionalidad para previsualizar el PDF
         document.getElementById('previewPDFBtn2').addEventListener('click', function () {
             const { jsPDF } = window.jspdf;
