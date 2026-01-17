@@ -1,206 +1,242 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
+const userController = require('../controllers/userController');
+const authController = require('../controllers/authController');
+const passwordResetRouter = require('./passwordReset');
+const conexion = require('../database/db');
 
-//to invoke the methods for the CRUD of users
-const userController = require('../controllers/userController')
-const authController = require('../controllers/authController')
-const { Router } = require('express')
+// Middleware para verificar rol de Admin
+const isAdmin = (req, res, next) => {
+    if (!req.user || req.user.rol !== 'Admin') {
+        return res.status(403).render('index', {
+            userName: req.user ? req.user.user : 'Usuario',
+            image: req.user ? req.user.image : '',
+            titleWeb: "Acceso denegado",
+            alert: true,
+            alertMessage: "Solo administradores pueden acceder"
+        });
+    }
+    next();
+};
 
-
-//path to send the data in json format
-const { json } = require('express');
-
-//Invoke the database connection
-const conexion = require('../database/db')
-
-//path to retrieve all users
-router.get('/users', authController.isAuthenticated, (req, res) => {
-    // res.send('hola mundo')    
-    conexion.query('SELECT * FROM users', (error, results) => {
-        if(error){
-            throw error;
-        } else {
-            // res.send(results);
-            if (row.rol=="Admin") { 
-                res.render('users', { results: results, titleWeb: "Lista de usuarios" })
-            } else {
-                res.render('index', { userName: row.name, image: row.image, titleWeb: "Control Dashboard"})
-            }
+// USUARIOS - GET
+router.get('/users', authController.isAuthenticated, isAdmin, (req, res) => {
+    conexion.query('SELECT id, user, email, rol, image FROM users', (error, results) => {
+        if (error) {
+            console.error('Error al obtener usuarios:', error);
+            return res.status(500).render('users', {
+                results: [],
+                titleWeb: "Lista de usuarios",
+                alert: true,
+                alertMessage: 'Error al cargar usuarios'
+            });
         }
-    })
-})
-router.get('/tabledata', authController.isAuthenticated, (req, res) => {
-    // res.send('hola mundo')    
+        res.render('users', {
+            results,
+            titleWeb: "Lista de usuarios",
+            alert: false
+        });
+    });
+});
+
+// TABLEDATA - GET
+router.get('/tabledata', authController.isAuthenticated, isAdmin, (req, res) => {
     conexion.query('SELECT * FROM encuesta_trabajadores', (error, results) => {
-        if(error){
-            throw error;
-        } else {
-            // res.send(results);
-            if (row.rol=="Admin") { 
-                res.render('tabledata', { results: results, titleWeb: "Lista de Colaboradores" })
-            } else {
-                res.render('index', { userName: row.name, image: row.image, titleWeb: "Control Dashboard"})
-            }
+        if (error) {
+            console.error('Error al obtener datos:', error);
+            return res.status(500).render('tabledata', {
+                results: [],
+                titleWeb: "Lista de Colaboradores",
+                alert: true,
+                alertMessage: 'Error al cargar colaboradores'
+            });
         }
-    })
-})
-
-//path to create a record
-router.get('/createUser', authController.isAuthenticated, (req, res) => {
-    if (row.rol=="Admin") {        
-        res.render('createUser', { titleWeb: "Crear Usuario"})
-    } else {
-        res.render('index', { userName: row.name, image: row.image, titleWeb: "Control Dashboard"})
-    }
-})
-//crear Usuario
-router.get('/createData', authController.isAuthenticated, (req, res) => {
-    if (row.rol=="Admin") {        
-        res.render('createData', { titleWeb: "Crear Estadisticas"})
-    } else {
-        res.render('index', { userName: row.name, image: row.image, titleWeb: "Control de Datos"})
-    }
-})
-//insertar Info del usuario
-router.get('/createUser', authController.isAuthenticated, (req, res) => {
-    if (row.rol=="Admin") {        
-        res.render('creatUser', { titleWeb: "Crear Datos de Usuario"})
-    } else {
-        res.render('index', { userName: row.name, image: row.image, titleWeb: "Control de Datos"})
-    }
-})
-//path to edit a selected record
-router.get('/editUser/:id', authController.isAuthenticated, (req, res) => {
-    const id = req.params.id;
-    conexion.query('SELECT * FROM users WHERE id= ?', [id], (error, results) => {
-        if(error){
-            throw error;
-        } else {
-            if(row.rol=="Admin") {
-                res.render('editUser', { user: results[0], titleWeb: "Edit user" })
-            } else {
-                res.render('index', { userName: row.name, image: row.image, titleWeb: "Control Dashboard"})
-            }
-        }
-    })
-})
-
-//path to delete a selected record
-router.get('/deleteUser/:id', (req, res) => {
-    const id = req.params.id
-    conexion.query('DELETE FROM users WHERE id= ?', [id], (error, results) => {
-        if(error){
-            throw error;
-        } else {
-            res.redirect('/users')
-        }
-    })
+        res.render('tabledata', {
+            results,
+            titleWeb: "Lista de Colaboradores",
+            alert: false
+        });
+    });
 });
 
+// CREAR USUARIO - GET
+router.get('/createUser', authController.isAuthenticated, isAdmin, (req, res) => {
+    res.render('createUser', { titleWeb: "Crear Usuario", alert: false });
+});
 
-router.post('/saveUser', userController.saveUser)
-router.post('/updateUser', userController.updateUser)
-router.post('/guardarRespuestas', authController.guardarRespuestas);
+// CREAR DATOS - GET
+router.get('/createData', authController.isAuthenticated, isAdmin, (req, res) => {
+    res.render('createData', { titleWeb: "Crear Estadísticas", alert: false });
+});
 
+// EDITAR USUARIO - GET
+router.get('/editUser/:id', authController.isAuthenticated, isAdmin, (req, res) => {
+    const { id } = req.params;
+    
+    if (!id || isNaN(id)) {
+        return res.status(400).render('index', {
+            titleWeb: "Error",
+            alert: true,
+            alertMessage: 'ID de usuario inválido'
+        });
+    }
 
+    conexion.query('SELECT * FROM users WHERE id = ?', [id], (error, results) => {
+        if (error) {
+            console.error('Error al obtener usuario:', error);
+            return res.status(500).render('index', {
+                titleWeb: "Error",
+                alert: true,
+                alertMessage: 'Error al cargar usuario'
+            });
+        }
+        if (results.length === 0) {
+            return res.status(404).render('index', {
+                titleWeb: "No encontrado",
+                alert: true,
+                alertMessage: 'Usuario no encontrado'
+            });
+        }
+        res.render('editUser', {
+            user: results[0],
+            titleWeb: "Editar usuario",
+            alert: false
+        });
+    });
+});
 
-//router for views
+// ELIMINAR USUARIO - GET
+router.get('/deleteUser/:id', authController.isAuthenticated, isAdmin, (req, res) => {
+    const { id } = req.params;
+    
+    if (!id || isNaN(id)) {
+        return res.status(400).redirect('/users');
+    }
+
+    conexion.query('DELETE FROM users WHERE id = ?', [id], (error) => {
+        if (error) {
+            console.error('Error al eliminar usuario:', error);
+            return res.status(500).redirect('/users');
+        }
+        res.redirect('/users');
+    });
+});
+
+// SUBIR IMAGEN - POST
+router.post('/upload/:id', authController.isAuthenticated, (req, res) => {
+    const { id } = req.params;
+    
+    if (!id || isNaN(id) || !req.file) {
+        return res.status(400).redirect('/users');
+    }
+
+    conexion.query('UPDATE users SET image = ? WHERE id = ?', [req.file.filename, id], (error) => {
+        if (error) {
+            console.error('Error al actualizar imagen:', error);
+            return res.status(500).redirect('/users');
+        }
+        res.redirect('/users');
+    });
+});
+
+// CRUD USUARIOS - POST
+router.post('/saveUser', authController.isAuthenticated, isAdmin, userController.saveUser);
+router.post('/updateUser', authController.isAuthenticated, isAdmin, userController.updateUser);
+
+// DASHBOARD Y VISTAS PÚBLICAS
 router.get('/', authController.isAuthenticated, (req, res) => {
-    res.render('index', { userName: row.name, image: row.image, titleWeb: "Control Dashboard"})
-})
+    res.render('index', {
+        userName: req.user.user,
+        image: req.user.image || '',
+        titleWeb: "Panel de Control",
+        alert: false
+    });
+});
 
-router.get('/logout', authController.logout)
-
+router.get('/logout', authController.logout);
 router.get('/login', (req, res) => {
-    res.render('login', { alert:false })
-})
-
+    res.render('login', { alert: false });
+});
 router.get('/register', (req, res) => {
-    res.render('register', { alert:false })
-})
+    res.render('register', { alert: false });
+});
+
+// RUTAS DE RECUPERACIÓN DE CONTRASEÑA
+router.use(passwordResetRouter);
+
+// VISTAS PÚBLICAS (sin autenticación requerida)
 router.get('/asistencia', (req, res) => {
-    res.render('asistencia', { alert:false })
-})
+    res.render('asistencia', { titleWeb: "Asistencia", alert: false });
+});
 router.get('/results', (req, res) => {
-    res.render('results', { alert:false })
-})
+    res.render('results', { titleWeb: "Resultados", alert: false });
+});
 router.get('/estadio', (req, res) => {
-    res.render('estadio', { alert:false })
-})
+    res.render('estadio', { titleWeb: "Estadio", alert: false });
+});
 router.get('/contacto', (req, res) => {
-    res.render('contacto', { alert:false })
-})
+    res.render('contacto', { titleWeb: "Contacto", alert: false });
+});
 router.get('/events', (req, res) => {
-    res.render('events', { alert:false })
-})
+    res.render('events', { titleWeb: "Eventos", alert: false });
+});
 router.get('/res_events', (req, res) => {
-    res.render('res_events', { alert:false })
-})
+    res.render('res_events', { titleWeb: "Resultados de Eventos", alert: false });
+});
 router.get('/data', (req, res) => {
-    res.render('resdata', { alert:false })
-})
-
+    res.render('resdata', { titleWeb: "Datos", alert: false });
+});
 router.get('/guia2', (req, res) => {
-    res.render('guia2', { alert:false })
-})
+    res.render('guia2', { titleWeb: "Guía 2", alert: false });
+});
 router.get('/guia3', (req, res) => {
-    res.render('guia3', { alert:false })
-})
-router.get('/datos-graficas', authController.obtenerDatosParaGraficas);
-
-router.post('/submit', (req, res) => {
-    console.log('Ruta /submit llamada');
-    authController.registrarEncuesta(req, res);
-});
-router.get('/api/datos-graficos', (req, res) => {
-    authController.obtenerDatosGraficos(req, res);
+    res.render('guia3', { titleWeb: "Guía 3", alert: false });
 });
 
-router.post('/register', authController.register)
-router.post('/login', authController.login)
+// AUTENTICACIÓN - POST
+router.post('/register', authController.register);
+router.post('/login', authController.login);
 
-router.post('/upload/:id', (req, res) => {
-    const id = req.params.id
-    const image = req.file.filename
-
-    conexion.query('UPDATE users SET ? WHERE id= ?', [{image:image}, id], (error, results) => {
-        if(error){
-            console.error(error);
-        } else {
-            res.redirect('/users')
-        }
-    })
-})
+// ENCUESTAS Y DATOS
+router.post('/submit', authController.registrarEncuesta);
 router.post('/submit1', (req, res) => {
     const { pregunta1, pregunta2, pregunta3, pregunta4 } = req.body;
     
+    if (!pregunta1 || !pregunta2 || !pregunta3 || !pregunta4) {
+        return res.status(400).send('Todos los campos son obligatorios');
+    }
+
     const query = 'INSERT INTO respuestas (pregunta1, pregunta2, pregunta3, pregunta4) VALUES (?, ?, ?, ?)';
-    conexion.query(query, [pregunta1, pregunta2, pregunta3, pregunta4], (err, result) => {
+    conexion.query(query, [pregunta1, pregunta2, pregunta3, pregunta4], (err) => {
         if (err) {
-            console.log('Error insertando datos:', err);
-            res.status(500).send('Error al registrar las respuestas.');
-        } else {
-            res.send('Respuestas registradas exitosamente.');
+            console.error('Error al insertar respuestas:', err);
+            return res.status(500).send('Error al registrar respuestas');
         }
+        res.redirect('/events');
     });
-    res.redirect('/events')
 });
 
 router.post('/submit2', (req, res) => {
     const { pregunta1, pregunta2, pregunta3 } = req.body;
     
+    if (!pregunta1 || !pregunta2 || !pregunta3) {
+        return res.status(400).send('Todos los campos son obligatorios');
+    }
+
     const query = 'INSERT INTO res_g2 (pregunta1, pregunta2, pregunta3) VALUES (?, ?, ?)';
-    conexion.query(query, [pregunta1, pregunta2, pregunta3], (err, result) => {
+    conexion.query(query, [pregunta1, pregunta2, pregunta3], (err) => {
         if (err) {
-            console.log('Error insertando datos:', err);
-            res.status(500).send('Error al registrar las respuestas.');
-        } else {
-            
-            res.send('Respuestas registradas exitosamente.');
-           
+            console.error('Error al insertar respuestas:', err);
+            return res.status(500).send('Error al registrar respuestas');
         }
-        res.redirect('/guia2')
+        res.redirect('/guia2');
     });
-    
 });
+
+// APIS Y DATOS
+router.post('/guardarRespuestas', authController.guardarRespuestas);
+router.post('/validarEmpleado', authController.validarEmpleado);
+router.get('/datos-graficas', authController.obtenerDatosParaGraficas);
+router.get('/api/datos-graficos', authController.obtenerDatosGraficos);
+
 module.exports = router;
