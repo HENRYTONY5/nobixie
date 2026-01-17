@@ -6,6 +6,7 @@ const empleadoController = require('../controllers/empleadoController');
 const supervisorController = require('../controllers/supervisorController');
 const proyectoController = require('../controllers/proyectoController');
 const herramientasController = require('../controllers/herramientasController');
+const prestamosController = require('../controllers/prestamosController');
 const passwordResetRouter = require('./passwordReset');
 const conexion = require('../database/db');
 
@@ -192,6 +193,42 @@ router.get('/herramientas-entregadas', authController.isAuthenticated, isAdmin, 
         alert: false
     });
 });
+
+// VISTA REGISTRAR HERRAMIENTAS
+router.get('/registrar-herramientas', authController.isAuthenticated, isAdmin, (req, res) => {
+    res.render('registrar_herramientas', {
+        titleWeb: "Registrar Nueva Herramienta",
+        alert: false
+    });
+});
+
+// VISTA HERRAMIENTAS PRESTADAS
+router.get('/herramientas-prestadas', authController.isAuthenticated, isAdmin, (req, res) => {
+    res.render('herramientas_prestadas_view', {
+        titleWeb: "Herramientas Prestadas",
+        alert: false
+    });
+});
+
+// VISTA REGISTRAR PRÉSTAMO
+router.get('/registrar-prestamo', authController.isAuthenticated, isAdmin, (req, res) => {
+    res.render('registrar_prestamo', {
+        titleWeb: "Registrar Nuevo Préstamo",
+        alert: false
+    });
+});
+
+// API HERRAMIENTAS PRESTADAS - GET
+router.get('/api/herramientas-prestadas', authController.isAuthenticated, isAdmin, prestamosController.obtenerHerramientasPrestadas);
+
+// API HERRAMIENTAS PRESTADAS - POST
+router.post('/api/herramientas-prestadas', authController.isAuthenticated, isAdmin, prestamosController.crearHerramientaPrestada);
+
+// API HERRAMIENTAS PRESTADAS - PUT
+router.put('/api/herramientas-prestadas/:id', authController.isAuthenticated, isAdmin, prestamosController.actualizarHerramientaPrestada);
+
+// API HERRAMIENTAS PRESTADAS - DELETE
+router.delete('/api/herramientas-prestadas/:id', authController.isAuthenticated, isAdmin, prestamosController.eliminarHerramientaPrestada);
 
 // ELIMINAR USUARIO - GET
 router.get('/deleteUser/:id', authController.isAuthenticated, isAdmin, (req, res) => {

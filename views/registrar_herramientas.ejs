@@ -1,0 +1,436 @@
+<%- include("template/header") %>
+<%- include("template/navbar") %>
+<%- include("template/aside") %>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <%- include('template/breadcrumb', { module: 'Registrar Herramienta' }) %>
+
+  <!-- Content Header -->
+  <section class="content-header">
+    <div class="container-fluid">
+
+      <!-- Intro Card -->
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); border-radius: 15px;">
+            <div class="card-body text-white p-5">
+              <div class="d-flex align-items-center">
+                <div style="font-size: 3rem; margin-right: 20px;">
+                  <i class="fas fa-wrench"></i>
+                </div>
+                <div>
+                  <h2 class="card-title mb-2" style="font-weight: 700;">Registrar Nueva Herramienta</h2>
+                  <p class="mb-0 text-white-50">Asigna herramientas a los empleados de tu equipo de forma rápida y sencilla.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulario Principal -->
+      <div class="row mb-4">
+        <div class="col-md-8">
+          <div class="card border-0 shadow-lg" style="border-radius: 12px;">
+            <div class="card-header bg-primary text-white" style="border-radius: 12px 12px 0 0;">
+              <h5 class="mb-0" style="font-weight: 700;">
+                <i class="fas fa-edit mr-2"></i>Datos de la Entrega
+              </h5>
+            </div>
+            <div class="card-body p-4">
+              <form id="formRegistrarHerramienta">
+                
+                <!-- Folio (Autogenerado) -->
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="folio" style="font-weight: 600; color: #2563eb;">
+                        <i class="fas fa-barcode mr-1"></i>Folio <span class="badge badge-info">Autogenerado</span>
+                      </label>
+                      <input type="text" class="form-control form-control-lg" id="folio" name="folio" 
+                             placeholder="Generando..." style="border-radius: 8px; border: 2px solid #e5e7eb; background-color: #f3f4f6;" readonly required>
+                      <small class="text-muted">El sistema asignará automáticamente un folio único</small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Departamento -->
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="departamento" style="font-weight: 600; color: #2563eb;">
+                        <i class="fas fa-building mr-1"></i>Departamento <span class="text-danger">*</span>
+                      </label>
+                      <select class="form-control form-control-lg" id="departamento" name="departamento" 
+                              style="border-radius: 8px; border: 2px solid #e5e7eb;" required onchange="filtrarEmpleadosPorDepartamento()">
+                        <option value="">-- Seleccionar departamento primero --</option>
+                        <option value="Pailería">Pailería</option>
+                        <option value="Administración">Administración</option>
+                        <option value="Eléctricos">Eléctricos</option>
+                        <option value="Mantenimiento">Mantenimiento</option>
+                      </select>
+                      <small class="text-muted">Selecciona el departamento (filtra empleados)</small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Herramienta -->
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="herramienta" style="font-weight: 600; color: #2563eb;">
+                        <i class="fas fa-hammer mr-1"></i>Herramienta <span class="text-danger">*</span>
+                      </label>
+                      <input type="text" class="form-control form-control-lg" id="herramienta" name="herramienta" 
+                             placeholder="Ej: Multímetro Digital" style="border-radius: 8px; border: 2px solid #e5e7eb;" required>
+                      <small class="text-muted">Nombre o descripción de la herramienta</small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Fecha y Estado -->
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="fecha_entrega" style="font-weight: 600; color: #2563eb;">
+                        <i class="fas fa-calendar mr-1"></i>Fecha de Entrega <span class="text-danger">*</span>
+                      </label>
+                      <input type="date" class="form-control form-control-lg" id="fecha_entrega" name="fecha_entrega" 
+                             style="border-radius: 8px; border: 2px solid #e5e7eb;" required>
+                      <small class="text-muted">Cuándo se entrega la herramienta</small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="estado" style="font-weight: 600; color: #2563eb;">
+                        <i class="fas fa-check-circle mr-1"></i>Estado
+                      </label>
+                      <select class="form-control form-control-lg" id="estado" name="estado" 
+                              style="border-radius: 8px; border: 2px solid #e5e7eb;">
+                        <option value="Entregado">✓ Entregado</option>
+                        <option value="Pendiente">⏳ Pendiente</option>
+                        <option value="Devuelto">↩ Devuelto</option>
+                      </select>
+                      <small class="text-muted">Estado actual de la herramienta</small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Empleado (al final, filtrado por departamento) -->
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="empleado_id" style="font-weight: 600; color: #2563eb;">
+                        <i class="fas fa-user mr-1"></i>Empleado <span class="text-danger">*</span>
+                      </label>
+                      <select class="form-control form-control-lg" id="empleado_id" name="empleado_id" 
+                              style="border-radius: 8px; border: 2px solid #e5e7eb;" required disabled>
+                        <option value="">-- Primero selecciona un departamento --</option>
+                      </select>
+                      <small class="text-muted">Empleados filtrados por departamento seleccionado</small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Descripción -->
+                <div class="form-group">
+                  <label for="descripcion" style="font-weight: 600; color: #2563eb;">
+                    <i class="fas fa-align-left mr-1"></i>Cantidad
+                  </label>
+                  <textarea class="form-control" id="descripcion" name="descripcion" rows="2" 
+                            placeholder="Cantidad ." style="border-radius: 8px; border: 2px solid #e5e7eb;"></textarea>
+                  <small class="text-muted">Información adicional sobre la herramienta</small>
+                </div>
+
+                <!-- Observaciones -->
+                <div class="form-group">
+                  <label for="observaciones" style="font-weight: 600; color: #2563eb;">
+                    <i class="fas fa-sticky-note mr-1"></i>Observaciones
+                  </label>
+                  <textarea class="form-control" id="observaciones" name="observaciones" rows="2" 
+                            placeholder="Notas importantes..." style="border-radius: 8px; border: 2px solid #e5e7eb;"></textarea>
+                  <small class="text-muted">Observaciones del responsable</small>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Herramientas Sugeridas -->
+        <div class="col-md-4">
+          <div class="card border-0 shadow-lg" style="border-radius: 12px;">
+            <div class="card-header bg-success text-white" style="border-radius: 12px 12px 0 0;">
+              <h5 class="mb-0" style="font-weight: 700;">
+                <i class="fas fa-lightbulb mr-2"></i>Herramientas Sugeridas
+              </h5>
+            </div>
+            <div class="card-body p-3">
+              <p class="text-muted small mb-3">Haz clic en una herramienta para agregarla rápidamente:</p>
+              
+              <div class="list-group">
+                <!-- Herramienta Sugerida: Multímetro -->
+                <button type="button" class="list-group-item list-group-item-action border rounded mb-2 p-3" 
+                        style="transition: all 0.3s; cursor: pointer; border-radius: 8px !important;"
+                        onmouseover="this.style.backgroundColor='#e3f2fd'; this.style.transform='translateX(5px)'"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.transform='translateX(0)'"
+                        onclick="agregarSugerida('Multímetro Digital', 'Eléctricos')">
+                  <div class="d-flex align-items-center">
+                    <div style="font-size: 1.5rem; color: #2563eb; margin-right: 10px;">
+                      <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="text-left">
+                      <strong>Multímetro Digital</strong>
+                      <br>
+                      <small class="text-muted">Eléctricos</small>
+                    </div>
+                  </div>
+                </button>
+
+                <!-- Herramienta Sugerida: Destornillador -->
+                <button type="button" class="list-group-item list-group-item-action border rounded mb-2 p-3" 
+                        style="transition: all 0.3s; cursor: pointer; border-radius: 8px !important;"
+                        onmouseover="this.style.backgroundColor='#e3f2fd'; this.style.transform='translateX(5px)'"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.transform='translateX(0)'"
+                        onclick="agregarSugerida('Destornillador Phillips', 'Eléctricos')">
+                  <div class="d-flex align-items-center">
+                    <div style="font-size: 1.5rem; color: #2563eb; margin-right: 10px;">
+                      <i class="fas fa-screwdriver"></i>
+                    </div>
+                    <div class="text-left">
+                      <strong>Destornillador Phillips</strong>
+                      <br>
+                      <small class="text-muted">Eléctricos</small>
+                    </div>
+                  </div>
+                </button>
+
+                <!-- Herramienta Sugerida: Soldadora -->
+                <button type="button" class="list-group-item list-group-item-action border rounded mb-2 p-3" 
+                        style="transition: all 0.3s; cursor: pointer; border-radius: 8px !important;"
+                        onmouseover="this.style.backgroundColor='#e3f2fd'; this.style.transform='translateX(5px)'"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.transform='translateX(0)'"
+                        onclick="agregarSugerida('Soldadora MIG', 'Pailería')">
+                  <div class="d-flex align-items-center">
+                    <div style="font-size: 1.5rem; color: #f59e0b; margin-right: 10px;">
+                      <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="text-left">
+                      <strong>Soldadora MIG</strong>
+                      <br>
+                      <small class="text-muted">Pailería</small>
+                    </div>
+                  </div>
+                </button>
+
+                <!-- Herramienta Sugerida: Esmeril -->
+                <button type="button" class="list-group-item list-group-item-action border rounded mb-2 p-3" 
+                        style="transition: all 0.3s; cursor: pointer; border-radius: 8px !important;"
+                        onmouseover="this.style.backgroundColor='#e3f2fd'; this.style.transform='translateX(5px)'"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.transform='translateX(0)'"
+                        onclick="agregarSugerida('Esmeril Angular', 'Pailería')">
+                  <div class="d-flex align-items-center">
+                    <div style="font-size: 1.5rem; color: #f59e0b; margin-right: 10px;">
+                      <i class="fas fa-fan"></i>
+                    </div>
+                    <div class="text-left">
+                      <strong>Esmeril Angular</strong>
+                      <br>
+                      <small class="text-muted">Pailería</small>
+                    </div>
+                  </div>
+                </button>
+
+                <!-- Herramienta Sugerida: Perforadora -->
+                <button type="button" class="list-group-item list-group-item-action border rounded p-3" 
+                        style="transition: all 0.3s; cursor: pointer; border-radius: 8px !important;"
+                        onmouseover="this.style.backgroundColor='#e3f2fd'; this.style.transform='translateX(5px)'"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.transform='translateX(0)'"
+                        onclick="agregarSugerida('Perforadora de Papel', 'Administración')">
+                  <div class="d-flex align-items-center">
+                    <div style="font-size: 1.5rem; color: #10b981; margin-right: 10px;">
+                      <i class="fas fa-grip-horizontal"></i>
+                    </div>
+                    <div class="text-left">
+                      <strong>Perforadora de Papel</strong>
+                      <br>
+                      <small class="text-muted">Administración</small>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="row mb-4">
+        <div class="col-md-8 offset-md-2">
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-lg btn-primary" onclick="guardarHerramienta()" 
+                    style="border-radius: 8px; font-weight: 600; flex: 1;">
+              <i class="fas fa-save mr-2"></i>Guardar Entrega
+            </button>
+            <a href="/programers" class="btn btn-lg btn-secondary" style="border-radius: 8px; font-weight: 600; flex: 1;">
+              <i class="fas fa-times mr-2"></i>Cancelar
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Script -->
+<script>
+  let todosLosEmpleados = [];
+
+  // Cargar empleados y generar folio al abrir la página
+  document.addEventListener('DOMContentLoaded', function() {
+    cargarEmpleados();
+    generarFolio();
+    // Establecer fecha de hoy como default
+    document.getElementById('fecha_entrega').valueAsDate = new Date();
+  });
+
+  function generarFolio() {
+    // Generar folio automático basado en timestamp
+    const timestamp = Date.now();
+    const folio = 'ENT-' + String(timestamp).slice(-6);
+    document.getElementById('folio').value = folio;
+  }
+
+  function cargarEmpleados() {
+    fetch('/api/empleados')
+      .then(response => response.json())
+      .then(data => {
+        if (data.empleados) {
+          todosLosEmpleados = data.empleados;
+        }
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  function filtrarEmpleadosPorDepartamento() {
+    const departamento = document.getElementById('departamento').value;
+    const selectEmpleado = document.getElementById('empleado_id');
+    
+    if (!departamento) {
+      selectEmpleado.innerHTML = '<option value="">-- Primero selecciona un departamento --</option>';
+      selectEmpleado.disabled = true;
+      return;
+    }
+
+    // Filtrar empleados por departamento
+    const empleadosFiltrados = todosLosEmpleados.filter(emp => emp.departamento === departamento);
+    
+    selectEmpleado.innerHTML = '<option value="">-- Seleccionar empleado --</option>';
+    
+    if (empleadosFiltrados.length > 0) {
+      empleadosFiltrados.forEach(emp => {
+        const option = document.createElement('option');
+        option.value = emp.id;
+        option.textContent = `${emp.nombre} (${emp.numero_empleado})`;
+        selectEmpleado.appendChild(option);
+      });
+      selectEmpleado.disabled = false;
+    } else {
+      selectEmpleado.innerHTML = '<option value="">-- No hay empleados en este departamento --</option>';
+      selectEmpleado.disabled = true;
+    }
+  }
+
+  function agregarSugerida(herramienta, departamento) {
+    document.getElementById('herramienta').value = herramienta;
+    document.getElementById('departamento').value = departamento;
+    filtrarEmpleadosPorDepartamento();
+    document.getElementById('herramienta').focus();
+  }
+
+  function guardarHerramienta() {
+    const form = document.getElementById('formRegistrarHerramienta');
+    
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const datos = {
+      folio: document.getElementById('folio').value,
+      empleado_id: document.getElementById('empleado_id').value,
+      herramienta: document.getElementById('herramienta').value,
+      departamento: document.getElementById('departamento').value,
+      fecha_entrega: document.getElementById('fecha_entrega').value,
+      estado: document.getElementById('estado').value,
+      descripcion: document.getElementById('descripcion').value || null,
+      observaciones: document.getElementById('observaciones').value || null
+    };
+
+    fetch('/api/herramientas-entregadas', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(datos)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        Swal.fire({
+          icon: 'success',
+          title: '¡Herramienta Registrada!',
+          html: 'La herramienta se ha asignado correctamente.<br><small>Esta ventana se cerrará en <b></b> segundos</small>',
+          timer: 5000,
+          timerProgressBar: true,
+          showCancelButton: true,
+          confirmButtonText: '<i class="fas fa-plus"></i> Agregar más',
+          cancelButtonText: '<i class="fas fa-list"></i> Ver lista',
+          confirmButtonColor: '#10b981',
+          cancelButtonColor: '#2563eb',
+          didOpen: () => {
+            const b = Swal.getHtmlContainer().querySelector('b');
+            timerInterval = setInterval(() => {
+              b.textContent = Math.ceil(Swal.getTimerLeft() / 1000);
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Agregar más herramientas - limpiar formulario
+            document.getElementById('formRegistrarHerramienta').reset();
+            generarFolio();
+            document.getElementById('fecha_entrega').valueAsDate = new Date();
+            document.getElementById('empleado_id').disabled = true;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            // Ver lista de herramientas
+            window.location.href = '/herramientas-entregadas';
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: data.message || 'Error al registrar la herramienta'
+        });
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error al registrar la herramienta'
+      });
+    });
+  }
+</script>
+
+<%- include("template/footer") %>

@@ -271,6 +271,7 @@
                       <thead>
                         <tr>
                           <th style="width: 12%">Folio</th>
+                           <th>Cantidad</th>
                           <th>Herramienta</th>
                           <th style="width: 18%">Fecha</th>
                           <th style="width: 15%">Estado</th>
@@ -291,6 +292,7 @@
             html += `
               <tr>
                 <td><span class="numero-entrega">${entrega.folio}</span></td>
+                <td><strong>${entrega.descripcion}</span></td>
                 <td><strong>${entrega.herramienta}</strong></td>
                 <td>${fecha}</td>
                 <td><span class="badge ${estadoBadgeClass} badge-estado">${entrega.estado}</span></td>
