@@ -45,15 +45,32 @@
       <script>
         Swal.fire({
           title: '<%= alertTitle %>',
-          text:'<%= alertMessage %>',
-          icon:'<%= alertIcon %>',
+          text: '<%= alertMessage %>',
+          icon: '<%= alertIcon %>',
           showConfirmButton: <%= showConfirmButton %>,
-          timer: <%= timer %>
+          timer: <%= timer %>,
+          background: '#fff',
+          color: '#333',
+          customClass: {
+            popup: 'swal-blue'
+          }
         }).then(()=>{
           window.location = '/<%= ruta %>'
         })
       </script>
     <% } %>
+    
+    <style>
+      .swal-blue .swal2-title {
+        color: #667eea !important;
+      }
+      .swal-blue .swal2-html-container {
+        color: #666 !important;
+      }
+      .swal-blue .swal2-confirm {
+        background-color: #667eea !important;
+      }
+    </style>
 
   </body>
 </html>

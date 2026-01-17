@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
+const empleadoController = require('../controllers/empleadoController');
 const passwordResetRouter = require('./passwordReset');
 const conexion = require('../database/db');
 
@@ -160,6 +161,13 @@ router.get('/login', (req, res) => {
 router.get('/register', (req, res) => {
     res.render('register', { alert: false });
 });
+
+// RUTAS DE EMPLEADOS - API REST
+router.post('/api/empleados', authController.isAuthenticated, empleadoController.guardarEmpleado);
+router.get('/api/empleados', authController.isAuthenticated, empleadoController.obtenerEmpleados);
+router.get('/api/empleados/:id', authController.isAuthenticated, empleadoController.obtenerEmpleado);
+router.put('/api/empleados/:id', authController.isAuthenticated, empleadoController.actualizarEmpleado);
+router.delete('/api/empleados/:id', authController.isAuthenticated, empleadoController.desactivarEmpleado);
 
 // RUTAS DE RECUPERACIÓN DE CONTRASEÑA
 router.use(passwordResetRouter);

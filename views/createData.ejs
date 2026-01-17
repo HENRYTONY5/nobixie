@@ -1,53 +1,220 @@
 <%- include("template/header") %>
 <%- include("template/navbar") %>
-<%- include("template/aside") %>
+<%- include("template/aside") %> 
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <%- include('template/breadcrumb', {module: 'Create user'}) %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <%- include('template/breadcrumb', {module: 'Registro de Empleados'}) %>
+  
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-md-12">
+          <h1 class="mb-4">Registro de Nuevo Empleado</h1>
 
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-md-12">
-           
-            <div class="container">              
-                <form action="/saveUser" method="POST">
-                    <div class="mb-3">
-                      <label for="name" class="form-label">Nombre</label>
-                      <input type="text" class="form-control" id="name" name="name" tabindex="1" autofocus>              
-                    </div>
-                    <div class="mb-3">
-                      <label for="email" class="form-label">Email @</label>
-                      <input type="email" class="form-control" id="email" name="email" tabindex="2">
-                    </div>
-                    <div class="mb-6">
-                      <label for="name" class="form-label">Password</label>
-                      <input type="text" class="form-control" id="pass" name="pass" tabindex="3" autofocus>              
-                      <br>
-                      <label for="name" class="form-label">Password</label>
-                      <input type="text" class="form-control" id="pass" name="pass" tabindex="3" autofocus> 
-                      
-                    </div>
-                    <div class="mb-3"> <label for="name" class="form-label">Rol:    </label><br>
-                      <select id="rol" name= "rol" class="form-select">
-                        <option value ="Admin"> Admin</option>
-                        <option value="AgenteL"> Lider</option>
-                        <option value="AgenteLec"> Lector</option>
-                        <option value="AgenteE"> Escritor</option>
-                        <option value="AgenteEsp">Especialista</option>
-                    </select>
-                    </div>
-                    
-                    <div class="mb-3">
-                      <label for="name" class="form-label">Estatus</label>
-                      <input type="text" class="form-control" id="status" name="status" tabindex="4" autofocus>              
-                    </div>
-                    <button type="submit" class="btn btn-primary" tabindex="4">Guardar</button>
-                    <a href="/users" class="btn btn-secondary">Cancelar</a>
-                  </form>            
+          <% if (alert) { %>
+            <div class="alert alert-<%= alertIcon === 'error' ? 'danger' : alertIcon === 'success' ? 'success' : 'warning' %>" role="alert">
+              <strong><%= alertTitle || 'Aviso' %>:</strong> <%= alertMessage %>
             </div>
+          <% } %>
+
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Formulario de Empleado</h3>
+            </div>
+
+            <form action="/api/empleados" method="POST" id="formEmpleado" class="form-horizontal">
+              <div class="card-body">
+                
+                <!-- INFORMACIÓN PERSONAL -->
+                <div class="row">
+                  <div class="col-md-6">
+                    <h5 class="text-primary mb-3">Información Personal</h5>
+                    
+                    <div class="form-group">
+                      <label for="nombre">Nombre Completo *</label>
+                      <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ej: Juan García López" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="email">Email *</label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="correo@soltec.com" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="telefono">Teléfono</label>
+                      <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="5551234567">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="rfc">RFC</label>
+                      <input type="text" class="form-control" id="rfc" name="rfc" placeholder="XXXXXX850315XXX" maxlength="13">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                      <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="genero">Género</label>
+                      <select class="form-control" id="genero" name="genero">
+                        <option value="">Selecciona...</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="estado_civil">Estado Civil</label>
+                      <select class="form-control" id="estado_civil" name="estado_civil">
+                        <option value="">Selecciona...</option>
+                        <option value="Soltero">Soltero</option>
+                        <option value="Casado">Casado</option>
+                        <option value="Divorciado">Divorciado</option>
+                        <option value="Viudo">Viudo</option>
+                        <option value="Otro">Otro</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="escolaridad">Escolaridad</label>
+                      <input type="text" class="form-control" id="escolaridad" name="escolaridad" placeholder="Ej: Licenciatura">
+                    </div>
+                  </div>
+
+                  <!-- DOMICILIO -->
+                  <div class="col-md-6">
+                    <h5 class="text-primary mb-3">Domicilio</h5>
+
+                    <div class="form-group">
+                      <label for="calle">Calle</label>
+                      <input type="text" class="form-control" id="calle" name="calle" placeholder="Ej: Calle Principal">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="numero">Número</label>
+                      <input type="text" class="form-control" id="numero" name="numero" placeholder="Ej: 123">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="ciudad">Ciudad</label>
+                      <input type="text" class="form-control" id="ciudad" name="ciudad" placeholder="Ej: México">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="estado">Estado</label>
+                      <input type="text" class="form-control" id="estado" name="estado" placeholder="Ej: Ciudad de México">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="codigo_postal">Código Postal</label>
+                      <input type="text" class="form-control" id="codigo_postal" name="codigo_postal" placeholder="Ej: 06500">
+                    </div>
+
+                    <!-- INFORMACIÓN LABORAL -->
+                    <h5 class="text-primary mb-3 mt-4">Información Laboral</h5>
+
+                    <div class="form-group">
+                      <label for="numero_empleado">Número de Empleado</label>
+                      <input type="text" class="form-control" id="numero_empleado" name="numero_empleado" placeholder="Ej: EMP001">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="puesto">Puesto *</label>
+                      <input type="text" class="form-control" id="puesto" name="puesto" placeholder="Ej: Ingeniero de Sistemas" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="tipo_empleado">Tipo de Empleado *</label>
+                      <select class="form-control" id="tipo_empleado" name="tipo_empleado" required>
+                        <option value="">Selecciona...</option>
+                        <option value="Administrativo">Administrativo</option>
+                        <option value="Supervisor">Supervisor</option>
+                        <option value="Técnico">Técnico</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="departamento">Departamento *</label>
+                      <select class="form-control" id="departamento" name="departamento" required>
+                        <option value="">Selecciona...</option>
+                        <option value="Pailería">Pailería</option>
+                        <option value="Administración">Administración</option>
+                        <option value="Eléctricos">Eléctricos</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="fecha_ingreso">Fecha de Ingreso</label>
+                      <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso">
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Botones -->
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Registrar Empleado</button>
+                <a href="/createData" class="btn btn-secondary">Cancelar</a>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/jquery.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('#formEmpleado').on('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = $(this).serialize();
+      
+      $.ajax({
+        url: '/api/empleados',
+        type: 'POST',
+        data: formData,
+        success: function(response) {
+          if (response.success) {
+            Swal.fire({
+              title: '¡Éxito!',
+              text: response.message,
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 2000
+            }).then(() => {
+              $('#formEmpleado')[0].reset();
+            });
+          }
+        },
+        error: function(xhr) {
+          const response = xhr.responseJSON || {};
+          Swal.fire({
+            title: 'Error',
+            text: response.message || 'Error al registrar empleado',
+            icon: 'error',
+            showConfirmButton: true
+          });
+        }
+      });
+    });
+  });
+</script>
+
+<%- include("template/footer") %>
           </div>
         </div>
       </div><!-- /.container-fluid -->
