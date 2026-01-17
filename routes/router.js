@@ -3,6 +3,8 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 const empleadoController = require('../controllers/empleadoController');
+const supervisorController = require('../controllers/supervisorController');
+const proyectoController = require('../controllers/proyectoController');
 const passwordResetRouter = require('./passwordReset');
 const conexion = require('../database/db');
 
@@ -19,7 +21,7 @@ const isAdmin = (req, res, next) => {
     }
     next();
 };
-
+module.exports = isAdmin;
 // USUARIOS - GET
 router.get('/users', authController.isAuthenticated, isAdmin, (req, res) => {
     conexion.query('SELECT id, user, email, rol, image FROM users', (error, results) => {
@@ -42,7 +44,7 @@ router.get('/users', authController.isAuthenticated, isAdmin, (req, res) => {
 
 // TABLEDATA - GET
 router.get('/tabledata', authController.isAuthenticated, isAdmin, (req, res) => {
-    conexion.query('SELECT * FROM encuesta_trabajadores', (error, results) => {
+    conexion.query('SELECT * FROM empleados WHERE activo = TRUE ORDER BY nombre', (error, results) => {
         if (error) {
             console.error('Error al obtener datos:', error);
             return res.status(500).render('tabledata', {
@@ -68,6 +70,56 @@ router.get('/createUser', authController.isAuthenticated, isAdmin, (req, res) =>
 // CREAR DATOS - GET
 router.get('/createData', authController.isAuthenticated, isAdmin, (req, res) => {
     res.render('createData', { titleWeb: "Crear Estadísticas", alert: false });
+});
+
+// LISTAR EMPLEADOS - GET
+router.get('/empleados', authController.isAuthenticated, isAdmin, (req, res) => {
+    // Primero verificar si la tabla existe
+    conexion.query("SHOW TABLES LIKE 'empleados'", (checkError, checkResult) => {
+        if (checkError) {
+            console.error('Error al verificar tabla:', checkError);
+            return res.status(500).render('empleados', {
+                empleados: [],
+                titleWeb: "Listado de Empleados",
+                alert: true,
+                alertTitle: "Error",
+                alertIcon: "error",
+                alertMessage: 'Error al verificar tabla de empleados'
+            });
+        }
+        
+        if (checkResult.length === 0) {
+            // La tabla no existe
+            return res.status(500).render('empleados', {
+                empleados: [],
+                titleWeb: "Listado de Empleados",
+                alert: true,
+                alertTitle: "Tabla no creada",
+                alertIcon: "warning",
+                alertMessage: 'La tabla de empleados aún no ha sido creada. Por favor, ejecuta el script SQL primero.'
+            });
+        }
+        
+        // La tabla existe, obtener datos
+        conexion.query('SELECT * FROM empleados WHERE activo = TRUE ORDER BY fecha_registro DESC', (error, empleados) => {
+            if (error) {
+                console.error('Error al obtener empleados:', error);
+                return res.status(500).render('empleados', {
+                    empleados: [],
+                    titleWeb: "Listado de Empleados",
+                    alert: true,
+                    alertTitle: "Error",
+                    alertIcon: "error",
+                    alertMessage: 'Error al cargar empleados: ' + error.message
+                });
+            }
+            res.render('empleados', {
+                empleados,
+                titleWeb: "Listado de Empleados",
+                alert: false
+            });
+        });
+    });
 });
 
 // EDITAR USUARIO - GET
@@ -106,6 +158,24 @@ router.get('/editUser/:id', authController.isAuthenticated, isAdmin, (req, res) 
     });
 });
 
+// API PROYECTOS - Gestión de proyectos activos
+router.get('/api/proyectos', authController.isAuthenticated, isAdmin, proyectoController.obtenerProyectos);
+router.get('/api/proyectos/:id', authController.isAuthenticated, isAdmin, proyectoController.obtenerProyecto);
+router.post('/api/proyectos', authController.isAuthenticated, isAdmin, proyectoController.crearProyecto);
+router.put('/api/proyectos/:id', authController.isAuthenticated, isAdmin, proyectoController.actualizarProyecto);
+router.get('/api/proyectos/:proyecto_id/actividades', authController.isAuthenticated, isAdmin, proyectoController.obtenerActividades);
+router.post('/api/proyectos/:proyecto_id/actividades', authController.isAuthenticated, isAdmin, proyectoController.crearActividad);
+router.get('/api/proyectos/:proyecto_id/hitos', authController.isAuthenticated, isAdmin, proyectoController.obtenerHitos);
+router.get('/api/resumen-proyectos', authController.isAuthenticated, isAdmin, proyectoController.obtenerResumenProyectos);
+
+// VISTA DE PROYECTOS
+router.get('/proyectos', authController.isAuthenticated, isAdmin, (req, res) => {
+    res.render('proyectos', { 
+        titleWeb: "Gestión de Proyectos",
+        alert: false 
+    });
+});
+
 // ELIMINAR USUARIO - GET
 router.get('/deleteUser/:id', authController.isAuthenticated, isAdmin, (req, res) => {
     const { id } = req.params;
@@ -139,6 +209,14 @@ router.post('/upload/:id', authController.isAuthenticated, (req, res) => {
         res.redirect('/users');
     });
 });
+
+// API SUPERVISORES - Gestionar asignación de empleados a supervisores
+router.post('/api/supervisores/asignar', authController.isAuthenticated, isAdmin, supervisorController.asignarEmpleadoASupervisor);
+router.post('/api/supervisores/asignar-departamento', authController.isAuthenticated, isAdmin, supervisorController.asignarDepartamentoASupervisor);
+router.post('/api/supervisores/eliminar-asignacion', authController.isAuthenticated, isAdmin, supervisorController.eliminarAsignacionPorSupervisorEmpleado);
+router.get('/api/supervisores/:supervisor_id/empleados', authController.isAuthenticated, isAdmin, supervisorController.obtenerEmpleadosSupervisor);
+router.get('/api/supervisores', authController.isAuthenticated, isAdmin, supervisorController.obtenerSupervisores);
+router.delete('/api/supervisores/:id/asignacion', authController.isAuthenticated, isAdmin, supervisorController.eliminarAsignacion);
 
 // CRUD USUARIOS - POST
 router.post('/saveUser', authController.isAuthenticated, isAdmin, userController.saveUser);
@@ -179,6 +257,9 @@ router.get('/asistencia', (req, res) => {
 router.get('/results', (req, res) => {
     res.render('results', { titleWeb: "Resultados", alert: false });
 });
+router.get('/supervisores', authController.isAuthenticated, isAdmin, (req, res) => {
+    res.render('supervisores', { titleWeb: "Supervisores", alert: false });
+});
 router.get('/estadio', (req, res) => {
     res.render('estadio', { titleWeb: "Estadio", alert: false });
 });
@@ -205,46 +286,13 @@ router.get('/guia3', (req, res) => {
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 
-// ENCUESTAS Y DATOS
-router.post('/submit', authController.registrarEncuesta);
-router.post('/submit1', (req, res) => {
-    const { pregunta1, pregunta2, pregunta3, pregunta4 } = req.body;
-    
-    if (!pregunta1 || !pregunta2 || !pregunta3 || !pregunta4) {
-        return res.status(400).send('Todos los campos son obligatorios');
-    }
 
-    const query = 'INSERT INTO respuestas (pregunta1, pregunta2, pregunta3, pregunta4) VALUES (?, ?, ?, ?)';
-    conexion.query(query, [pregunta1, pregunta2, pregunta3, pregunta4], (err) => {
-        if (err) {
-            console.error('Error al insertar respuestas:', err);
-            return res.status(500).send('Error al registrar respuestas');
-        }
-        res.redirect('/events');
-    });
-});
 
-router.post('/submit2', (req, res) => {
-    const { pregunta1, pregunta2, pregunta3 } = req.body;
-    
-    if (!pregunta1 || !pregunta2 || !pregunta3) {
-        return res.status(400).send('Todos los campos son obligatorios');
-    }
 
-    const query = 'INSERT INTO res_g2 (pregunta1, pregunta2, pregunta3) VALUES (?, ?, ?)';
-    conexion.query(query, [pregunta1, pregunta2, pregunta3], (err) => {
-        if (err) {
-            console.error('Error al insertar respuestas:', err);
-            return res.status(500).send('Error al registrar respuestas');
-        }
-        res.redirect('/guia2');
-    });
-});
 
 // APIS Y DATOS
 router.post('/guardarRespuestas', authController.guardarRespuestas);
 router.post('/validarEmpleado', authController.validarEmpleado);
-router.get('/datos-graficas', authController.obtenerDatosParaGraficas);
-router.get('/api/datos-graficos', authController.obtenerDatosGraficos);
+
 
 module.exports = router;

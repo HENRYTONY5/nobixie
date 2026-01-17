@@ -16,7 +16,7 @@ exports.obtenerEmpleados = (req, res) => {
         
         res.json({
             success: true,
-            data: results
+            empleados: results
         });
     });
 };
@@ -41,8 +41,7 @@ exports.guardarEmpleado = async (req, res) => {
             puesto,
             tipo_empleado,
             departamento,
-            fecha_ingreso,
-            numero_empleado
+            fecha_ingreso
         } = req.body;
 
         // Validar campos obligatorios
@@ -62,12 +61,21 @@ exports.guardarEmpleado = async (req, res) => {
             });
         }
 
+        // Validar que puesto sea válido
+        const puestosValidos = ['Ayudante general', 'Especialista', 'Ingeniero'];
+        if (!puestosValidos.includes(puesto)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Puesto inválido. Debe ser: Ayudante general, Especialista o Ingeniero'
+            });
+        }
+
         // Validar que departamento sea válido
-        const departamentosValidos = ['Panadería', 'Administración', 'Eléctricos'];
+        const departamentosValidos = ['Pailería', 'Administración', 'Eléctricos', 'Mantenimiento'];
         if (!departamentosValidos.includes(departamento)) {
             return res.status(400).json({
                 success: false,
-                message: 'Departamento inválido. Debe ser: Panadería, Administración o Eléctricos'
+                message: 'Departamento inválido. Debe ser: Pailería, Administración, Eléctricos o Mantenimiento'
             });
         }
 
@@ -77,6 +85,14 @@ exports.guardarEmpleado = async (req, res) => {
             return res.status(400).json({
                 success: false,
                 message: 'Email inválido'
+            });
+        }
+
+        // Validar RFC si se proporciona (debe tener 13 caracteres)
+        if (rfc && rfc.length !== 13) {
+            return res.status(400).json({
+                success: false,
+                message: 'RFC debe tener exactamente 13 caracteres'
             });
         }
 
@@ -97,43 +113,55 @@ exports.guardarEmpleado = async (req, res) => {
                 });
             }
 
-            // Preparar datos
-            const empleadoData = {
-                nombre,
-                email,
-                telefono: telefono || null,
-                rfc: rfc || null,
-                calle: calle || null,
-                numero: numero || null,
-                ciudad: ciudad || null,
-                estado: estado || null,
-                codigo_postal: codigo_postal || null,
-                genero: genero || null,
-                fecha_nacimiento: fecha_nacimiento || null,
-                estado_civil: estado_civil || null,
-                escolaridad: escolaridad || null,
-                puesto,
-                tipo_empleado,
-                departamento,
-                fecha_ingreso: fecha_ingreso || null,
-                numero_empleado: numero_empleado || null,
-                activo: true
-            };
-
-            // Insertar empleado
-            conexion.query('INSERT INTO empleados SET ?', empleadoData, (error, results) => {
+            // Generar número de empleado automáticamente (EMP + contador)
+            conexion.query('SELECT COUNT(*) as total FROM empleados', (error, countResult) => {
                 if (error) {
-                    console.error('Error al crear empleado:', error);
+                    console.error('Error al contar empleados:', error);
                     return res.status(500).json({
                         success: false,
-                        message: 'Error al crear empleado'
+                        message: 'Error al generar número de empleado'
                     });
                 }
 
-                res.status(201).json({
-                    success: true,
-                    message: '¡Empleado registrado exitosamente!',
-                    id: results.insertId
+                const numeroEmpleado = 'EMP' + String(countResult[0].total + 1).padStart(4, '0');
+
+                // Preparar datos
+                const empleadoData = {
+                    nombre,
+                    email,
+                    telefono: telefono || null,
+                    rfc: rfc || null,
+                    calle: calle || null,
+                    numero: numero || null,
+                    ciudad: ciudad || null,
+                    estado: estado || null,
+                    codigo_postal: codigo_postal || null,
+                    genero: genero || null,
+                    fecha_nacimiento: fecha_nacimiento || null,
+                    estado_civil: estado_civil || null,
+                    escolaridad: escolaridad || null,
+                    puesto,
+                    tipo_empleado,
+                    departamento,
+                    fecha_ingreso: fecha_ingreso || null,
+                    numero_empleado: numeroEmpleado,
+                    activo: true
+                };
+                // Insertar empleado
+                conexion.query('INSERT INTO empleados SET ?', empleadoData, (error, results) => {
+                    if (error) {
+                        console.error('Error al crear empleado:', error);
+                        return res.status(500).json({
+                            success: false,
+                            message: 'Error al crear empleado'
+                        });
+                    }
+
+                    res.status(201).json({
+                        success: true,
+                        message: '¡Empleado registrado exitosamente!',
+                        id: results.insertId
+                    });
                 });
             });
         });
@@ -216,6 +244,32 @@ exports.actualizarEmpleado = (req, res) => {
             return res.status(400).json({
                 success: false,
                 message: 'Campos obligatorios faltantes'
+            });
+        }
+
+        // Validar que puesto sea válido
+        const puestosValidos = ['Ayudante general', 'Especialista', 'Ingeniero'];
+        if (!puestosValidos.includes(puesto)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Puesto inválido. Debe ser: Ayudante general, Especialista o Ingeniero'
+            });
+        }
+
+        // Validar que departamento sea válido
+        const departamentosValidos = ['Pailería', 'Administración', 'Eléctricos', 'Mantenimiento'];
+        if (!departamentosValidos.includes(departamento)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Departamento inválido. Debe ser: Pailería, Administración, Eléctricos o Mantenimiento'
+            });
+        }
+
+        // Validar RFC si se proporciona (debe tener 13 caracteres)
+        if (rfc && rfc.length !== 13) {
+            return res.status(400).json({
+                success: false,
+                message: 'RFC debe tener exactamente 13 caracteres'
             });
         }
 

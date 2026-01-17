@@ -23,9 +23,9 @@ CREATE TABLE empleados (
   `escolaridad` VARCHAR(50),
   
   -- INFORMACIÓN LABORAL
-  `puesto` VARCHAR(100),
+  `puesto` ENUM('Ayudante general', 'Especialista', 'Ingeniero') NOT NULL DEFAULT 'Ayudante general',
   `tipo_empleado` ENUM('Administrativo', 'Supervisor', 'Técnico') NOT NULL DEFAULT 'Técnico',
-  `departamento` ENUM('Pailería', 'Administración', 'Eléctricos') NOT NULL DEFAULT 'Administración',
+  `departamento` ENUM('Pailería', 'Administración', 'Eléctricos', 'Mantenimiento') NOT NULL DEFAULT 'Administración',
   `fecha_ingreso` DATE,
   `numero_empleado` VARCHAR(20) UNIQUE,
   

@@ -1,0 +1,430 @@
+<%- include("template/header") %>
+<%- include("template/navbar") %>
+<%- include("template/aside") %> 
+
+<!-- Content Wrapper -->
+<div class="content-wrapper">
+  <%- include('template/breadcrumb', {module: 'Gestión de Proyectos'}) %>
+  
+  <!-- Content Header -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="d-flex justify-content-between align-items-center">
+            <h1>
+              <i class="fas fa-tasks mr-2"></i>Proyectos Activos
+            </h1>
+            <button class="btn btn-success" data-toggle="modal" data-target="#modalNuevoProyecto">
+              <i class="fas fa-plus mr-2"></i> Nuevo Proyecto
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESUMEN DE PROYECTOS -->
+      <div class="row mb-4" id="resumenProyectos">
+        <div class="col-lg-2 col-md-6">
+          <div class="info-box bg-blue">
+            <span class="info-box-icon"><i class="fas fa-cube"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-number" id="totalProyectos">0</span>
+              <span class="info-box-text">Total Proyectos</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-6">
+          <div class="info-box bg-info">
+            <span class="info-box-icon"><i class="fas fa-play"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-number" id="enEjecucion">0</span>
+              <span class="info-box-text">En Ejecución</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-6">
+          <div class="info-box bg-success">
+            <span class="info-box-icon"><i class="fas fa-check"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-number" id="finalizados">0</span>
+              <span class="info-box-text">Finalizados</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-6">
+          <div class="info-box bg-warning">
+            <span class="info-box-icon"><i class="fas fa-pause"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-number" id="enPausa">0</span>
+              <span class="info-box-text">En Pausa</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-6">
+          <div class="info-box bg-danger">
+            <span class="info-box-icon"><i class="fas fa-money-bill"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-number" id="promAvance">0%</span>
+              <span class="info-box-text">Avance Promedio</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary shadow">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-list mr-2"></i>Lista de Proyectos
+              </h3>
+            </div>
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table id="tablasProyectos" class="table table-hover table-striped">
+                  <thead class="bg-primary text-white">
+                    <tr>
+                      <th style="width: 5%">ID</th>
+                      <th>Proyecto</th>
+                      <th>Cliente</th>
+                      <th>Encargado</th>
+                      <th>Estado</th>
+                      <th>Avance</th>
+                      <th>F. Ejecución</th>
+                      <th>F. Término</th>
+                      <th>Presupuesto</th>
+                      <th style="width: 12%">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bodyProyectos">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="card-footer">
+              <small class="text-muted">
+                <i class="fas fa-info-circle mr-2"></i>
+                Metodología SCRUM para seguimiento de proyectos
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- MODAL NUEVO PROYECTO -->
+<div class="modal fade" id="modalNuevoProyecto" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">
+          <i class="fas fa-plus mr-2"></i>Nuevo Proyecto
+        </h5>
+        <button type="button" class="close text-white" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <form id="formNuevoProyecto">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="nombre_proyecto">Nombre del Proyecto *</label>
+            <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" required>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="cliente">Cliente *</label>
+                <input type="text" class="form-control" id="cliente" name="cliente" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="encargado_id">Encargado</label>
+                <select class="form-control" id="encargado_id" name="encargado_id">
+                  <option value="">Selecciona...</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="fecha_levantamiento">Fecha Levantamiento</label>
+                <input type="date" class="form-control" id="fecha_levantamiento" name="fecha_levantamiento">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="presupuesto_estimado">Presupuesto Estimado</label>
+                <input type="number" class="form-control" id="presupuesto_estimado" name="presupuesto_estimado" step="0.01">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="horas_estimadas">Horas Estimadas</label>
+            <input type="number" class="form-control" id="horas_estimadas" name="horas_estimadas" step="0.5">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success">
+            <i class="fas fa-save mr-2"></i>Crear Proyecto
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include("template/footer") %>
+
+<style>
+  .info-box {
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  }
+
+  .bg-blue {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .bg-info {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+  }
+
+  .bg-success {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+  }
+
+  .bg-warning {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    color: white;
+  }
+
+  .bg-danger {
+    background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+    color: white;
+  }
+
+  .badge-estado {
+    padding: 0.5rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .progress-small {
+    height: 1rem;
+    border-radius: 0.25rem;
+  }
+</style>
+
+<script>
+  // Cargar supervisores para el selector
+  function cargarSupervisores() {
+    fetch('/api/supervisores', {
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success && data.data) {
+        const select = document.getElementById('encargado_id');
+        data.data.forEach(supervisor => {
+          const option = document.createElement('option');
+          option.value = supervisor.id;
+          option.textContent = supervisor.nombre + ' (' + supervisor.cantidad_empleados + ' empleados)';
+          select.appendChild(option);
+        });
+      }
+    })
+    .catch(error => console.error('Error al cargar supervisores:', error));
+  }
+
+  // Cargar proyectos
+  function cargarProyectos() {
+    fetch('/api/proyectos', {
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success && data.data) {
+        const tbody = document.getElementById('bodyProyectos');
+        tbody.innerHTML = '';
+        
+        data.data.forEach(proyecto => {
+          const estadoBadge = getEstadoBadge(proyecto.estado);
+          const row = `
+            <tr>
+              <td><span class="badge badge-info">${proyecto.id}</span></td>
+              <td><strong>${proyecto.nombre_proyecto}</strong></td>
+              <td>${proyecto.cliente}</td>
+              <td>${proyecto.encargado || '-'}</td>
+              <td>${estadoBadge}</td>
+              <td>
+                <div class="progress progress-small">
+                  <div class="progress-bar" role="progressbar" style="width: ${proyecto.porcentaje_avance}%" 
+                       aria-valuenow="${proyecto.porcentaje_avance}" aria-valuemin="0" aria-valuemax="100">
+                    ${proyecto.porcentaje_avance}%
+                  </div>
+                </div>
+              </td>
+              <td>${proyecto.fecha_ejecucion ? new Date(proyecto.fecha_ejecucion).toLocaleDateString('es-MX') : '-'}</td>
+              <td>${proyecto.fecha_termino_prevista ? new Date(proyecto.fecha_termino_prevista).toLocaleDateString('es-MX') : '-'}</td>
+              <td>
+                <span class="badge badge-success">$${(proyecto.presupuesto_estimado || 0).toLocaleString('es-MX')}</span>
+              </td>
+              <td>
+                <button class="btn btn-xs btn-info" onclick="verProyecto(${proyecto.id})">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-xs btn-warning" onclick="editarProyecto(${proyecto.id})">
+                  <i class="fas fa-edit"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+          tbody.innerHTML += row;
+        });
+
+        // Inicializar DataTable
+        if ($.fn.DataTable.isDataTable('#tablasProyectos')) {
+          $('#tablasProyectos').DataTable().destroy();
+        }
+        
+        $('#tablasProyectos').DataTable({
+          "responsive": true,
+          "lengthChange": true,
+          "autoWidth": false,
+          "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+          "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible",
+            "sInfo": "Mostrando del _START_ al _END_ de _TOTAL_ registros",
+            "sSearch": "Buscar:",
+            "sPaginate": {
+              "sFirst": "Primero",
+              "sPrevious": "Anterior",
+              "sNext": "Siguiente",
+              "sLast": "Último"
+            }
+          }
+        }).buttons().container().appendTo('#tablasProyectos_wrapper .col-md-6:eq(0)');
+      }
+    })
+    .catch(error => console.error('Error:', error));
+  }
+
+  // Cargar resumen
+  function cargarResumen() {
+    fetch('/api/resumen-proyectos', {
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success && data.data) {
+        const resumen = data.data;
+        document.getElementById('totalProyectos').textContent = resumen.total_proyectos || 0;
+        document.getElementById('enEjecucion').textContent = resumen.en_ejecucion || 0;
+        document.getElementById('finalizados').textContent = resumen.finalizados || 0;
+        document.getElementById('enPausa').textContent = resumen.en_pausa || 0;
+        document.getElementById('promAvance').textContent = Math.round(resumen.promedio_avance || 0) + '%';
+      }
+    })
+    .catch(error => console.error('Error:', error));
+  }
+
+  function getEstadoBadge(estado) {
+    const colores = {
+      'Levantamiento': 'badge-secondary',
+      'Cotización': 'badge-info',
+      'Aprobado': 'badge-primary',
+      'En Ejecución': 'badge-warning',
+      'Pausa': 'badge-danger',
+      'Finalizado': 'badge-success',
+      'Cancelado': 'badge-dark'
+    };
+    return `<span class="badge ${colores[estado] || 'badge-secondary'}">${estado}</span>`;
+  }
+
+  function verProyecto(id) {
+    window.location.href = '/proyecto/' + id;
+  }
+
+  function editarProyecto(id) {
+    // Implementar edición
+    alert('Edición no implementada aún: Proyecto ' + id);
+  }
+
+  // Crear nuevo proyecto
+  document.getElementById('formNuevoProyecto').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const datos = {
+      nombre_proyecto: document.getElementById('nombre_proyecto').value,
+      cliente: document.getElementById('cliente').value,
+      encargado_id: document.getElementById('encargado_id').value || null,
+      descripcion: document.getElementById('descripcion').value,
+      fecha_levantamiento: document.getElementById('fecha_levantamiento').value,
+      presupuesto_estimado: document.getElementById('presupuesto_estimado').value,
+      horas_estimadas: document.getElementById('horas_estimadas').value
+    };
+
+    fetch('/api/proyectos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(datos)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        Swal.fire('Éxito', 'Proyecto creado correctamente', 'success');
+        document.getElementById('formNuevoProyecto').reset();
+        $('#modalNuevoProyecto').modal('hide');
+        cargarProyectos();
+        cargarResumen();
+      } else {
+        Swal.fire('Error', data.message, 'error');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      Swal.fire('Error', 'Error al crear proyecto', 'error');
+    });
+  });
+
+  // Inicializar al cargar la página
+  document.addEventListener('DOMContentLoaded', function() {
+    cargarSupervisores();
+    cargarProyectos();
+    cargarResumen();
+  });
+</script>

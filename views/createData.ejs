@@ -49,7 +49,8 @@
 
                     <div class="form-group">
                       <label for="rfc">RFC</label>
-                      <input type="text" class="form-control" id="rfc" name="rfc" placeholder="XXXXXX850315XXX" maxlength="13">
+                      <input type="text" class="form-control" id="rfc" name="rfc" placeholder="XXXXXX850315XXX" maxlength="13" pattern="[A-ZÑ0-9]{13}" title="RFC debe tener 13 caracteres (letras mayúsculas y números)">
+                      <small class="form-text text-muted">13 caracteres exactos (Ej: GALN850315ABC)</small>
                     </div>
 
                     <div class="form-group">
@@ -119,12 +120,18 @@
 
                     <div class="form-group">
                       <label for="numero_empleado">Número de Empleado</label>
-                      <input type="text" class="form-control" id="numero_empleado" name="numero_empleado" placeholder="Ej: EMP001">
+                      <input type="text" class="form-control" id="numero_empleado" name="numero_empleado" placeholder="Se asigna automáticamente" readonly>
+                      <small class="form-text text-muted">Se genera automáticamente por el sistema</small>
                     </div>
 
                     <div class="form-group">
                       <label for="puesto">Puesto *</label>
-                      <input type="text" class="form-control" id="puesto" name="puesto" placeholder="Ej: Ingeniero de Sistemas" required>
+                      <select class="form-control" id="puesto" name="puesto" required>
+                        <option value="">Selecciona...</option>
+                        <option value="Ayudante general">Ayudante general</option>
+                        <option value="Especialista">Especialista</option>
+                        <option value="Ingeniero">Ingeniero</option>
+                      </select>
                     </div>
 
                     <div class="form-group">
@@ -144,6 +151,7 @@
                         <option value="Pailería">Pailería</option>
                         <option value="Administración">Administración</option>
                         <option value="Eléctricos">Eléctricos</option>
+                        <option value="Mantenimiento">Mantenimiento</option>
                       </select>
                     </div>
 

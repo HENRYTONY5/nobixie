@@ -4,33 +4,450 @@
 
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-                <%- include('template/breadcrumb', {module: 'Distribución global ' }) %>
+                <%- include('template/breadcrumb', {module: 'Resultados' }) %>
                     <!-- Content Header (Page header) -->
                     <section class="content-header">
                         <div class="container-fluid">
-                            <div class="row mb-2">
+                            <!-- TARJETA PRINCIPAL INTRO -->
+                            <div class="row mb-4">
                                 <div class="col-md-12">
-
-                                    <div class="card">
-                                        <div class="card-header">
-                                            Resultados del cuestionario.
+                                    <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); border-radius: 15px;">
+                                        <div class="card-body text-white p-5">
+                                            <div class="d-flex align-items-center">
+                                                <div style="font-size: 3rem; margin-right: 20px;">
+                                                    <i class="fas fa-chart-line"></i>
+                                                </div>
+                                                <div>
+                                                    <h2 class="card-title mb-2" style="font-weight: 700;">Resultados de Desempeño</h2> <BR>
+                                                    <p class="mb-0 text-white-50">Análisis medible del rendimiento en proyectos y gestión operacional.
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="card-body">
-                                            <p class="card-text">Medio, se requiere ver la politiva de prevencipon de riesgos psicosociales y programas para la prevensión de los factores de riesgo psicosocial, la promoción de un entorno organizacional favorable y la prevención de la villencia laboral, así como reforzar su aplicación y difusión mediante un Programa de intervención.
-                                            </p> <br>
-                                                    <img src="/img/Resultados.png">
-                                                    <br>
-                                        </div>
-                                        
                                     </div>
-
                                 </div>
                             </div>
+
+                            <!-- SECCIÓN PANEL DE GESTIÓN -->
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <div class="section-title-wrapper d-flex align-items-center mb-4">
+                                        <div style="width: 5px; height: 40px; background: linear-gradient(135deg, #2563eb, #1e40af); border-radius: 3px; margin-right: 15px;"></div>
+                                        <h3 class="text-dark mb-0" style="font-weight: 700; font-size: 1.75rem;">
+                                            <i class="fas fa-cogs mr-2"></i>Panel de Gestión
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TARJETAS GESTIÓN -->
+                            <div class="row">
+                                <!-- Tarjeta 1: Supervisores -->
+                                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                                    <div class="card border-0 shadow-lg h-100 transition-all" style="border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.3s ease;"
+                                         onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 35px rgba(37, 99, 235, 0.3)'" 
+                                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.1)'">
+                                        <div style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); padding: 20px; color: white;">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <h5 class="mb-2" style="font-weight: 700; font-size: 1.1rem;">
+                                                        <i class="fas fa-user-tie mr-2"></i>Supervisores
+                                                    </h5>
+                                                    <p class="mb-0 text-white-50 small">Gestión de supervisores</p>
+                                                </div>
+                                                <span style="font-size: 2.5rem; opacity: 0.2;">
+                                                    <i class="fas fa-user-tie"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="card-body pt-4">
+                                            <a href="/supervisores" class="btn btn-outline-primary btn-sm btn-block mb-2">
+                                                <i class="fas fa-list mr-1"></i> Listar Supervisores
+                                            </a>
+                                            <a href="#" class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-target="#modalAgregarEmpleado">
+                                                <i class="fas fa-link mr-1"></i> Asignar Empleados
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tarjeta 2: Proyectos SCRUM -->
+                                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                                    <div class="card border-0 shadow-lg h-100 transition-all" style="border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.3s ease;"
+                                         onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 35px rgba(16, 185, 129, 0.3)'" 
+                                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.1)'">
+                                        <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 20px; color: white;">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <h5 class="mb-2" style="font-weight: 700; font-size: 1.1rem;">
+                                                        <i class="fas fa-tasks mr-2"></i>Proyectos SCRUM
+                                                    </h5>
+                                                    <p class="mb-0 text-white-50 small">Gestión de proyectos</p>
+                                                </div>
+                                                <span style="font-size: 2.5rem; opacity: 0.2;">
+                                                    <i class="fas fa-tasks"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="card-body pt-4">
+                                            <a href="/proyectos" class="btn btn-outline-success btn-sm btn-block mb-2">
+                                                <i class="fas fa-list mr-1"></i> Ver Proyectos
+                                            </a>
+                                            <a href="/proyectos" class="btn btn-success btn-sm btn-block">
+                                                <i class="fas fa-plus mr-1"></i> Nuevo Proyecto
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tarjeta 3: Reportes -->
+                                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                                    <div class="card border-0 shadow-lg h-100 transition-all" style="border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.3s ease;"
+                                         onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 35px rgba(245, 158, 11, 0.3)'" 
+                                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.1)'">
+                                        <div style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); padding: 20px; color: white;">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <h5 class="mb-2" style="font-weight: 700; font-size: 1.1rem;">
+                                                        <i class="fas fa-chart-line mr-2"></i>Reportes
+                                                    </h5>
+                                                    <p class="mb-0 text-white-50 small">Análisis y reportería</p>
+                                                </div>
+                                                <span style="font-size: 2.5rem; opacity: 0.2;">
+                                                    <i class="fas fa-chart-line"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="card-body pt-4">
+                                            <a href="#" class="btn btn-outline-warning btn-sm btn-block mb-2">
+                                                <i class="fas fa-chart-bar mr-1"></i> Proyectos
+                                            </a>
+                                            <a href="#" class="btn btn-warning btn-sm btn-block">
+                                                <i class="fas fa-chart-pie mr-1"></i> Empleados
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tarjeta 4: Configuración -->
+                                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                                    <div class="card border-0 shadow-lg h-100 transition-all" style="border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.3s ease;"
+                                         onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 35px rgba(59, 130, 246, 0.3)'" 
+                                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.1)'">
+                                        <div style="background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); padding: 20px; color: white;">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <h5 class="mb-2" style="font-weight: 700; font-size: 1.1rem;">
+                                                        <i class="fas fa-sliders-h mr-2"></i>Configuración
+                                                    </h5>
+                                                    <p class="mb-0 text-white-50 small">Ajustes del sistema</p>
+                                                </div>
+                                                <span style="font-size: 2.5rem; opacity: 0.2;">
+                                                    <i class="fas fa-sliders-h"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="card-body pt-4">
+                                            <a href="/users" class="btn btn-outline-info btn-sm btn-block mb-2">
+                                                <i class="fas fa-user-cog mr-1"></i> Usuarios
+                                            </a>
+                                            <a href="#" class="btn btn-info btn-sm btn-block">
+                                                <i class="fas fa-tools mr-1"></i> Opciones
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div><!-- /.container-fluid -->
                     </section>
-
                     <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
 
             <%- include("template/footer") %>
+
+<!-- MODAL DE SUPERVISORES -->
+<div class="modal fade" id="modalSupervisores" tabindex="-1" role="dialog" aria-labelledby="modalSupervisoresLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="modalSupervisoresLabel">
+          <i class="fas fa-user-tie mr-2"></i>Gestión de Supervisores y Empleados
+        </h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="supervisoresList">
+          <div class="text-center p-4">
+            <div class="spinner-border text-success" role="status">
+              <span class="sr-only">Cargando...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA AGREGAR EMPLEADO A SUPERVISOR -->
+<div class="modal fade" id="modalAgregarEmpleado" tabindex="-1" role="dialog" aria-labelledby="modalAgregarEmpleadoLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title" id="modalAgregarEmpleadoLabel">
+          <i class="fas fa-plus mr-2"></i>Asignar Empleado a Supervisor
+        </h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formAgregarEmpleado">
+          <input type="hidden" id="supervisorIdForm">
+          <div class="form-group">
+            <label for="supervisorSelect">Seleccionar Supervisor:</label>
+            <select class="form-control" id="supervisorSelect" name="supervisor_id" required>
+              <option value="">-- Seleccione un supervisor --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="empleadoSelect">Seleccionar Empleado:</label>
+            <select class="form-control" id="empleadoSelect" name="empleado_id" required>
+              <option value="">-- Seleccione un empleado --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="departamentoSelect">Departamento:</label>
+            <select class="form-control" id="departamentoSelect" name="departamento" required>
+              <option value="">-- Seleccione departamento --</option>
+              <option value="Pailería">Pailería</option>
+              <option value="Administración">Administración</option>
+              <option value="Eléctricos">Eléctricos</option>
+              <option value="Mantenimiento">Mantenimiento</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-info" onclick="guardarEmpleadoSupervisor()">
+          <i class="fas fa-save mr-1"></i> Asignar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Cargar supervisores cuando se abre el modal
+  $('#modalSupervisores').on('show.bs.modal', function() {
+    cargarSupervisores();
+  });
+
+  $('#modalAgregarEmpleado').on('show.bs.modal', function() {
+    cargarSupervisoresForm();
+    cargarEmpleadosForm();
+  });
+
+  function cargarSupervisores() {
+    fetch('/api/supervisores')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && data.supervisores) {
+          mostrarSupervisores(data.supervisores);
+        } else {
+          document.getElementById('supervisoresList').innerHTML = `
+            <div class="alert alert-warning text-center">
+              <i class="fas fa-exclamation-triangle mr-2"></i>
+              No hay supervisores registrados
+            </div>
+          `;
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('supervisoresList').innerHTML = `
+          <div class="alert alert-danger text-center">
+            Error al cargar supervisores
+          </div>
+        `;
+      });
+  }
+
+  function mostrarSupervisores(supervisores) {
+    let html = '<div class="row">';
+    
+    supervisores.forEach(sup => {
+      html += `
+        <div class="col-md-12 mb-3">
+          <div class="card shadow-sm border-left-success">
+            <div class="card-header bg-success text-white">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                  <i class="fas fa-user-tie mr-2"></i>
+                  ${sup.nombre_supervisor}
+                </h5>
+                <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#modalAgregarEmpleado">
+                  <i class="fas fa-plus mr-1"></i> Agregar Empleado
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                  <thead class="bg-light">
+                    <tr>
+                      <th>Número</th>
+                      <th>Empleado</th>
+                      <th>Email</th>
+                      <th>Puesto</th>
+                      <th>Departamento</th>
+                      <th style="width: 10%;">Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${sup.empleados && sup.empleados.length > 0 ? 
+                      sup.empleados.map(emp => `
+                        <tr>
+                          <td><span class="badge badge-primary">${emp.numero_empleado}</span></td>
+                          <td><strong>${emp.nombre}</strong></td>
+                          <td>${emp.email}</td>
+                          <td>${emp.puesto}</td>
+                          <td><span class="badge badge-info">${emp.departamento}</span></td>
+                          <td>
+                            <button type="button" class="btn btn-xs btn-danger" onclick="eliminarEmpleadoSupervisor(${sup.id}, ${emp.id})">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      `).join('')
+                      : '<tr><td colspan="6" class="text-center text-muted">Sin empleados asignados</td></tr>'
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    
+    html += '</div>';
+    document.getElementById('supervisoresList').innerHTML = html;
+  }
+
+  function cargarSupervisoresForm() {
+    fetch('/api/supervisores', {
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(data => {
+        const selectSupervisor = document.getElementById('supervisorSelect');
+        selectSupervisor.innerHTML = '<option value="">-- Seleccione un supervisor --</option>';
+        
+        if (data.success && data.supervisores) {
+          data.supervisores.forEach(sup => {
+            const option = document.createElement('option');
+            option.value = sup.id;
+            option.textContent = sup.nombre_supervisor;
+            selectSupervisor.appendChild(option);
+          });
+        }
+      });
+  }
+
+  function cargarEmpleadosForm() {
+    fetch('/api/empleados', {
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(data => {
+        const selectEmpleado = document.getElementById('empleadoSelect');
+        selectEmpleado.innerHTML = '<option value="">-- Seleccione un empleado --</option>';
+        
+        if (data.success && data.empleados) {
+          data.empleados.forEach(emp => {
+            const option = document.createElement('option');
+            option.value = emp.id;
+            option.textContent = `${emp.numero_empleado} - ${emp.nombre}`;
+            selectEmpleado.appendChild(option);
+          });
+        }
+      });
+  }
+
+  function guardarEmpleadoSupervisor() {
+    const supervisorId = document.getElementById('supervisorSelect').value;
+    const empleadoId = document.getElementById('empleadoSelect').value;
+    const departamento = document.getElementById('departamentoSelect').value;
+    
+    if (!supervisorId || !empleadoId || !departamento) {
+      Swal.fire('Error', 'Todos los campos son obligatorios', 'error');
+      return;
+    }
+    
+    fetch('/api/supervisores/asignar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        supervisor_id: supervisorId,
+        empleado_id: empleadoId,
+        departamento: departamento
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        Swal.fire('Éxito', 'Empleado asignado correctamente', 'success');
+        $('#modalAgregarEmpleado').modal('hide');
+        cargarSupervisores();
+      } else {
+        Swal.fire('Error', data.message || 'No se pudo asignar el empleado', 'error');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      Swal.fire('Error', 'Error al asignar empleado', 'error');
+    });
+  }
+
+  function eliminarEmpleadoSupervisor(supervisorId, empleadoId) {
+    Swal.fire({
+      title: '¿Remover empleado?',
+      text: 'El empleado será removido de este supervisor',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, remover',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch('/api/supervisores/eliminar-asignacion', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            supervisor_id: supervisorId,
+            empleado_id: empleadoId
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            Swal.fire('Eliminado', 'Empleado removido correctamente', 'success');
+            cargarSupervisores();
+          } else {
+            Swal.fire('Error', data.message || 'No se pudo remover el empleado', 'error');
+          }
+        });
+      }
+    });
+  }
+</script>

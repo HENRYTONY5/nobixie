@@ -2,53 +2,467 @@
 <%- include("template/navbar") %>
 <%- include("template/aside") %>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <%- include('template/breadcrumb', {module: 'Users'}) %>
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-md-12">            
-            <div class="container">
-              <a href="/createUser" class="btn btn-primary mt-4 mb-2"> <i class="fa-regular fa-square-plus"></i></a>
-              <table id="example1" class="table table-bordered table-striped text-center mt-4">
-                <thead>
-                  <tr class="bg-primary text-white">
-                    <th scope="col">#ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Rol</th>
-                    <th scope="col">Estatus</th>
-                    <th scope="col">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% results.forEach ((user) => { %>
-        
-                    <tr>
-                      <th><%= user.id %></th>
-                      <th><%= user.user %></th>
-                      <th><%= user.email %></th>
-                      <th><%= user.rol %></th>
-                      <th><%= user.status %></th>
+<!-- Content Wrapper -->
+<div class="content-wrapper">
+  <%- include('template/breadcrumb', {module: 'Gestión de Usuarios'}) %>
+  
+  <!-- Content Header -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="d-flex justify-content-between align-items-center">
+            <h1>Gestión de Usuarios y Supervisores</h1>
+            <div>
+              <a href="/createUser" class="btn btn-primary">
+                <i class="fas fa-plus mr-2"></i> Nuevo Usuario
+              </a>
 
-                      <td>
-                        <a href="/editUser/<%= user.id %>" class="btn btn-info"> <i class="fa-regular fa-pen-to-square"></i></a>
-                        <a onclick="confirmation(<%= user.id %>);" class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i></a>              
-                      </td>
-                    </tr>                              
-                  <% }) %>
-                </tbody>
-              </table>
             </div>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
-    </section>
+      </div>
 
-    <!-- /.content -->
+      <% if (alert) { %>
+        <div class="alert alert-<%= alertIcon === 'error' ? 'danger' : alertIcon === 'success' ? 'success' : 'warning' %> alert-dismissible fade show" role="alert">
+          <strong><%= alertTitle || 'Aviso' %>:</strong> <%= alertMessage %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <% } %>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary shadow">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-users mr-2"></i>Tabla de Usuarios
+              </h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <% if (results && results.length > 0) { %>
+                <div class="table-responsive">
+                  <table id="tablasUsuarios" class="table table-hover table-striped">
+                    <thead class="bg-primary text-white">
+                      <tr>
+                        <th style="width: 5%">ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th style="width: 12%">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% results.forEach(user => { %>
+                        <tr>
+                          <td><span class="badge badge-info"><%= user.id %></span></td>
+                          <td><strong><%= user.user %></strong></td>
+                          <td><%= user.email %></td>
+                          <td>
+                            <% if (user.rol === 'Admin') { %>
+                              <span class="badge badge-danger"><%= user.rol %></span>
+                            <% } else if (user.rol === 'Agente Lider') { %>
+                              <span class="badge badge-warning"><%= user.rol %></span>
+                            <% } else { %>
+                              <span class="badge badge-secondary"><%= user.rol %></span>
+                            <% } %>
+                          </td>
+                          <td>
+                            <% if (user.status === 'Activo') { %>
+                              <span class="badge badge-success">Activo</span>
+                            <% } else { %>
+                              <span class="badge badge-secondary">Inactivo</span>
+                            <% } %>
+                          </td>
+                          <td>
+                            <a href="/editUser/<%= user.id %>" class="btn btn-xs btn-info" title="Editar">
+                              <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-xs btn-danger" title="Eliminar" onclick="eliminarUsuario(this)">
+                              <i class="fas fa-trash"></i>
+                            </a>
+                          </td>
+                        </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
+                </div>
+              <% } else { %>
+                <div class="alert alert-info text-center">
+                  <i class="fas fa-inbox mr-2"></i>No hay usuarios registrados aún.
+                  <a href="/createUser" class="alert-link"> Crear uno ahora</a>
+                </div>
+              <% } %>
+            </div>
+
+            <div class="card-footer">
+              <small class="text-muted">
+                <i class="fas fa-info-circle mr-2"></i>
+                Total de usuarios: <strong><%= results ? results.length : 0 %></strong>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<%- include("template/footer") %>
+
+<style>
+  .btn-xs {
+    padding: 0.25rem 0.4rem;
+    font-size: 0.75rem;
+  }
+
+  .table-responsive {
+    border-radius: 0.25rem;
+  }
+
+  .badge {
+    padding: 0.35rem 0.55rem;
+  }
+</style>
+
+<script>
+  $(function() {
+    $('#tablasUsuarios').DataTable({
+      "responsive": true,
+      "lengthChange": true,
+      "autoWidth": false,
+      "searching": true,
+      "paging": true,
+      "ordering": true,
+      "info": true,
+      "buttons": [
+        {
+          extend: 'copy',
+          text: '<i class="fas fa-copy mr-2"></i>Copiar',
+          className: 'btn btn-sm btn-secondary'
+        },
+        {
+          extend: 'csv',
+          text: '<i class="fas fa-file-csv mr-2"></i>CSV',
+          className: 'btn btn-sm btn-secondary',
+          filename: 'usuarios_' + new Date().toISOString().split('T')[0]
+        },
+        {
+          extend: 'excel',
+          text: '<i class="fas fa-file-excel mr-2"></i>Excel',
+          className: 'btn btn-sm btn-secondary',
+          filename: 'usuarios_' + new Date().toISOString().split('T')[0]
+        },
+        {
+          extend: 'pdf',
+          text: '<i class="fas fa-file-pdf mr-2"></i>PDF',
+          className: 'btn btn-sm btn-secondary',
+          filename: 'usuarios_' + new Date().toISOString().split('T')[0]
+        },
+        {
+          extend: 'print',
+          text: '<i class="fas fa-print mr-2"></i>Imprimir',
+          className: 'btn btn-sm btn-secondary'
+        },
+        {
+          extend: 'colvis',
+          text: '<i class="fas fa-columns mr-2"></i>Columnas',
+          className: 'btn btn-sm btn-secondary'
+        }
+      ],
+      "language": {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sSearch": "Buscar:",
+        "sPaginate": {
+          "sFirst": "Primero",
+          "sPrevious": "Anterior",
+          "sNext": "Siguiente",
+          "sLast": "Último"
+        }
+      }
+    }).buttons().container().appendTo('#tablasUsuarios_wrapper .col-md-6:eq(0)');
+  });
+
+  function eliminarUsuario(elemento) {
+    const id = elemento.getAttribute('data-id');
+    Swal.fire({
+      title: '¿Eliminar usuario?',
+      text: "Esta acción no se puede deshacer",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location = '/deleteUser/' + id;
+      }
+    });
+  }
+</script>
+
+<%- include("template/footer") %>
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="modalSupervisoresLabel">
+          <i class="fas fa-user-tie mr-2"></i>Gestión de Supervisores y Empleados
+        </h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="supervisoresList">
+          <div class="text-center p-4">
+            <div class="spinner-border text-success" role="status">
+              <span class="sr-only">Cargando...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- /.content-wrapper -->
-  
-  <%- include("template/footer") %>
+</div>
+
+<!-- MODAL PARA AGREGAR EMPLEADO A SUPERVISOR -->
+<div class="modal fade" id="modalAgregarEmpleado" tabindex="-1" role="dialog" aria-labelledby="modalAgregarEmpleadoLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title" id="modalAgregarEmpleadoLabel">
+          <i class="fas fa-plus mr-2"></i>Asignar Empleado
+        </h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formAgregarEmpleado">
+          <input type="hidden" id="supervisorIdForm">
+          <div class="form-group">
+            <label for="empleadoSelect">Seleccionar Empleado:</label>
+            <select class="form-control" id="empleadoSelect" name="empleado_id" required>
+              <option value="">-- Seleccione un empleado --</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-info" onclick="guardarEmpleadoSupervisor()">
+          <i class="fas fa-save mr-1"></i> Asignar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Cargar supervisores cuando se abre el modal
+  $('#modalSupervisores').on('show.bs.modal', function() {
+    cargarSupervisores();
+  });
+
+  function cargarSupervisores() {
+    fetch('/api/supervisores')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && data.supervisores) {
+          mostrarSupervisores(data.supervisores);
+        } else {
+          document.getElementById('supervisoresList').innerHTML = `
+            <div class="alert alert-warning text-center">
+              <i class="fas fa-exclamation-triangle mr-2"></i>
+              No hay supervisores registrados
+            </div>
+          `;
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('supervisoresList').innerHTML = `
+          <div class="alert alert-danger text-center">
+            Error al cargar supervisores
+          </div>
+        `;
+      });
+  }
+
+  function mostrarSupervisores(supervisores) {
+    let html = '<div class="row">';
+    
+    supervisores.forEach(sup => {
+      html += `
+        <div class="col-md-12 mb-3">
+          <div class="card shadow-sm border-left-success">
+            <div class="card-header bg-success text-white">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                  <i class="fas fa-user-tie mr-2"></i>
+                  ${sup.nombre_supervisor}
+                </h5>
+                <button type="button" class="btn btn-sm btn-light" onclick="abrirModalAgregar(${sup.id})">
+                  <i class="fas fa-plus mr-1"></i> Agregar Empleado
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                  <thead class="bg-light">
+                    <tr>
+                      <th>Número</th>
+                      <th>Empleado</th>
+                      <th>Email</th>
+                      <th>Puesto</th>
+                      <th>Departamento</th>
+                      <th style="width: 10%;">Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${sup.empleados && sup.empleados.length > 0 ? 
+                      sup.empleados.map(emp => `
+                        <tr>
+                          <td><span class="badge badge-primary">${emp.numero_empleado}</span></td>
+                          <td><strong>${emp.nombre}</strong></td>
+                          <td>${emp.email}</td>
+                          <td>${emp.puesto}</td>
+                          <td><span class="badge badge-info">${emp.departamento}</span></td>
+                          <td>
+                            <button type="button" class="btn btn-xs btn-danger" onclick="eliminarEmpleadoSupervisor(${sup.id}, ${emp.id})">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      `).join('')
+                      : '<tr><td colspan="6" class="text-center text-muted">Sin empleados asignados</td></tr>'
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    
+    html += '</div>';
+    document.getElementById('supervisoresList').innerHTML = html;
+  }
+
+  function abrirModalAgregar(supervisorId) {
+    document.getElementById('supervisorIdForm').value = supervisorId;
+    
+    // Cargar empleados disponibles
+    fetch('/api/empleados')
+      .then(response => response.json())
+      .then(data => {
+        const selectEmpleado = document.getElementById('empleadoSelect');
+        selectEmpleado.innerHTML = '<option value="">-- Seleccione un empleado --</option>';
+        
+        if (data.success && data.empleados) {
+          data.empleados.forEach(emp => {
+            const option = document.createElement('option');
+            option.value = emp.id;
+            option.textContent = `${emp.numero_empleado} - ${emp.nombre}`;
+            selectEmpleado.appendChild(option);
+          });
+        }
+      });
+    
+    $('#modalAgregarEmpleado').modal('show');
+  }
+
+  function guardarEmpleadoSupervisor() {
+    const supervisorId = document.getElementById('supervisorIdForm').value;
+    const empleadoId = document.getElementById('empleadoSelect').value;
+    
+    if (!empleadoId) {
+      Swal.fire('Error', 'Seleccione un empleado', 'error');
+      return;
+    }
+    
+    fetch('/api/supervisores/asignar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        supervisor_id: supervisorId,
+        empleado_id: empleadoId
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        Swal.fire('Éxito', 'Empleado asignado correctamente', 'success');
+        $('#modalAgregarEmpleado').modal('hide');
+        cargarSupervisores();
+      } else {
+        Swal.fire('Error', data.message || 'No se pudo asignar el empleado', 'error');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      Swal.fire('Error', 'Error al asignar empleado', 'error');
+    });
+  }
+
+  function eliminarEmpleadoSupervisor(supervisorId, empleadoId) {
+    Swal.fire({
+      title: '¿Remover empleado?',
+      text: 'El empleado será removido de este supervisor',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, remover',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch('/api/supervisores/eliminar-asignacion', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            supervisor_id: supervisorId,
+            empleado_id: empleadoId
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            Swal.fire('Eliminado', 'Empleado removido correctamente', 'success');
+            cargarSupervisores();
+          } else {
+            Swal.fire('Error', data.message || 'No se pudo remover el empleado', 'error');
+          }
+        });
+      }
+    });
+  }
+</script>
+
+<%- include("template/footer") %>

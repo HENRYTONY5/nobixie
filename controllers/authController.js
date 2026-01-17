@@ -217,7 +217,7 @@ exports.validarEmpleado = (req, res) => {
         });
     }
 
-    const query = 'SELECT id FROM encuesta_trabajadores WHERE id_empleado = ?';
+    const query = 'SELECT id FROM empleados WHERE numero_empleado = ? AND activo = TRUE';
     conexion.query(query, [idEmpleado], (error, results) => {
         if (error) {
             console.error("Error en validación:", error);
@@ -234,94 +234,14 @@ exports.validarEmpleado = (req, res) => {
     });
 };
 
-// REGISTRAR ENCUESTA
-exports.registrarEncuesta = (req, res) => {
-    try {
-        const {
-            id_empleado,
-            razon_social,
-            genero,
-            edad,
-            estado_civil,
-            escolaridad,
-            tipo_puesto,
-            categoria_puesto,
-            antiguedad
-        } = req.body;
 
-        // Validar campos obligatorios
-        if (!id_empleado || !genero || !edad || !estado_civil || !escolaridad) {
-            return res.status(400).send('Campos obligatorios faltantes');
-        }
 
-        const encuestaData = {
-            id_empleado,
-            razon_social: razon_social || '',
-            genero,
-            edad,
-            estado_civil,
-            escolaridad,
-            tipo_puesto: tipo_puesto || '',
-            categoria_puesto: categoria_puesto || '',
-            antiguedad: antiguedad || '',
-            fecha_registro: new Date()
-        };
 
-        conexion.query('INSERT INTO encuesta_trabajadores SET ?', encuestaData, (error) => {
-            if (error) {
-                console.error('Error al registrar encuesta:', error);
-                return res.status(500).send('Error al registrar la encuesta');
-            }
-            res.redirect('/data');
-        });
-    } catch (error) {
-        console.error('Error en registrarEncuesta:', error);
-        res.status(500).send('Error del servidor');
-    }
-};
 
-// OBTENER DATOS PARA GRÁFICAS
-exports.obtenerDatosParaGraficas = (req, res) => {
-    const sql = 'SELECT genero, COUNT(*) AS cantidad FROM encuesta_trabajadores GROUP BY genero';
-    
-    conexion.query(sql, (err, results) => {
-        if (err) {
-            console.error('Error al obtener datos:', err);
-            return res.status(500).json({
-                error: "Error al obtener datos"
-            });
-        }
-        res.json(results || []);
-    });
-};
+
+
 
 // OBTENER DATOS GRÁFICOS COMPLETOS
-exports.obtenerDatosGraficos = (req, res) => {
-    const sql = `
-        SELECT 
-            genero,
-            edad,
-            estado_civil,
-            escolaridad,
-            tipo_puesto,
-            categoria_puesto,
-            COUNT(*) AS cantidad
-        FROM 
-            encuesta_trabajadores
-        GROUP BY 
-            genero, edad, estado_civil, escolaridad, tipo_puesto, categoria_puesto
-    `;
-
-    conexion.query(sql, (err, results) => {
-        if (err) {
-            console.error('Error al obtener datos:', err);
-            return res.status(500).json({
-                error: "Error al obtener datos"
-            });
-        }
-        res.json(results || []);
-    });
-};
 
 // GUARDAR RESPUESTAS
 exports.guardarRespuestas = (req, res) => {
