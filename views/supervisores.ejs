@@ -1,203 +1,253 @@
 <%- include("template/header") %>
-    <%- include("template/navbar") %>
-        <%- include("template/aside") %>
+<%- include("template/navbar") %>
+<%- include("template/aside") %>
 
-            <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
-                <%- include('template/breadcrumb', {module: 'Supervisores' }) %>
-                    <!-- Content Header (Page header) -->
-                    <section class="content-header">
-                        <div class="container-fluid">
-                            <!-- TARJETA PRINCIPAL INTRO -->
-                            <div class="row mb-4">
-                                <div class="col-md-12">
-                                    <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); border-radius: 15px;">
-                                        <div class="card-body text-white p-5">
-                                            <div class="d-flex align-items-center">
-                                                <div style="font-size: 3rem; margin-right: 20px;">
-                                                    <i class="fas fa-user-tie"></i>
-                                                </div>
-                                                <div>
-                                                    <h2 class="card-title mb-2" style="font-weight: 700;">Gestión de Supervisores</h2>
-                                                    <p class="mb-0 text-white-50">Visualiza todos los supervisores y los empleados bajo su mando.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <%- include('template/breadcrumb', { module: 'Supervisores' }) %>
 
-                            <!-- SECCIÓN LISTADO DE SUPERVISORES -->
-                            <div class="row mb-4">
-                                <div class="col-md-12">
-                                    <div class="section-title-wrapper d-flex align-items-center mb-4">
-                                        <div style="width: 5px; height: 40px; background: linear-gradient(135deg, #2563eb, #1e40af); border-radius: 3px; margin-right: 15px;"></div>
-                                        <h3 class="text-dark mb-0" style="font-weight: 700; font-size: 1.75rem;">
-                                            <i class="fas fa-list mr-2"></i>Listado de Supervisores
-                                        </h3>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- SUPERVISORES CONTAINER -->
-                            <div class="row" id="supervisoresContainer">
-                                <div class="col-md-12">
-                                    <div class="text-center p-5">
-                                        <div class="spinner-border text-primary" role="status">
-                                            <span class="sr-only">Cargando...</span>
-                                        </div>
-                                        <p class="mt-3 text-muted">Cargando supervisores...</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div><!-- /.container-fluid -->
-                    </section>
-                    <!-- /.content -->
-            </div>
-            <!-- /.content-wrapper -->
-
-            <%- include("template/footer") %>
-
-<script>
-  // Cargar supervisores al abrir la página
-  document.addEventListener('DOMContentLoaded', function() {
-    cargarSupervisores();
-  });
-
-  function cargarSupervisores() {
-    fetch('/api/supervisores', {
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success && data.supervisores && data.supervisores.length > 0) {
-          mostrarSupervisores(data.supervisores);
-        } else {
-          document.getElementById('supervisoresContainer').innerHTML = `
-            <div class="col-md-12">
-              <div class="alert alert-info text-center">
-                <i class="fas fa-info-circle mr-2"></i>
-                No hay supervisores registrados en el sistema
-              </div>
-            </div>
-          `;
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        document.getElementById('supervisoresContainer').innerHTML = `
-          <div class="col-md-12">
-            <div class="alert alert-danger text-center">
-              <i class="fas fa-exclamation-triangle mr-2"></i>
-              Error al cargar los supervisores
-            </div>
-          </div>
-        `;
-      });
-  }
-
-  function mostrarSupervisores(supervisores) {
-    let html = '<div class="col-md-12"><div class="row">';
-    
-    supervisores.forEach(supervisor => {
-      const cantidadEmpleados = supervisor.empleados ? supervisor.empleados.length : 0;
-      
-      html += `
-        <div class="col-lg-6 col-md-12 mb-4">
-          <div class="card border-0 shadow-lg h-100 transition-all" 
-               style="border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.3s ease;"
-               onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 35px rgba(37, 99, 235, 0.3)'" 
-               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.1)'">
-            
-            <!-- Header con gradiente -->
-            <div style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); padding: 25px; color: white;">
-              <div class="d-flex justify-content-between align-items-start">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <!-- TARJETA PRINCIPAL INTRO -->
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); border-radius: 15px;">
+            <div class="card-body text-white p-5">
+              <div class="d-flex align-items-center">
+                <div style="font-size: 3rem; margin-right: 20px;">
+                  <i class="fas fa-user-tie"></i>
+                </div>
                 <div>
-                  <h5 class="mb-2" style="font-weight: 700; font-size: 1.3rem;">
-                    <i class="fas fa-user-tie mr-2"></i>${supervisor.nombre_supervisor}
-                  </h5>
-                  <p class="mb-0 text-white-50 small">
-                    <i class="fas fa-envelope mr-1"></i>${supervisor.email}
-                  </p>
-                </div>
-                <div style="text-align: center;">
-                  <div style="font-size: 2.5rem; opacity: 0.2; margin-bottom: 5px;">
-                    <i class="fas fa-user-tie"></i>
-                  </div>
-                  <span class="badge badge-light" style="font-size: 1.1rem; padding: 8px 12px;">
-                    ${cantidadEmpleados} empleado${cantidadEmpleados !== 1 ? 's' : ''}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Body con tabla de empleados -->
-            <div class="card-body pt-3">
-              ${cantidadEmpleados > 0 ? `
-                <div class="table-responsive">
-                  <table class="table table-sm table-hover mb-0">
-                    <thead class="bg-light">
-                      <tr>
-                        <th style="color: #2563eb; font-weight: 600;">Número</th>
-                        <th style="color: #2563eb; font-weight: 600;">Nombre</th>
-                        <th style="color: #2563eb; font-weight: 600;">Puesto</th>
-                        <th style="color: #2563eb; font-weight: 600;">Departamento</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${supervisor.empleados.map(emp => `
-                        <tr style="border-bottom: 1px solid #f0f0f0;">
-                          <td>
-                            <span class="badge" style="background-color: #2563eb;">
-                              ${emp.numero_empleado}
-                            </span>
-                          </td>
-                          <td>
-                            <strong>${emp.nombre}</strong><br>
-                            <small class="text-muted">${emp.email}</small>
-                          </td>
-                          <td>${emp.puesto}</td>
-                          <td>
-                            <span class="badge badge-info">
-                              ${emp.departamento}
-                            </span>
-                          </td>
-                        </tr>
-                      `).join('')}
-                    </tbody>
-                  </table>
-                </div>
-              ` : `
-                <div class="alert alert-warning mb-0">
-                  <i class="fas fa-exclamation-circle mr-2"></i>
-                  No tiene empleados asignados aún
-                </div>
-              `}
-            </div>
-
-            <!-- Footer con acciones -->
-            <div class="card-footer bg-white border-top" style="padding: 15px;">
-              <div class="row">
-                <div class="col-6">
-                  <button class="btn btn-sm btn-primary w-100" onclick="abrirModalEditarSupervisor('${supervisor.id}', '${supervisor.nombre_supervisor}')">
-                    <i class="fas fa-edit mr-1"></i> Detalles
-                  </button>
-                </div>
-                <div class="col-6">
-                  <button class="btn btn-sm btn-success w-100" onclick="abrirModalAsignarEmpleado('${supervisor.id}', '${supervisor.nombre_supervisor}')">
-                    <i class="fas fa-plus mr-1"></i> Asignar
-                  </button>
+                  <h2 class="card-title mb-2" style="font-weight: 700;">Gestión de Supervisores</h2>
+                  <p class="mb-0 text-white-50">Visualiza todos los supervisores y los empleados bajo su mando.</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      `;
+      </div>
+
+      <!-- SECCIÓN LISTADO DE SUPERVISORES -->
+      <div class="row mb-4" id="supervisoresContainer">
+        <div class="col-md-12">
+          <div class="card border-0 shadow-sm text-center p-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Cargando...</span>
+            </div>
+            <p class="mt-3 text-muted">Cargando supervisores...</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<!-- MODAL ASIGNAR EMPLEADO -->
+<div class="modal fade" id="modalAsignarEmpleadoSupervisores" tabindex="-1" role="dialog" aria-labelledby="modalAsignarEmpleadoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">
+          <i class="fas fa-user-plus mr-2"></i>Asignar Empleado a <span id="supervisorNombreAsignacion"></span>
+        </h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="supervisorIdAsignacion">
+
+        <!-- SELECTOR DE TIPO DE ASIGNACIÓN -->
+        <div class="form-group">
+          <label for="tipoAsignacion" class="form-label"><strong>Tipo de Asignación:</strong></label>
+          <select class="form-control form-control-lg" id="tipoAsignacion" onchange="mostrarTipoAsignacion()">
+            <option value="individual">Empleado Individual</option>
+            <option value="departamento">Departamento Completo</option>
+          </select>
+        </div>
+
+        <hr>
+
+        <!-- ASIGNACIÓN INDIVIDUAL -->
+        <div id="asignacionIndividual">
+          <div class="alert alert-info" role="alert">
+            <i class="fas fa-info-circle mr-2"></i>
+            <strong>Asignación Individual:</strong> Selecciona un empleado específico
+          </div>
+
+          <div class="form-group">
+            <label for="empleadoSelectSupervisores" class="form-label"><strong>Empleado:</strong></label>
+            <select class="form-control form-control-lg" id="empleadoSelectSupervisores" required>
+              <option value="">-- Cargando empleados... --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="departamentoIndividualSelect" class="form-label"><strong>Departamento:</strong></label>
+            <select class="form-control form-control-lg" id="departamentoIndividualSelect" required>
+              <option value="">-- Seleccione departamento --</option>
+              <option value="Pailería">Pailería</option>
+              <option value="Administración">Administración</option>
+              <option value="Eléctricos">Eléctricos</option>
+              <option value="Mantenimiento">Mantenimiento</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ASIGNACIÓN POR DEPARTAMENTO -->
+        <div id="asignacionDepartamento" style="display: none;">
+          <div class="alert alert-warning" role="alert">
+            <i class="fas fa-exclamation-triangle mr-2"></i>
+            <strong>Asignación Masiva:</strong> Se asignarán TODOS los empleados del departamento seleccionado
+          </div>
+
+          <div class="form-group">
+            <label for="departamentoSelectSupervisores" class="form-label"><strong>Departamento a Asignar:</strong></label>
+            <select class="form-control form-control-lg" id="departamentoSelectSupervisores" required>
+              <option value="">-- Seleccione un departamento --</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <i class="fas fa-times mr-1"></i>Cancelar
+        </button>
+        <button type="button" class="btn btn-success btn-lg" onclick="guardarAsignacionEmpleado()">
+          <i class="fas fa-check mr-1"></i> Asignar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("template/footer") %>
+
+<script>
+  const departamentosDisponibles = ['Pailería', 'Administración', 'Eléctricos', 'Mantenimiento'];
+
+  // Cargar supervisores al abrir la página
+  $(document).ready(function() {
+    cargarSupervisores();
+  });
+
+  function cargarSupervisores() {
+    $.ajax({
+      url: '/api/supervisores',
+      method: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        if (data.success && Array.isArray(data.supervisores) && data.supervisores.length > 0) {
+          mostrarSupervisores(data.supervisores);
+          return;
+        }
+
+        const mensaje = data.message || 'No se pudieron cargar los supervisores';
+        $('#supervisoresContainer').html(`
+          <div class="col-md-12">
+            <div class="alert alert-warning text-center">
+              <i class="fas fa-exclamation-circle mr-2"></i>${mensaje}
+            </div>
+          </div>
+        `);
+      },
+      error: function(xhr, status, error) {
+        $('#supervisoresContainer').html(`
+          <div class="col-md-12">
+            <div class="alert alert-danger text-center">
+              <i class="fas fa-exclamation-triangle mr-2"></i>
+              <strong>Error al cargar los supervisores</strong><br>
+              <small>Status: ${status} - ${error}</small>
+            </div>
+          </div>
+        `);
+      }
     });
-    
+  }
+
+  function mostrarSupervisores(supervisores) {
+    let html = '<div class="col-md-12"><div class="row">';
+
+    supervisores.forEach(function(supervisor) {
+      const cantidadEmpleados = supervisor.empleados ? supervisor.empleados.length : 0;
+      const nombreSeguro = (supervisor.nombre_supervisor || '').replace(/'/g, "&apos;");
+
+      html += '<div class="col-lg-6 col-md-12 mb-4">';
+      html += '  <div class="card border-0 shadow h-100" style="border-radius: 12px;">';
+      html += '    <div style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); padding: 25px; color: white;">';
+      html += '      <div class="d-flex justify-content-between align-items-start">';
+      html += '        <div>';
+      html += '          <h5 class="mb-2" style="font-weight: 700;">';
+      html += '            <i class="fas fa-user-tie mr-2"></i>' + supervisor.nombre_supervisor;
+      html += '          </h5>';
+      html += '          <p class="mb-0 text-white-50 small">';
+      html += '            <i class="fas fa-envelope mr-1"></i>' + supervisor.email;
+      html += '          </p>';
+      html += '        </div>';
+      html += '        <div>';
+      html += '          <span class="badge badge-light" style="font-size: 1.1rem; padding: 8px 12px;">';
+      html += cantidadEmpleados + ' empleado' + (cantidadEmpleados !== 1 ? 's' : '');
+      html += '          </span>';
+      html += '        </div>';
+      html += '      </div>';
+      html += '    </div>';
+
+      html += '    <div class="card-body">';
+      if (cantidadEmpleados > 0) {
+        html += '      <table class="table table-sm table-hover">';
+        html += '        <thead class="bg-light">';
+        html += '          <tr>';
+        html += '            <th>Número</th>';
+        html += '            <th>Nombre</th>';
+        html += '            <th>Puesto</th>';
+        html += '            <th>Depto</th>';
+        html += '          </tr>';
+        html += '        </thead>';
+        html += '        <tbody>';
+
+        supervisor.empleados.forEach(function(emp) {
+          html += '          <tr>';
+          html += '            <td><span class="badge badge-primary">' + emp.numero_empleado + '</span></td>';
+          html += '            <td><strong>' + emp.nombre + '</strong><br><small>' + emp.email + '</small></td>';
+          html += '            <td>' + emp.puesto + '</td>';
+          html += '            <td><span class="badge badge-info">' + emp.departamento + '</span></td>';
+          html += '          </tr>';
+        });
+
+        html += '        </tbody>';
+        html += '        </table>';
+      } else {
+        html += '      <div class="alert alert-warning mb-0">';
+        html += '        <i class="fas fa-exclamation-circle mr-2"></i>No tiene empleados asignados aún';
+        html += '      </div>';
+      }
+      html += '    </div>';
+
+      html += '    <div class="card-footer bg-white">';
+      html += '      <div class="row">';
+      html += '        <div class="col-6">';
+      html += '          <button class="btn btn-sm btn-primary w-100" onclick="abrirModalEditarSupervisor(' + supervisor.id + ', \'' + nombreSeguro + '\')">';
+      html += '            <i class="fas fa-edit mr-1"></i> Detalles';
+      html += '          </button>';
+      html += '        </div>';
+      html += '        <div class="col-6">';
+      html += '          <button class="btn btn-sm btn-success w-100" onclick="abrirModalAsignarEmpleado(' + supervisor.id + ', \'' + nombreSeguro + '\')">';
+      html += '            <i class="fas fa-plus mr-1"></i> Asignar';
+      html += '          </button>';
+      html += '        </div>';
+      html += '      </div>';
+      html += '    </div>';
+
+      html += '  </div>';
+      html += '</div>';
+    });
+
     html += '</div></div>';
-    document.getElementById('supervisoresContainer').innerHTML = html;
+    $('#supervisoresContainer').html(html);
   }
 
   function abrirModalEditarSupervisor(supervisorId, nombre) {
@@ -224,7 +274,6 @@
   }
 
   function editarSupervisor(supervisorId) {
-    console.log('Editar supervisor:', supervisorId);
     Swal.fire('Información', 'Función de edición en desarrollo', 'info');
   }
 
@@ -240,7 +289,6 @@
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log('Eliminar supervisor:', supervisorId);
         Swal.fire('Información', 'Función de eliminación en desarrollo', 'info');
       }
     });
@@ -249,34 +297,32 @@
   function abrirModalAsignarEmpleado(supervisorId, supervisorNombre) {
     document.getElementById('supervisorIdAsignacion').value = supervisorId;
     document.getElementById('supervisorNombreAsignacion').textContent = supervisorNombre;
-    
+
     cargarDepartamentos();
-    
+    cargarEmpleadosDisponibles();
+
+    document.getElementById('tipoAsignacion').value = 'individual';
+    mostrarTipoAsignacion();
+
     $('#modalAsignarEmpleadoSupervisores').modal('show');
   }
 
-  function cargarEmpleadosDisponibles(supervisorId) {
-    fetch('/api/empleados', {
-      credentials: 'include'
-    })
+  function cargarEmpleadosDisponibles() {
+    fetch('/api/empleados', { credentials: 'include' })
       .then(response => {
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error('Error al cargar empleados');
         }
         return response.json();
       })
       .then(data => {
-        console.log('Datos de empleados recibidos:', data);
         const selectEmpleado = document.getElementById('empleadoSelectSupervisores');
-        
         if (!selectEmpleado) {
-          console.error('Elemento empleadoSelectSupervisores no encontrado');
           return;
         }
-        
+
         selectEmpleado.innerHTML = '<option value="">-- Seleccione un empleado --</option>';
-        
-        if (data.success && data.empleados && data.empleados.length > 0) {
+        if (data.success && Array.isArray(data.empleados) && data.empleados.length > 0) {
           data.empleados.forEach(emp => {
             const option = document.createElement('option');
             option.value = emp.id;
@@ -287,8 +333,7 @@
           selectEmpleado.innerHTML = '<option value="">No hay empleados disponibles</option>';
         }
       })
-      .catch(error => {
-        console.error('Error al cargar empleados:', error);
+      .catch(() => {
         const selectEmpleado = document.getElementById('empleadoSelectSupervisores');
         if (selectEmpleado) {
           selectEmpleado.innerHTML = '<option value="">Error al cargar empleados</option>';
@@ -297,109 +342,111 @@
   }
 
   function cargarDepartamentos() {
-    const selectDepartamento = document.getElementById('departamentoSelectSupervisores');
-    
-    if (!selectDepartamento) {
-      console.error('Elemento departamentoSelectSupervisores no encontrado');
-      return;
+    const deptoSelect = document.getElementById('departamentoSelectSupervisores');
+    const deptoIndividual = document.getElementById('departamentoIndividualSelect');
+
+    if (deptoSelect) {
+      deptoSelect.innerHTML = '<option value="">-- Seleccione un departamento --</option>';
+      departamentosDisponibles.forEach(dept => {
+        const option = document.createElement('option');
+        option.value = dept;
+        option.textContent = dept;
+        deptoSelect.appendChild(option);
+      });
     }
-    
-    const departamentos = ['Pailería', 'Administración', 'Eléctricos', 'Mantenimiento'];
-    
-    selectDepartamento.innerHTML = '<option value="">-- Seleccione departamento --</option>';
-    departamentos.forEach(dept => {
-      const option = document.createElement('option');
-      option.value = dept;
-      option.textContent = dept;
-      selectDepartamento.appendChild(option);
-    });
+
+    if (deptoIndividual) {
+      deptoIndividual.innerHTML = '<option value="">-- Seleccione departamento --</option>';
+      departamentosDisponibles.forEach(dept => {
+        const option = document.createElement('option');
+        option.value = dept;
+        option.textContent = dept;
+        deptoIndividual.appendChild(option);
+      });
+    }
+  }
+
+  function mostrarTipoAsignacion() {
+    const tipoAsignacion = document.getElementById('tipoAsignacion').value;
+    const asignacionIndividual = document.getElementById('asignacionIndividual');
+    const asignacionDepartamento = document.getElementById('asignacionDepartamento');
+
+    if (tipoAsignacion === 'individual') {
+      asignacionIndividual.style.display = 'block';
+      asignacionDepartamento.style.display = 'none';
+    } else {
+      asignacionIndividual.style.display = 'none';
+      asignacionDepartamento.style.display = 'block';
+    }
   }
 
   function guardarAsignacionEmpleado() {
+    const tipoAsignacion = document.getElementById('tipoAsignacion').value;
+    if (tipoAsignacion === 'individual') {
+      guardarAsignacionIndividual();
+    } else {
+      guardarAsignacionDepartamento();
+    }
+  }
+
+  function guardarAsignacionIndividual() {
     const supervisorId = document.getElementById('supervisorIdAsignacion').value;
-    const departamento = document.getElementById('departamentoSelectSupervisores').value;
-    
-    if (!supervisorId || !departamento) {
-      Swal.fire('Error', 'Debes seleccionar un supervisor y un departamento', 'error');
+    const empleadoId = document.getElementById('empleadoSelectSupervisores').value;
+    const departamento = document.getElementById('departamentoIndividualSelect').value;
+
+    if (!supervisorId || !empleadoId || !departamento) {
+      Swal.fire('Error', 'Debes seleccionar un empleado y un departamento', 'error');
       return;
     }
-    
-    Swal.fire({
-      title: '¿Asignar departamento?',
-      html: `Se asignarán todos los empleados del departamento <strong>${departamento}</strong> a este supervisor`,
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#28a745',
-      cancelButtonColor: '#6c757d',
-      confirmButtonText: 'Sí, asignar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch('/api/supervisores/asignar-departamento', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          credentials: 'include',
-          body: JSON.stringify({
-            supervisor_id: supervisorId,
-            departamento: departamento
-          })
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            Swal.fire('Éxito', `${data.cantidad || 0} empleados asignados correctamente`, 'success');
-            
-            $('#modalAsignarEmpleadoSupervisores').modal('hide');
-            
-            cargarSupervisores();
-          } else {
-            Swal.fire('Error', data.message || 'No se pudo asignar el departamento', 'error');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          Swal.fire('Error', 'Error al asignar departamento', 'error');
-        });
-      }
-    });
+
+    fetch('/api/supervisores/asignar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ supervisor_id: supervisorId, empleado_id: empleadoId, departamento })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          Swal.fire('Éxito', 'Empleado asignado correctamente', 'success');
+          $('#modalAsignarEmpleadoSupervisores').modal('hide');
+          cargarSupervisores();
+        } else {
+          Swal.fire('Error', data.message || 'No se pudo asignar el empleado', 'error');
+        }
+      })
+      .catch(() => {
+        Swal.fire('Error', 'Error al asignar empleado', 'error');
+      });
+  }
+
+  function guardarAsignacionDepartamento() {
+    const supervisorId = document.getElementById('supervisorIdAsignacion').value;
+    const departamento = document.getElementById('departamentoSelectSupervisores').value;
+
+    if (!supervisorId || !departamento) {
+      Swal.fire('Error', 'Debes seleccionar un departamento', 'error');
+      return;
+    }
+
+    fetch('/api/supervisores/asignar-departamento', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ supervisor_id: supervisorId, departamento })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          Swal.fire('Éxito', 'Departamento asignado correctamente', 'success');
+          $('#modalAsignarEmpleadoSupervisores').modal('hide');
+          cargarSupervisores();
+        } else {
+          Swal.fire('Error', data.message || 'No se pudo asignar el departamento', 'error');
+        }
+      })
+      .catch(() => {
+        Swal.fire('Error', 'Error al asignar departamento', 'error');
+      });
   }
 </script>
-
-<!-- MODAL PARA ASIGNAR EMPLEADO A SUPERVISOR -->
-<div class="modal fade" id="modalAsignarEmpleadoSupervisores" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-success text-white">
-        <h5 class="modal-title">
-          <i class="fas fa-briefcase mr-2"></i>Asignar Departamento a <span id="supervisorNombreAsignacion"></span>
-        </h5>
-        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" id="supervisorIdAsignacion">
-        
-        <div class="alert alert-info" role="alert">
-          <i class="fas fa-info-circle mr-2"></i>
-          <strong>Nota:</strong> Se asignarán todos los empleados del departamento seleccionado a este supervisor.
-        </div>
-
-        <div class="form-group">
-          <label for="departamentoSelectSupervisores" class="form-label"><strong>Departamento a Asignar:</strong></label>
-          <select class="form-control form-control-lg" id="departamentoSelectSupervisores" required>
-            <option value="">-- Seleccione un departamento --</option>
-          </select>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-success btn-lg" onclick="guardarAsignacionEmpleado()">
-          <i class="fas fa-check mr-1"></i> Asignar Departamento
-        </button>
-      </div>
-    </div>
-  </div>
-</div>

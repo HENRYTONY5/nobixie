@@ -157,11 +157,54 @@ exports.guardarEmpleado = async (req, res) => {
                         });
                     }
 
-                    res.status(201).json({
-                        success: true,
-                        message: '¡Empleado registrado exitosamente!',
-                        id: results.insertId
-                    });
+                    const nuevoEmpleadoId = results.insertId;
+                    let mensajeRespuesta = '¡Empleado registrado exitosamente!';
+
+                    // AUTO-ASIGNAR AL SUPERVISOR DEL DEPARTAMENTO (si existe)
+                    // Solo asignar si NO es un supervisor
+                    if (tipo_empleado !== 'Supervisor') {
+                        const querySupervisor = `
+                            SELECT DISTINCT se.supervisor_id, e.nombre 
+                            FROM supervisores_empleados se
+                            JOIN empleados e ON e.id = se.supervisor_id
+                            WHERE se.departamento = ? AND e.tipo_empleado = 'Supervisor'
+                            LIMIT 1
+                        `;
+
+                        conexion.query(querySupervisor, [departamento], (error, supervisores) => {
+                            if (!error && supervisores.length > 0) {
+                                const supervisorId = supervisores[0].supervisor_id;
+                                const supervisorNombre = supervisores[0].nombre;
+                                
+                                // Asignar empleado al supervisor
+                                const asignacionQuery = `
+                                    INSERT INTO supervisores_empleados (supervisor_id, empleado_id, departamento) 
+                                    VALUES (?, ?, ?)
+                                    ON DUPLICATE KEY UPDATE departamento = VALUES(departamento)
+                                `;
+                                
+                                conexion.query(asignacionQuery, [supervisorId, nuevoEmpleadoId, departamento], (error) => {
+                                    if (!error) {
+                                        console.log(`✓ Empleado ${nuevoEmpleadoId} auto-asignado al supervisor ${supervisorNombre} (${departamento})`);
+                                    }
+                                });
+                                
+                                mensajeRespuesta += ` y asignado automáticamente al supervisor ${supervisorNombre}`;
+                            }
+
+                            res.status(201).json({
+                                success: true,
+                                message: mensajeRespuesta,
+                                id: nuevoEmpleadoId
+                            });
+                        });
+                    } else {
+                        res.status(201).json({
+                            success: true,
+                            message: mensajeRespuesta,
+                            id: nuevoEmpleadoId
+                        });
+                    }
                 });
             });
         });
@@ -300,6 +343,42 @@ exports.actualizarEmpleado = (req, res) => {
                 return res.status(500).json({
                     success: false,
                     message: 'Error al actualizar empleado'
+                });
+            }
+
+            // REASIGNAR AUTOMÁTICAMENTE SI CAMBIÓ DE DEPARTAMENTO
+            if (tipo_empleado !== 'Supervisor') {
+                // Eliminar asignaciones anteriores
+                conexion.query('DELETE FROM supervisores_empleados WHERE empleado_id = ?', [id], (error) => {
+                    if (error) {
+                        console.error('Error al eliminar asignaciones anteriores:', error);
+                    }
+
+                    // Buscar supervisor del nuevo departamento y reasignar
+                    const querySupervisor = `
+                        SELECT DISTINCT se.supervisor_id, e.nombre 
+                        FROM supervisores_empleados se
+                        JOIN empleados e ON e.id = se.supervisor_id
+                        WHERE se.departamento = ? AND e.tipo_empleado = 'Supervisor'
+                        LIMIT 1
+                    `;
+
+                    conexion.query(querySupervisor, [departamento], (error, supervisores) => {
+                        if (!error && supervisores.length > 0) {
+                            const supervisorId = supervisores[0].supervisor_id;
+                            
+                            const asignacionQuery = `
+                                INSERT INTO supervisores_empleados (supervisor_id, empleado_id, departamento) 
+                                VALUES (?, ?, ?)
+                            `;
+                            
+                            conexion.query(asignacionQuery, [supervisorId, id, departamento], (error) => {
+                                if (!error) {
+                                    console.log(`✓ Empleado ${id} reasignado automáticamente (${departamento})`);
+                                }
+                            });
+                        }
+                    });
                 });
             }
 

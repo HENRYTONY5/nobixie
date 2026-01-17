@@ -21,7 +21,7 @@ const isAdmin = (req, res, next) => {
     }
     next();
 };
-module.exports = isAdmin;
+
 // USUARIOS - GET
 router.get('/users', authController.isAuthenticated, isAdmin, (req, res) => {
     conexion.query('SELECT id, user, email, rol, image FROM users', (error, results) => {
@@ -217,6 +217,12 @@ router.post('/api/supervisores/eliminar-asignacion', authController.isAuthentica
 router.get('/api/supervisores/:supervisor_id/empleados', authController.isAuthenticated, isAdmin, supervisorController.obtenerEmpleadosSupervisor);
 router.get('/api/supervisores', authController.isAuthenticated, isAdmin, supervisorController.obtenerSupervisores);
 router.delete('/api/supervisores/:id/asignacion', authController.isAuthenticated, isAdmin, supervisorController.eliminarAsignacion);
+
+// API SUPERVISORES - Tablas dinámicas
+router.post('/api/supervisores/crear-tabla', authController.isAuthenticated, isAdmin, supervisorController.crearTablaSupervisor);
+router.post('/api/supervisores/agregar-empleados', authController.isAuthenticated, isAdmin, supervisorController.agregarEmpleadosASupervisor);
+router.post('/api/supervisores/agregar-proyectos', authController.isAuthenticated, isAdmin, supervisorController.agregarProyectosASupervisor);
+router.get('/api/supervisores/:supervisor_id/datos', authController.isAuthenticated, isAdmin, supervisorController.obtenerDatosSupervisor);
 
 // CRUD USUARIOS - POST
 router.post('/saveUser', authController.isAuthenticated, isAdmin, userController.saveUser);
