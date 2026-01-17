@@ -132,38 +132,67 @@ exports.actualizarHerramientaPrestada = (req, res) => {
             });
         }
 
-        const query = `
-            UPDATE herramientas_prestadas 
-            SET folio = ?, empleado_id = ?, herramienta = ?, modelo = ?, numero_serie = ?, marca = ?, descripcion = ?, 
-                departamento = ?, fecha_prestamo = ?, fecha_devolucion_estimada = ?, estado = ?, fecha_devolucion_real = ?, observaciones = ?
-            WHERE id = ?
-        `;
-
-        conexion.query(
-            query,
-            [folio, empleado_id, herramienta, modelo || null, numero_serie || null, marca || null, descripcion || null, departamento, fecha_prestamo, fecha_devolucion_estimada || null, estado, fecha_devolucion_real || null, observaciones || null, id],
-            (error, result) => {
-                if (error) {
-                    console.error('Error al actualizar herramienta prestada:', error);
-                    return res.status(500).json({
-                        success: false,
-                        message: 'Error al actualizar el préstamo'
-                    });
-                }
-
-                if (result.affectedRows === 0) {
-                    return res.status(404).json({
-                        success: false,
-                        message: 'El préstamo no existe'
-                    });
-                }
-
-                res.json({
-                    success: true,
-                    message: 'Préstamo actualizado correctamente'
+        // Primero obtener el registro actual
+        conexion.query('SELECT * FROM herramientas_prestadas WHERE id = ?', [id], (error, results) => {
+            if (error) {
+                console.error('Error al obtener préstamo:', error);
+                return res.status(500).json({
+                    success: false,
+                    message: 'Error al obtener préstamo'
                 });
             }
-        );
+
+            if (results.length === 0) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'El préstamo no existe'
+                });
+            }
+
+            const prestamoActual = results[0];
+
+            // Usar valores del body si existen, sino mantener los actuales
+            const query = `
+                UPDATE herramientas_prestadas 
+                SET folio = ?, empleado_id = ?, herramienta = ?, modelo = ?, numero_serie = ?, marca = ?, descripcion = ?, 
+                    departamento = ?, fecha_prestamo = ?, fecha_devolucion_estimada = ?, estado = ?, fecha_devolucion_real = ?, observaciones = ?
+                WHERE id = ?
+            `;
+
+            conexion.query(
+                query,
+                [
+                    folio !== undefined ? folio : prestamoActual.folio,
+                    empleado_id !== undefined ? empleado_id : prestamoActual.empleado_id,
+                    herramienta !== undefined ? herramienta : prestamoActual.herramienta,
+                    modelo !== undefined ? modelo : prestamoActual.modelo,
+                    numero_serie !== undefined ? numero_serie : prestamoActual.numero_serie,
+                    marca !== undefined ? marca : prestamoActual.marca,
+                    descripcion !== undefined ? descripcion : prestamoActual.descripcion,
+                    departamento !== undefined ? departamento : prestamoActual.departamento,
+                    fecha_prestamo !== undefined ? fecha_prestamo : prestamoActual.fecha_prestamo,
+                    fecha_devolucion_estimada !== undefined ? fecha_devolucion_estimada : prestamoActual.fecha_devolucion_estimada,
+                    estado !== undefined ? estado : prestamoActual.estado,
+                    fecha_devolucion_real !== undefined ? fecha_devolucion_real : prestamoActual.fecha_devolucion_real,
+                    observaciones !== undefined ? observaciones : prestamoActual.observaciones,
+                    id
+                ],
+                (error, result) => {
+                    if (error) {
+                        console.error('Error al actualizar herramienta prestada:', error);
+                        return res.status(500).json({
+                            success: false,
+                            message: 'Error al actualizar el préstamo'
+                        });
+                    }
+
+                    res.json({
+                        success: true,
+                        message: 'Préstamo actualizado correctamente'
+                    });
+                }
+            );
+        });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({

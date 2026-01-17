@@ -264,14 +264,14 @@
             <td><span class="badge ${estadoBadgeClass}">${estadoIcon} ${prestamo.estado}</span></td>
             <td>
               <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-outline-primary" title="Editar" onclick="editarPrestamo(${prestamo.id})">
-                  <i class="fas fa-edit"></i>
+                <button type="button" class="btn btn-sm btn-warning text-white" title="Editar" onclick="editarPrestamo(${prestamo.id})" style="font-weight: 600;">
+                  <i class="fas fa-edit mr-1"></i>Editar
                 </button>
-                <button type="button" class="btn btn-outline-success" title="Marcar como devuelto" onclick="marcarDevuelto(${prestamo.id})" ${prestamo.estado === 'Devuelto' || prestamo.estado === 'Devuelto con Daño' ? 'disabled' : ''}>
-                  <i class="fas fa-check"></i>
+                <button type="button" class="btn btn-sm btn-success text-white" title="Marcar como devuelto" onclick="marcarDevuelto(${prestamo.id})" ${prestamo.estado === 'Devuelto' || prestamo.estado === 'Devuelto con Daño' ? 'disabled' : ''} style="font-weight: 600;">
+                  <i class="fas fa-check mr-1"></i>Devolver
                 </button>
-                <button type="button" class="btn btn-outline-danger" title="Eliminar" onclick="eliminarPrestamo(${prestamo.id})">
-                  <i class="fas fa-trash"></i>
+                <button type="button" class="btn btn-sm btn-danger text-white" title="Eliminar" onclick="eliminarPrestamo(${prestamo.id})" style="font-weight: 600;">
+                  <i class="fas fa-trash mr-1"></i>Eliminar
                 </button>
               </div>
             </td>
@@ -308,8 +308,92 @@
   }
 
   function editarPrestamo(id) {
-    // Redirigir a página de edición
-    window.location.href = `/editar-prestamo/${id}`;
+    const prestamo = todosPrestamos.find(p => p.id === id);
+    if (!prestamo) {
+      Swal.fire('Error', 'Préstamo no encontrado', 'error');
+      return;
+    }
+
+    Swal.fire({
+      title: 'Editar Préstamo',
+      html: `
+        <div class="form-group text-left">
+          <label><strong>Herramienta:</strong></label>
+          <input type="text" id="editHerramienta" class="form-control" value="${prestamo.herramienta}">
+        </div>
+        <div class="form-group text-left">
+          <label><strong>Modelo:</strong></label>
+          <input type="text" id="editModelo" class="form-control" value="${prestamo.modelo || ''}">
+        </div>
+        <div class="form-group text-left">
+          <label><strong>N° Serie:</strong></label>
+          <input type="text" id="editSerie" class="form-control" value="${prestamo.numero_serie || ''}">
+        </div>
+        <div class="form-group text-left">
+          <label><strong>Marca:</strong></label>
+          <input type="text" id="editMarca" class="form-control" value="${prestamo.marca || ''}">
+        </div>
+        <div class="form-group text-left">
+          <label><strong>Estado:</strong></label>
+          <select id="editEstado" class="form-control">
+            <option value="Prestado" ${prestamo.estado === 'Prestado' ? 'selected' : ''}>Prestado</option>
+            <option value="En Préstamo" ${prestamo.estado === 'En Préstamo' ? 'selected' : ''}>En Préstamo</option>
+            <option value="Devuelto" ${prestamo.estado === 'Devuelto' ? 'selected' : ''}>Devuelto</option>
+            <option value="Devuelto con Daño" ${prestamo.estado === 'Devuelto con Daño' ? 'selected' : ''}>Devuelto con Daño</option>
+          </select>
+        </div>
+        <div class="form-group text-left">
+          <label><strong>Observaciones:</strong></label>
+          <textarea id="editObservaciones" class="form-control" rows="2">${prestamo.observaciones || ''}</textarea>
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Guardar Cambios',
+      confirmButtonColor: '#f59e0b',
+      cancelButtonText: 'Cancelar',
+      didOpen: () => {
+        // Focus en el primer campo
+        document.getElementById('editHerramienta').focus();
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const datosActualizados = {
+          herramienta: document.getElementById('editHerramienta').value,
+          modelo: document.getElementById('editModelo').value,
+          numero_serie: document.getElementById('editSerie').value,
+          marca: document.getElementById('editMarca').value,
+          estado: document.getElementById('editEstado').value,
+          observaciones: document.getElementById('editObservaciones').value
+        };
+
+        fetch(`/api/herramientas-prestadas/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(datosActualizados)
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            Swal.fire({
+              icon: 'success',
+              title: '¡Actualizado!',
+              text: 'El préstamo se actualizó correctamente',
+              confirmButtonColor: '#f59e0b'
+            }).then(() => {
+              cargarPrestamos();
+            });
+          } else {
+            Swal.fire('Error', data.message || 'Error al actualizar', 'error');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          Swal.fire('Error', 'Error al actualizar el préstamo', 'error');
+        });
+      }
+    });
   }
 
   function marcarDevuelto(id) {

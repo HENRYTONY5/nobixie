@@ -228,15 +228,20 @@
       html += '    </div>';
 
       html += '    <div class="card-footer bg-white">';
-      html += '      <div class="row">';
-      html += '        <div class="col-6">';
-      html += '          <button class="btn btn-sm btn-primary w-100" onclick="abrirModalEditarSupervisor(' + supervisor.id + ', \'' + nombreSeguro + '\')">';
-      html += '            <i class="fas fa-edit mr-1"></i> Detalles';
+      html += '      <div class="row gap-2">';
+      html += '        <div class="col">';
+      html += '          <button class="btn btn-sm btn-warning text-white w-100 font-weight-600" onclick="abrirModalEditarSupervisor(' + supervisor.id + ', \'' + nombreSeguro + '\')" style="font-weight: 600;">';
+      html += '            <i class="fas fa-edit mr-1"></i> Editar';
       html += '          </button>';
       html += '        </div>';
-      html += '        <div class="col-6">';
-      html += '          <button class="btn btn-sm btn-success w-100" onclick="abrirModalAsignarEmpleado(' + supervisor.id + ', \'' + nombreSeguro + '\')">';
+      html += '        <div class="col">';
+      html += '          <button class="btn btn-sm btn-success text-white w-100 font-weight-600" onclick="abrirModalAsignarEmpleado(' + supervisor.id + ', \'' + nombreSeguro + '\')" style="font-weight: 600;">';
       html += '            <i class="fas fa-plus mr-1"></i> Asignar';
+      html += '          </button>';
+      html += '        </div>';
+      html += '        <div class="col">';
+      html += '          <button class="btn btn-sm btn-danger text-white w-100 font-weight-600" onclick="eliminarSupervisor(' + supervisor.id + ', \'' + nombreSeguro + '\')" style="font-weight: 600;">';
+      html += '            <i class="fas fa-trash mr-1"></i> Eliminar';
       html += '          </button>';
       html += '        </div>';
       html += '      </div>';
@@ -251,45 +256,123 @@
   }
 
   function abrirModalEditarSupervisor(supervisorId, nombre) {
-    Swal.fire({
-      title: `<strong>${nombre}</strong>`,
-      html: `
-        <div class="text-left">
-          <p><strong>ID:</strong> ${supervisorId}</p>
-          <p><strong>Opciones disponibles:</strong></p>
-          <p>
-            <button class="btn btn-sm btn-info mr-2" onclick="editarSupervisor('${supervisorId}')">
-              <i class="fas fa-edit mr-1"></i> Editar
-            </button>
-            <button class="btn btn-sm btn-danger" onclick="eliminarSupervisor('${supervisorId}')">
-              <i class="fas fa-trash mr-1"></i> Eliminar
-            </button>
-          </p>
-        </div>
-      `,
-      icon: 'info',
-      confirmButtonText: 'Cerrar',
-      confirmButtonColor: '#2563eb'
-    });
+    // Fetch para obtener datos del supervisor
+    fetch(`/api/supervisores/${supervisorId}`, { credentials: 'include' })
+      .then(response => {
+        if (!response.ok) throw new Error('Error al obtener supervisor');
+        return response.json();
+      })
+      .then(data => {
+        if (!data.success || !data.supervisor) {
+          Swal.fire('Error', 'No se pudo obtener la información del supervisor', 'error');
+          return;
+        }
+
+        const supervisor = data.supervisor;
+        const cantidadEmpleados = supervisor.empleados ? supervisor.empleados.length : 0;
+
+        Swal.fire({
+          title: `<strong>${nombre}</strong>`,
+          html: `
+            <div class="text-left">
+              <div class="form-group mb-3">
+                <label class="font-weight-600">ID:</label>
+                <input type="text" class="form-control" value="${supervisor.id}" disabled>
+              </div>
+              <div class="form-group mb-3">
+                <label class="font-weight-600">Email:</label>
+                <input type="email" id="editEmail" class="form-control" value="${supervisor.email}">
+              </div>
+              <div class="form-group mb-3">
+                <label class="font-weight-600">Nombre:</label>
+                <input type="text" id="editNombre" class="form-control" value="${supervisor.nombre_supervisor}">
+              </div>
+              <div class="alert alert-info">
+                <i class="fas fa-users mr-2"></i>
+                <strong>${cantidadEmpleados}</strong> empleado${cantidadEmpleados !== 1 ? 's' : ''} asignado${cantidadEmpleados !== 1 ? 's' : ''}
+              </div>
+            </div>
+          `,
+          icon: 'info',
+          showCancelButton: true,
+          confirmButtonColor: '#f59e0b',
+          cancelButtonColor: '#6c757d',
+          confirmButtonText: '<i class="fas fa-save mr-2"></i>Guardar Cambios',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            guardarCambiosSupervisor(supervisorId, nombre);
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        Swal.fire('Error', 'No se pudo cargar la información del supervisor', 'error');
+      });
   }
 
-  function editarSupervisor(supervisorId) {
-    Swal.fire('Información', 'Función de edición en desarrollo', 'info');
+  function guardarCambiosSupervisor(supervisorId, nombre) {
+    const email = document.getElementById('editEmail').value;
+    const nombreSupervisor = document.getElementById('editNombre').value;
+
+    if (!email || !nombreSupervisor) {
+      Swal.fire('Error', 'Los campos no pueden estar vacíos', 'error');
+      return;
+    }
+
+    fetch(`/api/supervisores/${supervisorId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ email, nombre_supervisor: nombreSupervisor })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          Swal.fire('Éxito', 'Supervisor actualizado correctamente', 'success').then(() => {
+            cargarSupervisores();
+          });
+        } else {
+          Swal.fire('Error', data.message || 'No se pudo actualizar el supervisor', 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        Swal.fire('Error', 'Error al actualizar el supervisor', 'error');
+      });
   }
 
-  function eliminarSupervisor(supervisorId) {
+  function eliminarSupervisor(supervisorId, nombre) {
     Swal.fire({
       title: '¿Eliminar supervisor?',
-      text: 'Esta acción no se puede deshacer',
+      html: `<p>Vas a eliminar a <strong>${nombre}</strong></p>
+             <p class="text-danger">Esta acción no se puede deshacer</p>`,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Sí, eliminar',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: '<i class="fas fa-trash mr-2"></i>Sí, eliminar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire('Información', 'Función de eliminación en desarrollo', 'info');
+        fetch(`/api/supervisores/${supervisorId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              Swal.fire('Eliminado', 'Supervisor eliminado correctamente', 'success').then(() => {
+                cargarSupervisores();
+              });
+            } else {
+              Swal.fire('Error', data.message || 'No se pudo eliminar el supervisor', 'error');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            Swal.fire('Error', 'Error al eliminar el supervisor', 'error');
+          });
       }
     });
   }
