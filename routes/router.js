@@ -5,6 +5,7 @@ const authController = require('../controllers/authController');
 const empleadoController = require('../controllers/empleadoController');
 const supervisorController = require('../controllers/supervisorController');
 const proyectoController = require('../controllers/proyectoController');
+const herramientasController = require('../controllers/herramientasController');
 const passwordResetRouter = require('./passwordReset');
 const conexion = require('../database/db');
 
@@ -176,6 +177,22 @@ router.get('/proyectos', authController.isAuthenticated, isAdmin, (req, res) => 
     });
 });
 
+// VISTA PROGRAMERS (herramientas)
+router.get('/programers', authController.isAuthenticated, isAdmin, (req, res) => {
+    res.render('programers', {
+        titleWeb: "Panel de Herramientas",
+        alert: false
+    });
+});
+
+// VISTA HERRAMIENTAS ENTREGADAS
+router.get('/herramientas-entregadas', authController.isAuthenticated, isAdmin, (req, res) => {
+    res.render('herramientas_entregadas', {
+        titleWeb: "Herramientas Entregadas",
+        alert: false
+    });
+});
+
 // ELIMINAR USUARIO - GET
 router.get('/deleteUser/:id', authController.isAuthenticated, isAdmin, (req, res) => {
     const { id } = req.params;
@@ -223,6 +240,12 @@ router.post('/api/supervisores/crear-tabla', authController.isAuthenticated, isA
 router.post('/api/supervisores/agregar-empleados', authController.isAuthenticated, isAdmin, supervisorController.agregarEmpleadosASupervisor);
 router.post('/api/supervisores/agregar-proyectos', authController.isAuthenticated, isAdmin, supervisorController.agregarProyectosASupervisor);
 router.get('/api/supervisores/:supervisor_id/datos', authController.isAuthenticated, isAdmin, supervisorController.obtenerDatosSupervisor);
+
+// API HERRAMIENTAS ENTREGADAS
+router.get('/api/herramientas-entregadas', authController.isAuthenticated, isAdmin, herramientasController.obtenerHerramientasEntregadas);
+router.post('/api/herramientas-entregadas', authController.isAuthenticated, isAdmin, herramientasController.crearHerramientaEntregada);
+router.put('/api/herramientas-entregadas/:id', authController.isAuthenticated, isAdmin, herramientasController.actualizarHerramientaEntregada);
+router.delete('/api/herramientas-entregadas/:id', authController.isAuthenticated, isAdmin, herramientasController.eliminarHerramientaEntregada);
 
 // CRUD USUARIOS - POST
 router.post('/saveUser', authController.isAuthenticated, isAdmin, userController.saveUser);

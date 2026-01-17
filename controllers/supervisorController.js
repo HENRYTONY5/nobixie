@@ -685,11 +685,12 @@ exports.asignarDepartamentoASupervisor = async (req, res) => {
                 }
 
                 // Insertar asignaciones usando INSERT ... SELECT
+                // Asignar a todos los empleados activos del departamento (excluye supervisores)
                 const query = `
                     INSERT INTO supervisores_empleados (supervisor_id, empleado_id, departamento)
                     SELECT ?, id, ?
                     FROM empleados
-                    WHERE departamento = ? AND activo = TRUE AND tipo_empleado = 'Empleado'
+                    WHERE departamento = ? AND activo = TRUE AND tipo_empleado != 'Supervisor'
                     ON DUPLICATE KEY UPDATE departamento = VALUES(departamento)
                 `;
                 
