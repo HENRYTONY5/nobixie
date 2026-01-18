@@ -7,6 +7,9 @@ const multer = require('multer');
 // Cargar variables de entorno ANTES de usarlas
 dotenv.config({ path: path.join(__dirname, './env/.env') });
 
+// Sistema de alertas para Liberación del AST
+const alertasAST = require('./utils/alertasAST');
+
 const app = express();
 
 // Configuración de la app
@@ -70,4 +73,8 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`✓ Servidor ejecutándose en puerto: ${PORT}`);
+    
+    // Iniciar monitoreo de alertas AST (verifica cada hora)
+    console.log('🔍 Iniciando monitoreo de actividades "Liberación del AST"...');
+    alertasAST.iniciarMonitoreo();
 });

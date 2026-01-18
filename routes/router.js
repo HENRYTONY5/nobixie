@@ -171,10 +171,35 @@ router.post('/api/proyectos/:proyecto_id/actividades', authController.isAuthenti
 router.get('/api/proyectos/:proyecto_id/hitos', authController.isAuthenticated, isAdmin, proyectoController.obtenerHitos);
 router.get('/api/resumen-proyectos', authController.isAuthenticated, isAdmin, proyectoController.obtenerResumenProyectos);
 
-// VISTA DE PROYECTOS
+// API HITOS - Gestión de hitos/milestones
+const hitosController = require('../controllers/hitosController');
+router.get('/api/hitos', authController.isAuthenticated, isAdmin, hitosController.obtenerHitos);
+router.get('/api/hitos/:id', authController.isAuthenticated, isAdmin, hitosController.obtenerHito);
+router.post('/api/hitos', authController.isAuthenticated, isAdmin, hitosController.crearHito);
+router.put('/api/hitos/:id', authController.isAuthenticated, isAdmin, hitosController.actualizarHito);
+router.delete('/api/hitos/:id', authController.isAuthenticated, isAdmin, hitosController.eliminarHito);
+router.post('/api/proyectos/:proyecto_id/recalcular-hitos', authController.isAuthenticated, isAdmin, hitosController.recalcularEstadoHito);
+
+// API ACTIVIDADES - Gestión de actividades/tareas
+const actividadesController = require('../controllers/actividadesController');
+router.get('/api/actividades', authController.isAuthenticated, isAdmin, actividadesController.obtenerActividades);
+router.get('/api/actividades/:id', authController.isAuthenticated, isAdmin, actividadesController.obtenerActividad);
+router.post('/api/actividades', authController.isAuthenticated, isAdmin, actividadesController.crearActividad);
+router.put('/api/actividades/:id', authController.isAuthenticated, isAdmin, actividadesController.actualizarActividad);
+router.delete('/api/actividades/:id', authController.isAuthenticated, isAdmin, actividadesController.eliminarActividad);
+
+// VISTA DE PROYECTOS (v1)
 router.get('/proyectos', authController.isAuthenticated, isAdmin, (req, res) => {
     res.render('proyectos', { 
         titleWeb: "Gestión de Proyectos",
+        alert: false 
+    });
+});
+
+// VISTA DE PROYECTOS v2 (con hitos y actividades)
+router.get('/proyectos2', authController.isAuthenticated, isAdmin, (req, res) => {
+    res.render('proyectos2', { 
+        titleWeb: "Gestión de Proyectos SCRUM",
         alert: false 
     });
 });

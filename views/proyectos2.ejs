@@ -1,0 +1,494 @@
+<%- include("template/header") %>
+<%- include("template/navbar") %>
+<%- include("template/aside") %> 
+
+<!-- Content Wrapper -->
+<div class="content-wrapper">
+  <%- include('template/breadcrumb', {module: 'Proyectos SCRUM'}) %>
+  
+  <!-- Content Header -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <!-- TARJETA PRINCIPAL -->
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); border-radius: 15px;">
+            <div class="card-body text-white p-5">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                  <div style="font-size: 3rem; margin-right: 20px;">
+                    <i class="fas fa-project-diagram"></i>
+                  </div>
+                  <div>
+                    <h2 class="card-title mb-2" style="font-weight: 700;">Proyectos SCRUM</h2>
+                    <p class="mb-0 text-white-50">Gestiona proyectos, hitos y actividades con seguimiento completo.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+
+              <div class="tab-content">
+                <!-- TAB 1: LISTA DE PROYECTOS -->
+                <div id="proyectos-tab" class="tab-pane fade show active">
+                  <div class="mb-3">
+                    <button class="btn btn-primary" onclick="abrirModalNuevoProyecto()">
+                      <i class="fas fa-plus mr-2"></i>Nuevo Proyecto
+                    </button>
+                  </div>
+                  <div id="contenedorProyectos" class="row">
+                    <div class="col-md-12 text-center p-5">
+                      <div class="spinner-border text-primary" role="status"></div>
+                      <p class="mt-3 text-muted">Cargando proyectos...</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<%- include("template/footer") %>
+
+<script>
+  let proyectosData = [];
+  let proyectoActual = null;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    cargarProyectos();
+  });
+
+  function cargarProyectos() {
+    fetch('/api/proyectos', { credentials: 'include' })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && Array.isArray(data.data)) {
+          proyectosData = data.data;
+          mostrarProyectos(data.data);
+        } else {
+          document.getElementById('contenedorProyectos').innerHTML = `
+            <div class="col-md-12">
+              <div class="alert alert-info">No hay proyectos registrados</div>
+            </div>
+          `;
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('contenedorProyectos').innerHTML = `
+          <div class="col-md-12">
+            <div class="alert alert-danger">Error al cargar proyectos</div>
+          </div>
+        `;
+      });
+  }
+
+  function mostrarProyectos(proyectos) {
+    let html = '<div class="row">';
+    
+    proyectos.forEach((proyecto, index) => {
+      const colorEstado = obtenerColorEstado(proyecto.estado);
+      const tabId = `proyecto-${proyecto.id}`;
+      
+      html += `
+        <div class="col-lg-6 col-md-12 mb-3">
+          <div class="card border-0 shadow" style="border-radius: 12px;">
+            <div style="background: ${colorEstado}; padding: 20px; color: white; border-radius: 12px 12px 0 0;">
+              <div class="d-flex justify-content-between">
+                <h5 style="font-weight: 700; margin: 0;">${proyecto.nombre_proyecto}</h5>
+                <span class="badge badge-light">${proyecto.estado}</span>
+              </div>
+            </div>
+            
+            <div class="card-body p-3">
+              <!-- TABS DENTRO DE LA TARJETA -->
+              <ul class="nav nav-tabs nav-sm mb-2" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#${tabId}-info">
+                    <small><i class="fas fa-info-circle mr-1"></i>Info</small>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#${tabId}-hitos">
+                    <small><i class="fas fa-flag mr-1"></i>Hitos</small>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#${tabId}-actividades">
+                    <small><i class="fas fa-tasks mr-1"></i>Actividades</small>
+                  </a>
+                </li>
+              </ul>
+
+              <div class="tab-content small">
+                <!-- INFO TAB -->
+                <div id="${tabId}-info" class="tab-pane fade show active">
+                  <p class="mb-1"><strong>Cliente:</strong> ${proyecto.cliente}</p>
+                  <p class="mb-1"><strong>Encargado:</strong> ${proyecto.encargado || 'Sin asignar'}</p>
+                  <p class="mb-2">${proyecto.descripcion || 'Sin descripción'}</p>
+                  <div class="mb-2">
+                    <small class="text-muted">Avance: ${proyecto.porcentaje_avance || 0}%</small>
+                    <div class="progress progress-sm">
+                      <div class="progress-bar" style="width: ${proyecto.porcentaje_avance || 0}%"></div>
+                    </div>
+                  </div>
+                  <small class="text-muted">Presupuesto: $${parseFloat(proyecto.presupuesto_estimado || 0).toLocaleString('es-MX')}</small><br>
+                  <small class="text-muted">Horas: ${proyecto.horas_invertidas || 0} / ${proyecto.horas_estimadas || 0}</small>
+                  <div class="mt-3">
+                    <button class="btn btn-xs btn-warning" onclick="editarProyecto(${proyecto.id})">
+                      <i class="fas fa-edit"></i> Editar
+                    </button>
+                  </div>
+                </div>
+
+                <!-- HITOS TAB -->
+                <div id="${tabId}-hitos" class="tab-pane fade">
+                  <div id="hitos-${proyecto.id}" class="text-center">
+                    <small class="text-muted">Cargando hitos...</small>
+                  </div>
+                  <button class="btn btn-xs btn-primary mt-2" onclick="abrirModalNuevoHito(${proyecto.id})">
+                    <i class="fas fa-plus"></i> Nuevo Hito
+                  </button>
+                </div>
+
+                <!-- ACTIVIDADES TAB -->
+                <div id="${tabId}-actividades" class="tab-pane fade">
+                  <div id="actividades-${proyecto.id}" class="text-center">
+                    <small class="text-muted">Cargando actividades...</small>
+                  </div>
+                  <button class="btn btn-xs btn-primary mt-2" onclick="abrirModalNuevaActividad(${proyecto.id})">
+                    <i class="fas fa-plus"></i> Nueva Actividad
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    
+    html += '</div>';
+    document.getElementById('contenedorProyectos').innerHTML = html;
+    
+    // Cargar hitos y actividades para cada proyecto
+    proyectos.forEach(proyecto => {
+      cargarHitosEnTab(proyecto.id);
+      cargarActividadesEnTab(proyecto.id);
+    });
+  }
+
+  function obtenerColorEstado(estado) {
+    const colores = {
+      'Levantamiento': 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+      'Cotización': 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+      'Aprobado': 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+      'En Ejecución': 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)',
+      'Pausa': 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+      'Finalizado': 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+      'Cancelado': 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
+    };
+    return colores[estado] || 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)';
+  }
+
+  function cargarHitosEnTab(proyecto_id) {
+    fetch(`/api/hitos?proyecto_id=${proyecto_id}`, { credentials: 'include' })
+      .then(r => r.json())
+      .then(data => {
+        const hitos = data.data || [];
+        let html = '';
+        
+        if (hitos.length === 0) {
+          html = '<p class="text-muted">Sin hitos</p>';
+        } else {
+          hitos.forEach(hito => {
+            html += `
+              <div class="card mb-2">
+                <div class="card-body p-2">
+                  <div class="d-flex justify-content-between">
+                    <strong>${hito.nombre}</strong>
+                    <span class="badge badge-${obtenerBadgeEstado(hito.estado)}">${hito.estado}</span>
+                  </div>
+                  <small class="text-muted">
+                    ${hito.fecha_objetivo ? new Date(hito.fecha_objetivo).toLocaleDateString('es-MX') : 'Sin fecha'}
+                  </small><br>
+                  <small>Actividades: ${hito.actividades_completadas || 0}/${hito.total_actividades || 0}</small>
+                  <div class="mt-2">
+                    <button class="btn btn-xs btn-warning" onclick="editarHito(${hito.id})">Editar</button>
+                    <button class="btn btn-xs btn-danger" onclick="eliminarHito(${hito.id})">Eliminar</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+        }
+        
+        document.getElementById(`hitos-${proyecto_id}`).innerHTML = html;
+      })
+      .catch(error => console.error('Error cargando hitos:', error));
+  }
+
+  function cargarActividadesEnTab(proyecto_id) {
+    fetch(`/api/actividades?proyecto_id=${proyecto_id}`, { credentials: 'include' })
+      .then(r => r.json())
+      .then(data => {
+        const actividades = data.data || [];
+        let html = '';
+        
+        if (actividades.length === 0) {
+          html = '<p class="text-muted">Sin actividades</p>';
+        } else {
+          html = '<div style="max-height: 250px; overflow-y: auto;">';
+          actividades.forEach(actividad => {
+            html += `
+              <div class="card mb-2">
+                <div class="card-body p-2">
+                  <div class="d-flex justify-content-between">
+                    <strong>${actividad.titulo}</strong>
+                    <span class="badge badge-${obtenerBadgeEstado(actividad.estado)}">${actividad.estado}</span>
+                  </div>
+                  <small class="text-muted">
+                    ${actividad.responsable_nombre || 'Sin asignar'} | Prioridad: ${actividad.prioridad}
+                  </small><br>
+                  <small>Horas: ${actividad.horas_invertidas || 0}/${actividad.horas_estimadas || 0}</small>
+                  <div class="mt-2">
+                    <button class="btn btn-xs btn-warning" onclick="editarActividad(${actividad.id})">Editar</button>
+                    <button class="btn btn-xs btn-danger" onclick="eliminarActividad(${actividad.id})">Eliminar</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+          html += '</div>';
+        }
+        
+        document.getElementById(`actividades-${proyecto_id}`).innerHTML = html;
+      })
+      .catch(error => console.error('Error cargando actividades:', error));
+  }
+
+  function obtenerBadgeEstado(estado) {
+    const badges = {
+      'Pendiente': 'secondary',
+      'En Progreso': 'info',
+      'En Revisión': 'warning',
+      'Completada': 'success',
+      'No iniciado': 'secondary',
+      'En progreso': 'info',
+      'Completado': 'success',
+      'Retrasado': 'danger'
+    };
+    return badges[estado] || 'secondary';
+  }
+
+  // Modales y funciones auxiliares
+  function abrirModalNuevoProyecto() {
+    Swal.fire({
+      title: 'Nuevo Proyecto',
+      html: `
+        <div class="text-left">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" id="nombreProyecto" class="form-control" placeholder="Nombre del proyecto">
+          </div>
+          <div class="form-group">
+            <label>Cliente</label>
+            <input type="text" id="clienteProyecto" class="form-control" placeholder="Nombre del cliente">
+          </div>
+          <div class="form-group">
+            <label>Descripción</label>
+            <textarea id="descripcionProyecto" class="form-control" rows="2"></textarea>
+          </div>
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Crear'
+    }).then(result => {
+      if (result.isConfirmed) {
+        const nombre = document.getElementById('nombreProyecto').value;
+        const cliente = document.getElementById('clienteProyecto').value;
+        const descripcion = document.getElementById('descripcionProyecto').value;
+
+        if (!nombre || !cliente) {
+          Swal.fire('Error', 'Nombre y cliente son requeridos', 'error');
+          return;
+        }
+
+        fetch('/api/proyectos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ nombre_proyecto: nombre, cliente, descripcion })
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            Swal.fire('Éxito', 'Proyecto creado', 'success');
+            cargarProyectos();
+          }
+        });
+      }
+    });
+  }
+
+  function abrirModalNuevoHito(proyecto_id) {
+    Swal.fire({
+      title: 'Nuevo Hito',
+      html: `
+        <div class="text-left">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" id="nombreHito" class="form-control" placeholder="Nombre del hito">
+          </div>
+          <div class="form-group">
+            <label>Fecha Objetivo</label>
+            <input type="date" id="fechaHito" class="form-control">
+          </div>
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Crear'
+    }).then(result => {
+      if (result.isConfirmed) {
+        const nombre = document.getElementById('nombreHito').value;
+        const fecha = document.getElementById('fechaHito').value;
+
+        if (!nombre || !fecha) {
+          Swal.fire('Error', 'Nombre y fecha son requeridos', 'error');
+          return;
+        }
+
+        fetch('/api/hitos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ proyecto_id, nombre, fecha_objetivo: fecha })
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            Swal.fire('Éxito', 'Hito creado', 'success');
+            abrirDetallesProyecto(proyecto_id);
+          }
+        });
+      }
+    });
+  }
+
+  function abrirModalNuevaActividad(proyecto_id) {
+    Swal.fire({
+      title: 'Nueva Actividad',
+      html: `
+        <div class="text-left">
+          <div class="form-group">
+            <label>Título</label>
+            <input type="text" id="tituloActividad" class="form-control" placeholder="Título de la actividad">
+          </div>
+          <div class="form-group">
+            <label>Prioridad</label>
+            <select id="prioridadActividad" class="form-control">
+              <option>Baja</option>
+              <option selected>Media</option>
+              <option>Alta</option>
+              <option>Urgente</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Horas Estimadas</label>
+            <input type="number" id="horasActividad" class="form-control" placeholder="0" step="0.5" min="0">
+          </div>
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Crear'
+    }).then(result => {
+      if (result.isConfirmed) {
+        const titulo = document.getElementById('tituloActividad').value;
+        const prioridad = document.getElementById('prioridadActividad').value;
+        const horas = document.getElementById('horasActividad').value;
+
+        if (!titulo) {
+          Swal.fire('Error', 'Título es requerido', 'error');
+          return;
+        }
+
+        fetch('/api/actividades', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ proyecto_id, titulo, prioridad, horas_estimadas: horas || 0 })
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            Swal.fire('Éxito', 'Actividad creada', 'success');
+            abrirDetallesProyecto(proyecto_id);
+          }
+        });
+      }
+    });
+  }
+
+  function editarProyecto(id) {
+    alert('Edición de proyecto - por implementar');
+  }
+
+  function editarHito(id) {
+    alert('Edición de hito - por implementar');
+  }
+
+  function editarActividad(id) {
+    alert('Edición de actividad - por implementar');
+  }
+
+  function eliminarHito(id) {
+    Swal.fire({
+      title: '¿Eliminar hito?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar'
+    }).then(result => {
+      if (result.isConfirmed) {
+        fetch(`/api/hitos/${id}`, { method: 'DELETE', credentials: 'include' })
+          .then(r => r.json())
+          .then(data => {
+            if (data.success) {
+              abrirDetallesProyecto(proyectoActual.id);
+            }
+          });
+      }
+    });
+  }
+
+  function eliminarActividad(id) {
+    Swal.fire({
+      title: '¿Eliminar actividad?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar'
+    }).then(result => {
+      if (result.isConfirmed) {
+        fetch(`/api/actividades/${id}`, { method: 'DELETE', credentials: 'include' })
+          .then(r => r.json())
+          .then(data => {
+            if (data.success) {
+              abrirDetallesProyecto(proyectoActual.id);
+            }
+          });
+      }
+    });
+  }
+</script>

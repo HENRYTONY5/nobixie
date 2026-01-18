@@ -1,0 +1,16 @@
+{
+  "watch": [
+    "app.js",
+    "routes",
+    "controllers",
+    "views"
+  ],
+  "ignore": [
+    "node_modules",
+    "public",
+    "*.test.js"
+  ],
+  "ext": "js,ejs",
+  "delay": 500,
+  "verbose": true
+}
