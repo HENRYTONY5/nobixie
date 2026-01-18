@@ -9,68 +9,66 @@
   <!-- Content Header -->
   <section class="content-header">
     <div class="container-fluid">
+      <!-- TARJETA PRINCIPAL INTRO -->
       <div class="row mb-4">
         <div class="col-md-12">
-          <div class="d-flex justify-content-between align-items-center">
-            <h1>
-              <i class="fas fa-tasks mr-2"></i>Proyectos Activos
-            </h1>
-            <button class="btn btn-success" data-toggle="modal" data-target="#modalNuevoProyecto">
-              <i class="fas fa-plus mr-2"></i> Nuevo Proyecto
-            </button>
+          <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); border-radius: 15px;">
+            <div class="card-body text-white p-5">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                  <div style="font-size: 3rem; margin-right: 20px;">
+                    <i class="fas fa-tasks"></i>
+                  </div>
+                  <div>
+                    <h2 class="card-title mb-2" style="font-weight: 700;">Gestión de Proyectos</h2>
+                    <p class="mb-0 text-white-50">Registra y administra todos tus proyectos con descripción detallada.</p>
+                  </div>
+                </div>
+                <button class="btn btn-primary btn-lg" onclick="abrirModalNuevoProyecto()" style="font-weight: 600;">
+                  <i class="fas fa-plus mr-2"></i> Nuevo Proyecto
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- RESUMEN DE PROYECTOS -->
-      <div class="row mb-4" id="resumenProyectos">
-        <div class="col-lg-2 col-md-6">
-          <div class="info-box bg-blue">
-            <span class="info-box-icon"><i class="fas fa-cube"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-number" id="totalProyectos">0</span>
-              <span class="info-box-text">Total Proyectos</span>
+      <!-- ESTADÍSTICAS -->
+      <div class="row mb-4" id="estadisticasProyectos">
+        <div class="col-lg-3 col-md-6 mb-2">
+          <div class="card border-0 shadow-sm text-center p-3">
+            <div style="font-size: 2.5rem; color: #8b5cf6; margin-bottom: 10px;">
+              <i class="fas fa-cube"></i>
             </div>
+            <h3 id="totalProyectos" class="mb-1" style="font-weight: 700;">0</h3>
+            <p class="text-muted mb-0">Total Proyectos</p>
           </div>
         </div>
-
-        <div class="col-lg-2 col-md-6">
-          <div class="info-box bg-info">
-            <span class="info-box-icon"><i class="fas fa-play"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-number" id="enEjecucion">0</span>
-              <span class="info-box-text">En Ejecución</span>
+        <div class="col-lg-3 col-md-6 mb-2">
+          <div class="card border-0 shadow-sm text-center p-3">
+            <div style="font-size: 2.5rem; color: #3b82f6; margin-bottom: 10px;">
+              <i class="fas fa-play"></i>
             </div>
+            <h3 id="enEjecucion" class="mb-1" style="font-weight: 700;">0</h3>
+            <p class="text-muted mb-0">En Ejecución</p>
           </div>
         </div>
-
-        <div class="col-lg-2 col-md-6">
-          <div class="info-box bg-success">
-            <span class="info-box-icon"><i class="fas fa-check"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-number" id="finalizados">0</span>
-              <span class="info-box-text">Finalizados</span>
+        <div class="col-lg-3 col-md-6 mb-2">
+          <div class="card border-0 shadow-sm text-center p-3">
+            <div style="font-size: 2.5rem; color: #10b981; margin-bottom: 10px;">
+              <i class="fas fa-check-circle"></i>
             </div>
+            <h3 id="finalizados" class="mb-1" style="font-weight: 700;">0</h3>
+            <p class="text-muted mb-0">Finalizados</p>
           </div>
         </div>
-
-        <div class="col-lg-2 col-md-6">
-          <div class="info-box bg-warning">
-            <span class="info-box-icon"><i class="fas fa-pause"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-number" id="enPausa">0</span>
-              <span class="info-box-text">En Pausa</span>
+        <div class="col-lg-3 col-md-6 mb-2">
+          <div class="card border-0 shadow-sm text-center p-3">
+            <div style="font-size: 2.5rem; color: #f59e0b; margin-bottom: 10px;">
+              <i class="fas fa-pause-circle"></i>
             </div>
-          </div>
-        </div>
-
-        <div class="col-lg-2 col-md-6">
-          <div class="info-box bg-danger">
-            <span class="info-box-icon"><i class="fas fa-money-bill"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-number" id="promAvance">0%</span>
-              <span class="info-box-text">Avance Promedio</span>
-            </div>
+            <h3 id="enPausa" class="mb-1" style="font-weight: 700;">0</h3>
+            <p class="text-muted mb-0">En Pausa</p>
           </div>
         </div>
       </div>
@@ -80,44 +78,31 @@
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
-      <div class="row">
+      <!-- FILTRO DE ESTADOS -->
+      <div class="row mb-3">
         <div class="col-md-12">
-          <div class="card card-primary shadow">
-            <div class="card-header">
-              <h3 class="card-title">
-                <i class="fas fa-list mr-2"></i>Lista de Proyectos
-              </h3>
-            </div>
-
+          <div class="card border-0 shadow-sm">
             <div class="card-body">
-              <div class="table-responsive">
-                <table id="tablasProyectos" class="table table-hover table-striped">
-                  <thead class="bg-primary text-white">
-                    <tr>
-                      <th style="width: 5%">ID</th>
-                      <th>Proyecto</th>
-                      <th>Cliente</th>
-                      <th>Encargado</th>
-                      <th>Estado</th>
-                      <th>Avance</th>
-                      <th>F. Ejecución</th>
-                      <th>F. Término</th>
-                      <th>Presupuesto</th>
-                      <th style="width: 12%">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody id="bodyProyectos">
-                  </tbody>
-                </table>
+              <label class="font-weight-600 mb-2">Filtrar por estado:</label>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-sm btn-outline-primary active" onclick="filtrarProyectos('todos')">Todos</button>
+                <button type="button" class="btn btn-sm btn-outline-info" onclick="filtrarProyectos('En Ejecución')">En Ejecución</button>
+                <button type="button" class="btn btn-sm btn-outline-success" onclick="filtrarProyectos('Finalizado')">Finalizados</button>
+                <button type="button" class="btn btn-sm btn-outline-warning" onclick="filtrarProyectos('Pausa')">En Pausa</button>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <div class="card-footer">
-              <small class="text-muted">
-                <i class="fas fa-info-circle mr-2"></i>
-                Metodología SCRUM para seguimiento de proyectos
-              </small>
+      <!-- LISTA DE PROYECTOS -->
+      <div class="row" id="contenedorProyectos">
+        <div class="col-md-12">
+          <div class="card border-0 shadow-sm text-center p-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Cargando...</span>
             </div>
+            <p class="mt-3 text-muted">Cargando proyectos...</p>
           </div>
         </div>
       </div>
@@ -125,306 +110,441 @@
   </section>
 </div>
 
-<!-- MODAL NUEVO PROYECTO -->
-<div class="modal fade" id="modalNuevoProyecto" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-success text-white">
-        <h5 class="modal-title">
-          <i class="fas fa-plus mr-2"></i>Nuevo Proyecto
-        </h5>
-        <button type="button" class="close text-white" data-dismiss="modal">
-          <span>&times;</span>
-        </button>
-      </div>
-      <form id="formNuevoProyecto">
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="nombre_proyecto">Nombre del Proyecto *</label>
-            <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" required>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="cliente">Cliente *</label>
-                <input type="text" class="form-control" id="cliente" name="cliente" required>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="encargado_id">Encargado</label>
-                <select class="form-control" id="encargado_id" name="encargado_id">
-                  <option value="">Selecciona...</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="descripcion">Descripción</label>
-            <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="fecha_levantamiento">Fecha Levantamiento</label>
-                <input type="date" class="form-control" id="fecha_levantamiento" name="fecha_levantamiento">
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="presupuesto_estimado">Presupuesto Estimado</label>
-                <input type="number" class="form-control" id="presupuesto_estimado" name="presupuesto_estimado" step="0.01">
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="horas_estimadas">Horas Estimadas</label>
-            <input type="number" class="form-control" id="horas_estimadas" name="horas_estimadas" step="0.5">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-success">
-            <i class="fas fa-save mr-2"></i>Crear Proyecto
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
 <%- include("template/footer") %>
 
-<style>
-  .info-box {
-    border-radius: 0.25rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-  }
-
-  .bg-blue {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-  }
-
-  .bg-info {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    color: white;
-  }
-
-  .bg-success {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    color: white;
-  }
-
-  .bg-warning {
-    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-    color: white;
-  }
-
-  .bg-danger {
-    background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
-    color: white;
-  }
-
-  .badge-estado {
-    padding: 0.5rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-  }
-
-  .progress-small {
-    height: 1rem;
-    border-radius: 0.25rem;
-  }
-</style>
-
 <script>
-  // Cargar supervisores para el selector
-  function cargarSupervisores() {
-    fetch('/api/supervisores', {
-      headers: { 'Accept': 'application/json' }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success && data.data) {
-        const select = document.getElementById('encargado_id');
-        data.data.forEach(supervisor => {
-          const option = document.createElement('option');
-          option.value = supervisor.id;
-          option.textContent = supervisor.nombre + ' (' + supervisor.cantidad_empleados + ' empleados)';
-          select.appendChild(option);
-        });
-      }
-    })
-    .catch(error => console.error('Error al cargar supervisores:', error));
-  }
+  let proyectosData = [];
+  let filtroActual = 'todos';
+  let supervisoresData = [];
 
-  // Cargar proyectos
-  function cargarProyectos() {
-    fetch('/api/proyectos', {
-      headers: { 'Accept': 'application/json' }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success && data.data) {
-        const tbody = document.getElementById('bodyProyectos');
-        tbody.innerHTML = '';
-        
-        data.data.forEach(proyecto => {
-          const estadoBadge = getEstadoBadge(proyecto.estado);
-          const row = `
-            <tr>
-              <td><span class="badge badge-info">${proyecto.id}</span></td>
-              <td><strong>${proyecto.nombre_proyecto}</strong></td>
-              <td>${proyecto.cliente}</td>
-              <td>${proyecto.encargado || '-'}</td>
-              <td>${estadoBadge}</td>
-              <td>
-                <div class="progress progress-small">
-                  <div class="progress-bar" role="progressbar" style="width: ${proyecto.porcentaje_avance}%" 
-                       aria-valuenow="${proyecto.porcentaje_avance}" aria-valuemin="0" aria-valuemax="100">
-                    ${proyecto.porcentaje_avance}%
-                  </div>
-                </div>
-              </td>
-              <td>${proyecto.fecha_ejecucion ? new Date(proyecto.fecha_ejecucion).toLocaleDateString('es-MX') : '-'}</td>
-              <td>${proyecto.fecha_termino_prevista ? new Date(proyecto.fecha_termino_prevista).toLocaleDateString('es-MX') : '-'}</td>
-              <td>
-                <span class="badge badge-success">$${(proyecto.presupuesto_estimado || 0).toLocaleString('es-MX')}</span>
-              </td>
-              <td>
-                <button class="btn btn-xs btn-info" onclick="verProyecto(${proyecto.id})">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button class="btn btn-xs btn-warning" onclick="editarProyecto(${proyecto.id})">
-                  <i class="fas fa-edit"></i>
-                </button>
-              </td>
-            </tr>
-          `;
-          tbody.innerHTML += row;
-        });
-
-        // Inicializar DataTable
-        if ($.fn.DataTable.isDataTable('#tablasProyectos')) {
-          $('#tablasProyectos').DataTable().destroy();
-        }
-        
-        $('#tablasProyectos').DataTable({
-          "responsive": true,
-          "lengthChange": true,
-          "autoWidth": false,
-          "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-          "language": {
-            "sProcessing": "Procesando...",
-            "sLengthMenu": "Mostrar _MENU_ registros",
-            "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "Ningún dato disponible",
-            "sInfo": "Mostrando del _START_ al _END_ de _TOTAL_ registros",
-            "sSearch": "Buscar:",
-            "sPaginate": {
-              "sFirst": "Primero",
-              "sPrevious": "Anterior",
-              "sNext": "Siguiente",
-              "sLast": "Último"
-            }
-          }
-        }).buttons().container().appendTo('#tablasProyectos_wrapper .col-md-6:eq(0)');
-      }
-    })
-    .catch(error => console.error('Error:', error));
-  }
-
-  // Cargar resumen
-  function cargarResumen() {
-    fetch('/api/resumen-proyectos', {
-      headers: { 'Accept': 'application/json' }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success && data.data) {
-        const resumen = data.data;
-        document.getElementById('totalProyectos').textContent = resumen.total_proyectos || 0;
-        document.getElementById('enEjecucion').textContent = resumen.en_ejecucion || 0;
-        document.getElementById('finalizados').textContent = resumen.finalizados || 0;
-        document.getElementById('enPausa').textContent = resumen.en_pausa || 0;
-        document.getElementById('promAvance').textContent = Math.round(resumen.promedio_avance || 0) + '%';
-      }
-    })
-    .catch(error => console.error('Error:', error));
-  }
-
-  function getEstadoBadge(estado) {
-    const colores = {
-      'Levantamiento': 'badge-secondary',
-      'Cotización': 'badge-info',
-      'Aprobado': 'badge-primary',
-      'En Ejecución': 'badge-warning',
-      'Pausa': 'badge-danger',
-      'Finalizado': 'badge-success',
-      'Cancelado': 'badge-dark'
-    };
-    return `<span class="badge ${colores[estado] || 'badge-secondary'}">${estado}</span>`;
-  }
-
-  function verProyecto(id) {
-    window.location.href = '/proyecto/' + id;
-  }
-
-  function editarProyecto(id) {
-    // Implementar edición
-    alert('Edición no implementada aún: Proyecto ' + id);
-  }
-
-  // Crear nuevo proyecto
-  document.getElementById('formNuevoProyecto').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const datos = {
-      nombre_proyecto: document.getElementById('nombre_proyecto').value,
-      cliente: document.getElementById('cliente').value,
-      encargado_id: document.getElementById('encargado_id').value || null,
-      descripcion: document.getElementById('descripcion').value,
-      fecha_levantamiento: document.getElementById('fecha_levantamiento').value,
-      presupuesto_estimado: document.getElementById('presupuesto_estimado').value,
-      horas_estimadas: document.getElementById('horas_estimadas').value
-    };
-
-    fetch('/api/proyectos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(datos)
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        Swal.fire('Éxito', 'Proyecto creado correctamente', 'success');
-        document.getElementById('formNuevoProyecto').reset();
-        $('#modalNuevoProyecto').modal('hide');
-        cargarProyectos();
-        cargarResumen();
-      } else {
-        Swal.fire('Error', data.message, 'error');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      Swal.fire('Error', 'Error al crear proyecto', 'error');
-    });
-  });
-
-  // Inicializar al cargar la página
   document.addEventListener('DOMContentLoaded', function() {
     cargarSupervisores();
     cargarProyectos();
-    cargarResumen();
   });
+
+  function cargarSupervisores() {
+    fetch('/api/supervisores', { credentials: 'include' })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && Array.isArray(data.supervisores)) {
+          supervisoresData = data.supervisores;
+        }
+      })
+      .catch(error => console.error('Error al cargar supervisores:', error));
+  }
+
+  function cargarProyectos() {
+    fetch('/api/proyectos', { credentials: 'include' })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && Array.isArray(data.data)) {
+          proyectosData = data.data;
+          actualizarEstadisticas();
+          mostrarProyectos(proyectosData);
+        } else {
+          document.getElementById('contenedorProyectos').innerHTML = `
+            <div class="col-md-12">
+              <div class="alert alert-warning text-center">
+                <i class="fas fa-exclamation-circle mr-2"></i>No hay proyectos registrados
+              </div>
+            </div>
+          `;
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('contenedorProyectos').innerHTML = `
+          <div class="col-md-12">
+            <div class="alert alert-danger text-center">
+              <i class="fas fa-exclamation-triangle mr-2"></i>Error al cargar los proyectos
+            </div>
+          </div>
+        `;
+      });
+  }
+
+  function actualizarEstadisticas() {
+    const total = proyectosData.length;
+    const enEjecucion = proyectosData.filter(p => p.estado === 'En Ejecución').length;
+    const finalizados = proyectosData.filter(p => p.estado === 'Finalizado').length;
+    const enPausa = proyectosData.filter(p => p.estado === 'Pausa').length;
+
+    document.getElementById('totalProyectos').textContent = total;
+    document.getElementById('enEjecucion').textContent = enEjecucion;
+    document.getElementById('finalizados').textContent = finalizados;
+    document.getElementById('enPausa').textContent = enPausa;
+  }
+
+  function mostrarProyectos(proyectos) {
+    let html = '<div class="row">';
+
+    proyectos.forEach(proyecto => {
+      const colorEstado = obtenerColorEstado(proyecto.estado);
+      const iconoEstado = obtenerIconoEstado(proyecto.estado);
+      
+      html += `
+        <div class="col-lg-6 col-md-12 mb-3">
+          <div class="card border-0 shadow h-100" style="border-radius: 12px;">
+            <div style="background: ${colorEstado}; padding: 20px; color: white; border-radius: 12px 12px 0 0;">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h5 class="mb-2" style="font-weight: 700;">
+                    <i class="fas fa-folder-open mr-2"></i>${proyecto.nombre_proyecto}
+                  </h5>
+                  <p class="mb-0 text-white-50 small">
+                    <i class="fas fa-user mr-1"></i>${proyecto.cliente}
+                  </p>
+                </div>
+                <span class="badge badge-light" style="font-size: 0.9rem; padding: 6px 10px;">
+                  ${iconoEstado} ${proyecto.estado}
+                </span>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="mb-3">
+                <label class="font-weight-600 small text-muted">DESCRIPCIÓN:</label>
+                <p class="text-sm">${proyecto.descripcion || 'Sin descripción'}</p>
+              </div>
+
+              <div class="row text-sm">
+                <div class="col-6">
+                  <div class="mb-2">
+                    <strong class="text-muted">Encargado:</strong><br>
+                    <span>${proyecto.encargado || 'No asignado'}</span>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="mb-2">
+                    <strong class="text-muted">Presupuesto:</strong><br>
+                    <span>$${parseFloat(proyecto.presupuesto_estimado || 0).toLocaleString('es-MX', {maximumFractionDigits: 2})}</span>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="mb-2">
+                    <strong class="text-muted">Avance:</strong><br>
+                    <div class="progress progress-sm">
+                      <div class="progress-bar" style="width: ${proyecto.porcentaje_avance || 0}%; background-color: ${colorEstado}"></div>
+                    </div>
+                    <small>${proyecto.porcentaje_avance || 0}%</small>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="mb-2">
+                    <strong class="text-muted">Término:</strong><br>
+                    <span>${proyecto.fecha_termino_prevista ? new Date(proyecto.fecha_termino_prevista).toLocaleDateString('es-MX') : 'Sin fecha'}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-footer bg-white">
+              <div class="row">
+                <div class="col-6">
+                  <button class="btn btn-sm btn-warning text-white w-100" onclick="editarProyecto(${proyecto.id}, '${proyecto.nombre_proyecto.replace(/'/g, "&apos;")}')" style="font-weight: 600;">
+                    <i class="fas fa-edit mr-1"></i> Editar
+                  </button>
+                </div>
+                <div class="col-6">
+                  <button class="btn btn-sm btn-danger text-white w-100" onclick="eliminarProyecto(${proyecto.id}, '${proyecto.nombre_proyecto.replace(/'/g, "&apos;")}')" style="font-weight: 600;">
+                    <i class="fas fa-trash mr-1"></i> Eliminar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    html += '</div>';
+    document.getElementById('contenedorProyectos').innerHTML = html;
+  }
+
+  function obtenerColorEstado(estado) {
+    const colores = {
+      'Levantamiento': 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+      'Cotización': 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+      'Aprobado': 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+      'En Ejecución': 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+      'Pausa': 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+      'Finalizado': 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+      'Cancelado': 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
+    };
+    return colores[estado] || 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)';
+  }
+
+  function obtenerIconoEstado(estado) {
+    const iconos = {
+      'Levantamiento': '<i class="fas fa-pencil-alt"></i>',
+      'Cotización': '<i class="fas fa-file-invoice-dollar"></i>',
+      'Aprobado': '<i class="fas fa-check"></i>',
+      'En Ejecución': '<i class="fas fa-play"></i>',
+      'Pausa': '<i class="fas fa-pause"></i>',
+      'Finalizado': '<i class="fas fa-trophy"></i>',
+      'Cancelado': '<i class="fas fa-ban"></i>'
+    };
+    return iconos[estado] || '<i class="fas fa-cube"></i>';
+  }
+
+  function filtrarProyectos(filtro) {
+    filtroActual = filtro;
+    
+    let proyectosFiltrados = proyectosData;
+    if (filtro !== 'todos') {
+      proyectosFiltrados = proyectosData.filter(p => p.estado === filtro);
+    }
+
+    mostrarProyectos(proyectosFiltrados);
+  }
+
+  function abrirModalNuevoProyecto() {
+    let htmlSupervisores = supervisoresData.map(s => `<option value="${s.id}">${s.nombre_supervisor}</option>`).join('');
+
+    Swal.fire({
+      title: '<strong>Nuevo Proyecto</strong>',
+      html: `
+        <div class="text-left">
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Nombre del Proyecto:</label>
+            <input type="text" id="nombreProyecto" class="form-control" placeholder="Ingresa el nombre">
+          </div>
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Cliente:</label>
+            <input type="text" id="clienteProyecto" class="form-control" placeholder="Ingresa el cliente">
+          </div>
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Descripción:</label>
+            <textarea id="descripcionProyecto" class="form-control" rows="3" placeholder="Describe el proyecto..."></textarea>
+          </div>
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Presupuesto Estimado:</label>
+            <input type="number" id="presupuestoProyecto" class="form-control" placeholder="0.00" step="0.01">
+          </div>
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Supervisor (Encargado):</label>
+            <select id="supervisorProyecto" class="form-control" onchange="cargarEmpleadosSupervisor()">
+              <option value="">Selecciona un supervisor...</option>
+              ${htmlSupervisores}
+            </select>
+          </div>
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Empleados que Participan:</label>
+            <div id="empleadosProyecto" class="border rounded p-2" style="max-height: 200px; overflow-y: auto; background-color: #f8f9fa;">
+              <small class="text-muted">Selecciona un supervisor primero</small>
+            </div>
+          </div>
+        </div>
+      `,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#10b981',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: '<i class="fas fa-save mr-2"></i>Crear Proyecto',
+      cancelButtonText: 'Cancelar',
+      width: '600px'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        guardarNuevoProyecto();
+      }
+    });
+  }
+
+  function cargarEmpleadosSupervisor() {
+    const supervisorId = document.getElementById('supervisorProyecto').value;
+    const contenedor = document.getElementById('empleadosProyecto');
+
+    if (!supervisorId) {
+      contenedor.innerHTML = '<small class="text-muted">Selecciona un supervisor primero</small>';
+      return;
+    }
+
+    const supervisor = supervisoresData.find(s => s.id == supervisorId);
+    if (!supervisor || !supervisor.empleados || supervisor.empleados.length === 0) {
+      contenedor.innerHTML = '<small class="text-danger">Este supervisor no tiene empleados asignados</small>';
+      return;
+    }
+
+    let html = '<div class="list-group">';
+    supervisor.empleados.forEach(emp => {
+      html += `
+        <label class="list-group-item">
+          <input type="checkbox" class="empleado-checkbox" value="${emp.id}" data-nombre="${emp.nombre}">
+          <span>${emp.nombre} - ${emp.puesto}</span>
+        </label>
+      `;
+    });
+    html += '</div>';
+    contenedor.innerHTML = html;
+  }
+
+  function guardarNuevoProyecto() {
+    const nombre = document.getElementById('nombreProyecto').value;
+    const cliente = document.getElementById('clienteProyecto').value;
+    const descripcion = document.getElementById('descripcionProyecto').value;
+    const presupuesto = document.getElementById('presupuestoProyecto').value;
+    const supervisorId = document.getElementById('supervisorProyecto').value;
+
+    if (!nombre || !cliente) {
+      Swal.fire('Error', 'Nombre y cliente son requeridos', 'error');
+      return;
+    }
+
+    const empleadosSeleccionados = Array.from(document.querySelectorAll('.empleado-checkbox:checked')).map(e => e.value);
+
+    fetch('/api/proyectos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        nombre_proyecto: nombre,
+        cliente,
+        descripcion,
+        presupuesto_estimado: presupuesto || 0,
+        encargado_id: supervisorId || null,
+        empleados_participantes: empleadosSeleccionados
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          Swal.fire('Éxito', 'Proyecto creado correctamente', 'success').then(() => {
+            cargarProyectos();
+          });
+        } else {
+          Swal.fire('Error', data.message || 'No se pudo crear el proyecto', 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        Swal.fire('Error', 'Error al crear el proyecto', 'error');
+      });
+  }
+
+  function editarProyecto(id, nombre) {
+    const proyecto = proyectosData.find(p => p.id === id);
+    if (!proyecto) return;
+
+    let htmlSupervisores = supervisoresData.map(s => `<option value="${s.id}" ${proyecto.encargado_id == s.id ? 'selected' : ''}>${s.nombre_supervisor}</option>`).join('');
+
+    Swal.fire({
+      title: `<strong>Editar: ${nombre}</strong>`,
+      html: `
+        <div class="text-left">
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Nombre:</label>
+            <input type="text" id="editNombreProyecto" class="form-control" value="${proyecto.nombre_proyecto}">
+          </div>
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Descripción:</label>
+            <textarea id="editDescripcionProyecto" class="form-control" rows="3">${proyecto.descripcion || ''}</textarea>
+          </div>
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Estado:</label>
+            <select id="editEstadoProyecto" class="form-control">
+              <option value="Levantamiento" ${proyecto.estado === 'Levantamiento' ? 'selected' : ''}>Levantamiento</option>
+              <option value="Cotización" ${proyecto.estado === 'Cotización' ? 'selected' : ''}>Cotización</option>
+              <option value="Aprobado" ${proyecto.estado === 'Aprobado' ? 'selected' : ''}>Aprobado</option>
+              <option value="En Ejecución" ${proyecto.estado === 'En Ejecución' ? 'selected' : ''}>En Ejecución</option>
+              <option value="Pausa" ${proyecto.estado === 'Pausa' ? 'selected' : ''}>Pausa</option>
+              <option value="Finalizado" ${proyecto.estado === 'Finalizado' ? 'selected' : ''}>Finalizado</option>
+              <option value="Cancelado" ${proyecto.estado === 'Cancelado' ? 'selected' : ''}>Cancelado</option>
+            </select>
+          </div>
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Porcentaje Avance:</label>
+            <input type="number" id="editAvanceProyecto" class="form-control" value="${proyecto.porcentaje_avance || 0}" min="0" max="100">
+          </div>
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Supervisor:</label>
+            <select id="editSupervisorProyecto" class="form-control">
+              <option value="">Sin supervisor</option>
+              ${htmlSupervisores}
+            </select>
+          </div>
+        </div>
+      `,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#f59e0b',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: '<i class="fas fa-save mr-2"></i>Guardar Cambios',
+      cancelButtonText: 'Cancelar',
+      width: '600px'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        actualizarProyecto(id);
+      }
+    });
+  }
+
+  function actualizarProyecto(id) {
+    const nombre = document.getElementById('editNombreProyecto').value;
+    const descripcion = document.getElementById('editDescripcionProyecto').value;
+    const estado = document.getElementById('editEstadoProyecto').value;
+    const avance = document.getElementById('editAvanceProyecto').value;
+    const supervisorId = document.getElementById('editSupervisorProyecto').value;
+
+    fetch(`/api/proyectos/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        nombre_proyecto: nombre,
+        descripcion,
+        estado,
+        porcentaje_avance: avance,
+        encargado_id: supervisorId || null
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          Swal.fire('Éxito', 'Proyecto actualizado correctamente', 'success').then(() => {
+            cargarProyectos();
+          });
+        } else {
+          Swal.fire('Error', data.message || 'No se pudo actualizar el proyecto', 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        Swal.fire('Error', 'Error al actualizar el proyecto', 'error');
+      });
+  }
+
+  function eliminarProyecto(id, nombre) {
+    Swal.fire({
+      title: '¿Eliminar proyecto?',
+      html: `<p>Vas a eliminar: <strong>${nombre}</strong></p>
+             <p class="text-danger">Esta acción no se puede deshacer</p>`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: '<i class="fas fa-trash mr-2"></i>Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`/api/proyectos/${id}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              Swal.fire('Eliminado', 'Proyecto eliminado correctamente', 'success').then(() => {
+                cargarProyectos();
+              });
+            } else {
+              Swal.fire('Error', data.message || 'No se pudo eliminar el proyecto', 'error');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            Swal.fire('Error', 'Error al eliminar el proyecto', 'error');
+          });
+      }
+    });
+  }
 </script>

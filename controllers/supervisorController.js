@@ -719,3 +719,210 @@ exports.asignarDepartamentoASupervisor = async (req, res) => {
         });
     }
 };
+
+// OBTENER SUPERVISOR POR ID
+exports.obtenerSupervisorPorId = (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({
+                success: false,
+                message: 'ID de supervisor requerido'
+            });
+        }
+
+        // Obtener supervisor
+        const querySupervisor = `
+            SELECT 
+                e.id,
+                e.nombre as nombre_supervisor,
+                e.email,
+                e.numero_empleado
+            FROM empleados e
+            WHERE e.id = ? AND e.tipo_empleado = 'Supervisor' AND e.activo = TRUE
+        `;
+
+        conexion.query(querySupervisor, [id], (error, supervisores) => {
+            if (error) {
+                console.error('Error al obtener supervisor:', error);
+                return res.status(500).json({
+                    success: false,
+                    message: 'Error al obtener supervisor'
+                });
+            }
+
+            if (supervisores.length === 0) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Supervisor no encontrado'
+                });
+            }
+
+            const supervisor = supervisores[0];
+
+            // Obtener empleados asignados al supervisor
+            const queryEmpleados = `
+                SELECT 
+                    e.id,
+                    e.nombre,
+                    e.numero_empleado,
+                    e.email,
+                    e.puesto,
+                    e.departamento
+                FROM supervisores_empleados se
+                JOIN empleados e ON se.empleado_id = e.id
+                WHERE se.supervisor_id = ?
+                ORDER BY e.nombre
+            `;
+
+            conexion.query(queryEmpleados, [id], (error, empleados) => {
+                if (error) {
+                    console.error('Error al obtener empleados del supervisor:', error);
+                    // Retornar supervisor sin empleados si hay error
+                    return res.json({
+                        success: true,
+                        supervisor: {
+                            ...supervisor,
+                            empleados: []
+                        }
+                    });
+                }
+
+                res.json({
+                    success: true,
+                    supervisor: {
+                        ...supervisor,
+                        empleados: empleados || []
+                    }
+                });
+            });
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error del servidor'
+        });
+    }
+};
+
+// ACTUALIZAR SUPERVISOR
+exports.actualizarSupervisor = (req, res) => {
+    try {
+        const { id } = req.params;
+        const { email, nombre_supervisor } = req.body;
+
+        if (!id) {
+            return res.status(400).json({
+                success: false,
+                message: 'ID de supervisor requerido'
+            });
+        }
+
+        if (!email || !nombre_supervisor) {
+            return res.status(400).json({
+                success: false,
+                message: 'Email y nombre son requeridos'
+            });
+        }
+
+        const query = `
+            UPDATE empleados 
+            SET nombre = ?, email = ?
+            WHERE id = ? AND tipo_empleado = 'Supervisor'
+        `;
+
+        conexion.query(query, [nombre_supervisor, email, id], (error, result) => {
+            if (error) {
+                console.error('Error al actualizar supervisor:', error);
+                return res.status(500).json({
+                    success: false,
+                    message: 'Error al actualizar supervisor'
+                });
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Supervisor no encontrado'
+                });
+            }
+
+            res.json({
+                success: true,
+                message: 'Supervisor actualizado correctamente'
+            });
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error del servidor'
+        });
+    }
+};
+
+// ELIMINAR SUPERVISOR
+exports.eliminarSupervisor = (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({
+                success: false,
+                message: 'ID de supervisor requerido'
+            });
+        }
+
+        // Primero, eliminar asignaciones de empleados
+        conexion.query(
+            'DELETE FROM supervisores_empleados WHERE supervisor_id = ?',
+            [id],
+            (error) => {
+                if (error) {
+                    console.error('Error al eliminar asignaciones:', error);
+                    return res.status(500).json({
+                        success: false,
+                        message: 'Error al eliminar supervisor'
+                    });
+                }
+
+                // Luego cambiar el tipo de empleado o marcar como inactivo
+                const query = `
+                    UPDATE empleados 
+                    SET tipo_empleado = 'Empleado', activo = FALSE
+                    WHERE id = ? AND tipo_empleado = 'Supervisor'
+                `;
+
+                conexion.query(query, [id], (error, result) => {
+                    if (error) {
+                        console.error('Error al actualizar empleado:', error);
+                        return res.status(500).json({
+                            success: false,
+                            message: 'Error al eliminar supervisor'
+                        });
+                    }
+
+                    if (result.affectedRows === 0) {
+                        return res.status(404).json({
+                            success: false,
+                            message: 'Supervisor no encontrado'
+                        });
+                    }
+
+                    res.json({
+                        success: true,
+                        message: 'Supervisor eliminado correctamente'
+                    });
+                });
+            }
+        );
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error del servidor'
+        });
+    }
+};

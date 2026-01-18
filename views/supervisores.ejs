@@ -269,39 +269,46 @@
         }
 
         const supervisor = data.supervisor;
-        const cantidadEmpleados = supervisor.empleados ? supervisor.empleados.length : 0;
+        const empleados = supervisor.empleados || [];
+
+        let htmlEmpleados = '<div class="text-left">';
+        
+        if (empleados.length > 0) {
+          htmlEmpleados += '<div class="mb-3"><strong>Empleados Asignados:</strong></div>';
+          htmlEmpleados += '<div class="list-group mb-3">';
+          empleados.forEach(emp => {
+            htmlEmpleados += `
+              <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="font-weight-600">${emp.nombre}</div>
+                  <small class="text-muted">${emp.numero_empleado} - ${emp.puesto}</small><br>
+                  <small class="badge badge-info">${emp.departamento}</small>
+                </div>
+                <button class="btn btn-sm btn-danger" onclick="desasignarEmpleado(${supervisorId}, ${emp.id}, '${nombre}')">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            `;
+          });
+          htmlEmpleados += '</div>';
+        } else {
+          htmlEmpleados += '<div class="alert alert-warning">Sin empleados asignados</div>';
+        }
+
+        htmlEmpleados += '</div>';
 
         Swal.fire({
           title: `<strong>${nombre}</strong>`,
-          html: `
-            <div class="text-left">
-              <div class="form-group mb-3">
-                <label class="font-weight-600">ID:</label>
-                <input type="text" class="form-control" value="${supervisor.id}" disabled>
-              </div>
-              <div class="form-group mb-3">
-                <label class="font-weight-600">Email:</label>
-                <input type="email" id="editEmail" class="form-control" value="${supervisor.email}">
-              </div>
-              <div class="form-group mb-3">
-                <label class="font-weight-600">Nombre:</label>
-                <input type="text" id="editNombre" class="form-control" value="${supervisor.nombre_supervisor}">
-              </div>
-              <div class="alert alert-info">
-                <i class="fas fa-users mr-2"></i>
-                <strong>${cantidadEmpleados}</strong> empleado${cantidadEmpleados !== 1 ? 's' : ''} asignado${cantidadEmpleados !== 1 ? 's' : ''}
-              </div>
-            </div>
-          `,
+          html: htmlEmpleados,
           icon: 'info',
           showCancelButton: true,
-          confirmButtonColor: '#f59e0b',
+          confirmButtonColor: '#10b981',
           cancelButtonColor: '#6c757d',
-          confirmButtonText: '<i class="fas fa-save mr-2"></i>Guardar Cambios',
-          cancelButtonText: 'Cancelar'
+          confirmButtonText: '<i class="fas fa-plus mr-2"></i>Agregar Empleado',
+          cancelButtonText: 'Cerrar'
         }).then((result) => {
           if (result.isConfirmed) {
-            guardarCambiosSupervisor(supervisorId, nombre);
+            abrirModalAsignarEmpleado(supervisorId, nombre);
           }
         });
       })
@@ -311,35 +318,40 @@
       });
   }
 
-  function guardarCambiosSupervisor(supervisorId, nombre) {
-    const email = document.getElementById('editEmail').value;
-    const nombreSupervisor = document.getElementById('editNombre').value;
-
-    if (!email || !nombreSupervisor) {
-      Swal.fire('Error', 'Los campos no pueden estar vacíos', 'error');
-      return;
-    }
-
-    fetch(`/api/supervisores/${supervisorId}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ email, nombre_supervisor: nombreSupervisor })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          Swal.fire('Éxito', 'Supervisor actualizado correctamente', 'success').then(() => {
-            cargarSupervisores();
+  function desasignarEmpleado(supervisorId, empleadoId, nombreSupervisor) {
+    Swal.fire({
+      title: '¿Desasignar empleado?',
+      text: 'El empleado será removido de este supervisor',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Sí, desasignar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch('/api/supervisores/eliminar-asignacion', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ supervisor_id: supervisorId, empleado_id: empleadoId })
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              Swal.fire('Éxito', 'Empleado desasignado correctamente', 'success').then(() => {
+                cargarSupervisores(); // Recarga completa de supervisores
+              });
+            } else {
+              Swal.fire('Error', data.message || 'No se pudo desasignar el empleado', 'error');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            Swal.fire('Error', 'Error al desasignar empleado', 'error');
           });
-        } else {
-          Swal.fire('Error', data.message || 'No se pudo actualizar el supervisor', 'error');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        Swal.fire('Error', 'Error al actualizar el supervisor', 'error');
-      });
+      }
+    });
   }
 
   function eliminarSupervisor(supervisorId, nombre) {

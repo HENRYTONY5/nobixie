@@ -355,3 +355,46 @@ exports.obtenerResumenProyectos = (req, res) => {
         });
     });
 };
+
+// ELIMINAR PROYECTO
+exports.eliminarProyecto = (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({
+                success: false,
+                message: 'ID de proyecto requerido'
+            });
+        }
+
+        const query = 'UPDATE proyectos_activos SET activo = FALSE WHERE id = ?';
+        conexion.query(query, [id], (error, result) => {
+            if (error) {
+                console.error('Error al eliminar proyecto:', error);
+                return res.status(500).json({
+                    success: false,
+                    message: 'Error al eliminar proyecto'
+                });
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Proyecto no encontrado'
+                });
+            }
+
+            res.json({
+                success: true,
+                message: 'Proyecto eliminado correctamente'
+            });
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error del servidor'
+        });
+    }
+};

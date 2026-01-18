@@ -165,6 +165,7 @@ router.get('/api/proyectos', authController.isAuthenticated, isAdmin, proyectoCo
 router.get('/api/proyectos/:id', authController.isAuthenticated, isAdmin, proyectoController.obtenerProyecto);
 router.post('/api/proyectos', authController.isAuthenticated, isAdmin, proyectoController.crearProyecto);
 router.put('/api/proyectos/:id', authController.isAuthenticated, isAdmin, proyectoController.actualizarProyecto);
+router.delete('/api/proyectos/:id', authController.isAuthenticated, isAdmin, proyectoController.eliminarProyecto);
 router.get('/api/proyectos/:proyecto_id/actividades', authController.isAuthenticated, isAdmin, proyectoController.obtenerActividades);
 router.post('/api/proyectos/:proyecto_id/actividades', authController.isAuthenticated, isAdmin, proyectoController.crearActividad);
 router.get('/api/proyectos/:proyecto_id/hitos', authController.isAuthenticated, isAdmin, proyectoController.obtenerHitos);
@@ -269,6 +270,9 @@ router.post('/api/supervisores/asignar', authController.isAuthenticated, isAdmin
 router.post('/api/supervisores/asignar-departamento', authController.isAuthenticated, isAdmin, supervisorController.asignarDepartamentoASupervisor);
 router.post('/api/supervisores/eliminar-asignacion', authController.isAuthenticated, isAdmin, supervisorController.eliminarAsignacionPorSupervisorEmpleado);
 router.get('/api/supervisores/:supervisor_id/empleados', authController.isAuthenticated, isAdmin, supervisorController.obtenerEmpleadosSupervisor);
+router.get('/api/supervisores/:id', authController.isAuthenticated, isAdmin, supervisorController.obtenerSupervisorPorId);
+router.put('/api/supervisores/:id', authController.isAuthenticated, isAdmin, supervisorController.actualizarSupervisor);
+router.delete('/api/supervisores/:id', authController.isAuthenticated, isAdmin, supervisorController.eliminarSupervisor);
 router.get('/api/supervisores', authController.isAuthenticated, isAdmin, supervisorController.obtenerSupervisores);
 router.delete('/api/supervisores/:id/asignacion', authController.isAuthenticated, isAdmin, supervisorController.eliminarAsignacion);
 
